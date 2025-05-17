@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=11 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="Script" uid="uid://bdvswsivpb0ux" path="res://scripts/static_body_3d.gd" id="1_gjmho"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
 [ext_resource type="ArrayMesh" uid="uid://bmpy2di8x1gbx" path="res://images/Terrain Test Map/Terrain Test Map.obj" id="2_gjmho"]
 [ext_resource type="PackedScene" uid="uid://b83yt6ir7dqoy" path="res://scenes/cat_group.tscn" id="4_5fb3c"]
+[ext_resource type="PackedScene" uid="uid://cpcnda66he7a0" path="res://scenes/1000_ton_cube.tscn" id="5_gjmho"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_5fb3c"]
 rayleigh_coefficient = 0.5
@@ -79,3 +80,7 @@ transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.7422
 shape = SubResource("WorldBoundaryShape3D_1kc1q")
 
 [node name="CatGroup" parent="." instance=ExtResource("4_5fb3c")]
+
+[node name="1000 ton cube" parent="." instance=ExtResource("5_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.2019, 0, 0)
+mass = 99999.0

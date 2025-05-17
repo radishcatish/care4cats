@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpcnda66he7a0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_famg8"]
+
+[sub_resource type="Gradient" id="Gradient_famg8"]
+colors = PackedColorArray(0, 0, 0, 1, 0.408329, 0.408329, 0.408329, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_famg8"]
+frequency = 1.0
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mlksh"]
+seamless = true
+color_ramp = SubResource("Gradient_famg8")
+noise = SubResource("FastNoiseLite_famg8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mlksh"]
+albedo_color = Color(0.147672, 0.147672, 0.147672, 1)
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_mlksh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_xbici"]
+
+[node name="1000 ton cube" type="RigidBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+mass = 1000.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+shape = SubResource("BoxShape3D_famg8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+material_override = SubResource("StandardMaterial3D_mlksh")
+mesh = SubResource("BoxMesh_xbici")

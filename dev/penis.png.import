@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dowse8a0p8vky"
-path.s3tc="res://.godot/imported/penis.png-25eefd11ad14ec03a48839baf0d40059.s3tc.ctex"
+path.s3tc="res://.godot/imported/penis.png-f15e96f8f711f5300a4fee11c8e3e820.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://penis.png"
-dest_files=["res://.godot/imported/penis.png-25eefd11ad14ec03a48839baf0d40059.s3tc.ctex"]
+source_file="res://dev/penis.png"
+dest_files=["res://.godot/imported/penis.png-f15e96f8f711f5300a4fee11c8e3e820.s3tc.ctex"]
 
 [params]
 

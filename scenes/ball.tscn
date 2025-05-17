@@ -11,7 +11,6 @@ bounce = 0.65
 lightmap_size_hint = Vector2i(17, 9)
 
 [node name="ball" type="RigidBody3D" groups=["canbechased", "canbelookedat"]]
-mass = 0.017
 physics_material_override = SubResource("PhysicsMaterial_j4htl")
 script = ExtResource("1_cxlvu")
 

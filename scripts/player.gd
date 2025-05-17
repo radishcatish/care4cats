@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if Input.is_action_pressed(&"jump"):
-		linear_velocity.y += 2
+		linear_velocity.y += 4
 	linear_velocity += walk_vel
 	linear_velocity.x *= .8
 	linear_velocity.z *= .8
@@ -50,14 +50,15 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("esc"):
 		get_tree().quit(0)
+		
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
+		
 	if Input.is_action_just_pressed("spawncat"):
 		var catscene = CAT.instantiate()
 		catscene.global_position = global_position
 		add_sibling(catscene)
 		
-
 	if Input.is_action_pressed("spawnball"):
 		var ballscene = BALL.instantiate()
 		add_sibling(ballscene)
@@ -65,29 +66,29 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_pressed("grab"):
 		if not body:
-			if is_instance_valid($Camera/RayCast3D.get_collider()) and $Camera/RayCast3D.get_collider() is RigidBody3D: 
+			if $Camera/RayCast3D.get_collider() is RigidBody3D: 
 				body = $Camera/RayCast3D.get_collider()
-				print("grab worked")
 				$Camera/Node3D.position.z = -3
-			else:
-				print("grab failed")
-				return
-		print("grabbing")
+			else: return
 		var target_position = $Camera/Node3D.global_position
 		var to_target = target_position - body.global_position
 		var force = to_target * 1200 * body.mass
 		body.apply_force(force, Vector3.ZERO)
-		var damping_force = -body.linear_velocity * 100
-		body.apply_force(damping_force, Vector3.ZERO)
+		body.apply_force(-body.linear_velocity * 100 * body.mass, Vector3.ZERO)
 		
-	if Input.is_action_just_released("grab"):
-		print("let go")
-		body = null
+
+	body = null if Input.is_action_just_released("grab") else body
 		
 	if Input.is_action_just_pressed("scrollup"):
-		$Camera/Node3D.position.z -= .5
+		$Camera/Node3D.position.z -= 2
 	if Input.is_action_just_pressed("scrolldown"):
-		$Camera/Node3D.position.z += .5
+		$Camera/Node3D.position.z += 2
+		
+	if Input.is_action_pressed("shift"):
+		camera.position.y = lerpf(camera.position.y, 0, delta * 20)
+		linear_velocity.y -= 4
+	else:
+		camera.position.y = lerpf(camera.position.y, 1.3, delta * 20)
 func capture_mouse() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true

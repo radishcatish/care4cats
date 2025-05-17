@@ -40,8 +40,9 @@ func _ready() -> void:
 	await get_tree().create_timer(0.1).timeout
 	var cat_scene = CAT.instantiate()
 	get_parent().add_child(cat_scene)
+	cat_scene.id_text.text = str(seed)
 	rng.seed = seed.hash() if seed is String else seed
-	cat_scene.id_text.text = str(rng.seed)
+	
 	syllables = rng.randi_range(2, 3)
 	for i in syllables:
 		catname += NAMESYLLABLES[rng.randi_range(0, NAMESYLLABLES.size() - 1)]
@@ -54,8 +55,10 @@ func _ready() -> void:
 	cat_scene.voicepitch    = rng.randf_range(0.75, 1.15)
 	cat_scene.hyperactivity = rng.randf_range(0.1, 2)
 	cat_scene.limbdamping   = rng.randf_range(0.1, 1)
-	cat_scene.limbspeed     = rng.randf_range(5, 30)
+	cat_scene.limbspeed     = rng.randf_range(25, 30)
 	cat_scene.walkspeed     = rng.randf_range(0.05, 0.25)
+	var catscale = rng.randf_range(0.75, 1.1)
+	cat_scene.scale         = Vector3(catscale,catscale,catscale)
 	leg_scale.y = rng.randf_range(.7, 1.2)
 	leg_collision.size = leg_scale
 	leg_mesh.size = leg_scale

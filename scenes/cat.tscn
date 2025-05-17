@@ -1,45 +1,31 @@
-[gd_scene load_steps=40 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=37 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/new_physics_material.tres" id="2_6fl1u"]
 [ext_resource type="Script" uid="uid://dh2fqd1tt8oss" path="res://scripts/cat_head.gd" id="2_52fj1"]
 [ext_resource type="Script" uid="uid://ds864nhhe7fyu" path="res://scripts/cat_body.gd" id="5_2u0g4"]
 [ext_resource type="Texture2D" uid="uid://dh5c8euuxvex2" path="res://images/f.png" id="5_32af4"]
-[ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://audio/meows/MeowNormal1.wav" id="6_yf1kj"]
-[ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://audio/meows/MeowNormal2.wav" id="7_dr6s3"]
-[ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://audio/meows/MeowNormal3.wav" id="8_3fcyy"]
-[ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://audio/meows/MeowNormal4.wav" id="9_rgipc"]
-[ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://audio/meows/MeowNormal5.wav" id="10_4m8cu"]
-[ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://audio/meows/MeowNormal6.wav" id="11_o8rmy"]
+[ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
+[ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
+[ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="8_3fcyy"]
+[ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="9_rgipc"]
+[ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://sounds/meows/MeowNormal5.wav" id="10_4m8cu"]
+[ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://sounds/meows/MeowNormal6.wav" id="11_o8rmy"]
 [ext_resource type="Script" uid="uid://c3mft8vlsk56y" path="res://scripts/balance_rigidbody3d.gd" id="12_32af4"]
-[ext_resource type="AudioStream" uid="uid://bx754mo8y5ohl" path="res://audio/meows/MeowNormal7.wav" id="12_njgcu"]
-[ext_resource type="AudioStream" uid="uid://bbisslj03lct7" path="res://audio/meows/MeowNormal8.wav" id="13_xcfqr"]
-[ext_resource type="AudioStream" uid="uid://xxhyy1n7j6ml" path="res://audio/meows/MeowNormalShort1.wav" id="14_qonxf"]
-[ext_resource type="AudioStream" uid="uid://cxruv1u7g11ye" path="res://audio/meows/MeowNormalShort2.wav" id="15_118il"]
-[ext_resource type="AudioStream" uid="uid://c75s4wglmcelb" path="res://audio/meows/MeowNormalShort3.wav" id="16_yq6bb"]
-[ext_resource type="AudioStream" uid="uid://bqot54g534com" path="res://audio/meows/MeowNormalShort4.wav" id="17_ainfc"]
-[ext_resource type="AudioStream" uid="uid://28qxgk63qiog" path="res://audio/meows/MeowNormalShort5.wav" id="18_4st07"]
-[ext_resource type="AudioStream" uid="uid://g75rgvu7fquq" path="res://audio/meows/MeowNormalShort6.wav" id="19_cjkto"]
-[ext_resource type="AudioStream" uid="uid://b02gg8y5rb326" path="res://audio/meows/MeowNormalShort7.wav" id="20_7ia2j"]
-[ext_resource type="AudioStream" uid="uid://cmokwqy30i3iv" path="res://audio/meows/MeowNormalShort8.wav" id="21_yl6i5"]
+[ext_resource type="AudioStream" uid="uid://bx754mo8y5ohl" path="res://sounds/meows/MeowNormal7.wav" id="12_njgcu"]
+[ext_resource type="AudioStream" uid="uid://bbisslj03lct7" path="res://sounds/meows/MeowNormal8.wav" id="13_xcfqr"]
+[ext_resource type="AudioStream" uid="uid://xxhyy1n7j6ml" path="res://sounds/meows/MeowNormalShort1.wav" id="14_qonxf"]
+[ext_resource type="AudioStream" uid="uid://cxruv1u7g11ye" path="res://sounds/meows/MeowNormalShort2.wav" id="15_118il"]
+[ext_resource type="AudioStream" uid="uid://c75s4wglmcelb" path="res://sounds/meows/MeowNormalShort3.wav" id="16_yq6bb"]
+[ext_resource type="AudioStream" uid="uid://bqot54g534com" path="res://sounds/meows/MeowNormalShort4.wav" id="17_ainfc"]
+[ext_resource type="AudioStream" uid="uid://28qxgk63qiog" path="res://sounds/meows/MeowNormalShort5.wav" id="18_4st07"]
+[ext_resource type="AudioStream" uid="uid://g75rgvu7fquq" path="res://sounds/meows/MeowNormalShort6.wav" id="19_cjkto"]
+[ext_resource type="AudioStream" uid="uid://b02gg8y5rb326" path="res://sounds/meows/MeowNormalShort7.wav" id="20_7ia2j"]
+[ext_resource type="AudioStream" uid="uid://cmokwqy30i3iv" path="res://sounds/meows/MeowNormalShort8.wav" id="21_yl6i5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2wmww"]
 radius = 0.178513
 height = 0.848176
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2xbod"]
-frequency = 0.0575
-domain_warp_amplitude = 31.385
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wn7dx"]
-generate_mipmaps = false
-seamless = true
-normalize = false
-noise = SubResource("FastNoiseLite_2xbod")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wmww"]
-normal_texture = SubResource("NoiseTexture2D_wn7dx")
-rim_tint = 1.0
 
 [sub_resource type="Curve" id="Curve_52fj1"]
 _data = [Vector2(0, 0), 0.0, 1.21622, 0, 1, Vector2(0.822222, 1), 0.741574, 0.741574, 0, 0, Vector2(0.872222, 0.494382), -10.1124, 0.0, 1, 0]
@@ -119,7 +105,6 @@ shape = SubResource("CapsuleShape3D_2wmww")
 
 [node name="RightEar" type="MeshInstance3D" parent="RightEar/CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0280116, 0)
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("TubeTrailMesh_6fl1u")
 skeleton = NodePath("../../../Head/Collision")
 
@@ -135,7 +120,6 @@ shape = SubResource("CapsuleShape3D_2wmww")
 
 [node name="LeftEar" type="MeshInstance3D" parent="LeftEar/CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0280116, 0)
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("TubeTrailMesh_6fl1u")
 skeleton = NodePath("../../../Head/Collision")
 
@@ -144,7 +128,6 @@ physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("2_52fj1")
 
 [node name="ConeTwistJoint3D2" type="Generic6DOFJoint3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 node_a = NodePath("../../RightEar")
 node_b = NodePath("..")
 angular_limit_x/enabled = false
@@ -161,7 +144,6 @@ angular_spring_z/stiffness = 3.0
 angular_spring_z/damping = 0.1
 
 [node name="ConeTwistJoint3D" type="Generic6DOFJoint3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 node_a = NodePath("../../LeftEar")
 node_b = NodePath("..")
 angular_limit_x/enabled = false
@@ -181,7 +163,6 @@ angular_spring_z/damping = 0.1
 shape = SubResource("SphereShape3D_5u64a")
 
 [node name="Head" type="MeshInstance3D" parent="Head/Collision"]
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("SphereMesh_hcucf")
 skeleton = NodePath("")
 
@@ -442,7 +423,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -0.7)
 shape = SubResource("BoxShape3D_hcucf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Collision"]
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("BoxMesh_hcucf")
 skeleton = NodePath("../..")
 
@@ -460,7 +440,6 @@ shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeftFront/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
@@ -478,7 +457,6 @@ shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightFront/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
@@ -495,7 +473,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeftBack/Collision"]
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
@@ -512,6 +489,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightBack/Collision"]
-material_override = SubResource("StandardMaterial3D_2wmww")
 mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")

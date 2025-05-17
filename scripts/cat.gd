@@ -80,7 +80,6 @@ func _ready() -> void:
 	
 	
 func _process(_delta: float) -> void:
-
 	if decision_cooldown.is_stopped():
 		make_decision = randi() % 10 == 1 
 	if make_decision:
