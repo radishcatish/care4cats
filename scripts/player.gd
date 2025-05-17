@@ -1,0 +1,73 @@
+class_name Player extends RigidBody3D
+
+@export_range(1, 35, 1) var speed: float = 5 # m/s
+@export_range(10, 400, 1) var acceleration: float = 100 # m/s^2
+
+@export_range(0.1, 3.0, 0.1) var jump_height: float = 1 # m
+@export_range(0.1, 3.0, 0.1, "or_greater") var camera_sens: float = 1
+
+var jumping: bool = false
+var mouse_captured: bool = false
+
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var move_dir: Vector2 # Input direction for movement
+var look_dir: Vector2 # Input direction for look/aim
+
+var walk_vel: Vector3 # Walking velocity 
+var grav_vel: Vector3 # Gravity velocity 
+var jump_vel: Vector3 # Jumping velocity
+
+@onready var camera: Camera3D = $Camera
+
+
+
+func _ready() -> void:
+	capture_mouse()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		look_dir = event.relative * 0.001
+		if mouse_captured: _rotate_camera()
+
+const CAT = preload("res://scenes/cat_spawner.tscn")
+const BALL = preload("res://scenes/ball.tscn")
+func _physics_process(delta: float) -> void:
+	
+	move_dir = Input.get_vector(&"left", &"right", &"up", &"down")
+	var _forward: Vector3 = camera.global_transform.basis * Vector3(move_dir.x, 0, move_dir.y)
+	var walk_dir: Vector3 = Vector3(_forward.x, 0, _forward.z).normalized()
+	walk_vel = walk_vel.move_toward(walk_dir * speed * move_dir.length(), acceleration * delta)
+	
+	
+	if Input.is_action_pressed(&"jump"):
+		linear_velocity.y += 2
+	linear_velocity += walk_vel
+	linear_velocity.x *= .8
+	linear_velocity.z *= .8
+	
+	
+	if Input.is_action_just_pressed("esc"):
+		get_tree().quit(0)
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("spawncat"):
+		var catscene = CAT.instantiate()
+		add_sibling(catscene)
+		catscene.global_position = global_position
+
+	if Input.is_action_pressed("spawnball"):
+		var ballscene = BALL.instantiate()
+		add_sibling(ballscene)
+		ballscene.global_position = global_position
+func capture_mouse() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	mouse_captured = true
+
+func release_mouse() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	mouse_captured = false
+
+func _rotate_camera(sens_mod: float = 1.0) -> void:
+	camera.rotation.y -= look_dir.x * camera_sens * sens_mod
+	camera.rotation.x = clamp(camera.rotation.x - look_dir.y * camera_sens * sens_mod, -1.5, 1.5)

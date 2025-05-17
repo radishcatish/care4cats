@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b08osi75dpda6"
+path="res://.godot/imported/Super Cube Cavern OST - Lobby.mp3-aae7c827939c5eb218454086d50b77cc.mp3str"
+
+[deps]
+
+source_file="res://audio/Super Cube Cavern OST - Lobby.mp3"
+dest_files=["res://.godot/imported/Super Cube Cavern OST - Lobby.mp3-aae7c827939c5eb218454086d50b77cc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

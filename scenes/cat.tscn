@@ -1,0 +1,405 @@
+[gd_scene load_steps=37 format=3 uid="uid://dulajqguibits"]
+
+[ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
+[ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/new_physics_material.tres" id="2_6fl1u"]
+[ext_resource type="Script" uid="uid://dh2fqd1tt8oss" path="res://scripts/cat_head.gd" id="2_52fj1"]
+[ext_resource type="Script" uid="uid://ds864nhhe7fyu" path="res://scripts/cat_body.gd" id="5_2u0g4"]
+[ext_resource type="Texture2D" uid="uid://dh5c8euuxvex2" path="res://images/f.png" id="5_32af4"]
+[ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://audio/meows/MeowNormal1.wav" id="6_yf1kj"]
+[ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://audio/meows/MeowNormal2.wav" id="7_dr6s3"]
+[ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://audio/meows/MeowNormal3.wav" id="8_3fcyy"]
+[ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://audio/meows/MeowNormal4.wav" id="9_rgipc"]
+[ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://audio/meows/MeowNormal5.wav" id="10_4m8cu"]
+[ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://audio/meows/MeowNormal6.wav" id="11_o8rmy"]
+[ext_resource type="Script" uid="uid://c3mft8vlsk56y" path="res://scripts/balance_rigidbody3d.gd" id="12_32af4"]
+[ext_resource type="AudioStream" uid="uid://bx754mo8y5ohl" path="res://audio/meows/MeowNormal7.wav" id="12_njgcu"]
+[ext_resource type="AudioStream" uid="uid://bbisslj03lct7" path="res://audio/meows/MeowNormal8.wav" id="13_xcfqr"]
+[ext_resource type="AudioStream" uid="uid://xxhyy1n7j6ml" path="res://audio/meows/MeowNormalShort1.wav" id="14_qonxf"]
+[ext_resource type="AudioStream" uid="uid://cxruv1u7g11ye" path="res://audio/meows/MeowNormalShort2.wav" id="15_118il"]
+[ext_resource type="AudioStream" uid="uid://c75s4wglmcelb" path="res://audio/meows/MeowNormalShort3.wav" id="16_yq6bb"]
+[ext_resource type="AudioStream" uid="uid://bqot54g534com" path="res://audio/meows/MeowNormalShort4.wav" id="17_ainfc"]
+[ext_resource type="AudioStream" uid="uid://28qxgk63qiog" path="res://audio/meows/MeowNormalShort5.wav" id="18_4st07"]
+[ext_resource type="AudioStream" uid="uid://g75rgvu7fquq" path="res://audio/meows/MeowNormalShort6.wav" id="19_cjkto"]
+[ext_resource type="AudioStream" uid="uid://b02gg8y5rb326" path="res://audio/meows/MeowNormalShort7.wav" id="20_7ia2j"]
+[ext_resource type="AudioStream" uid="uid://cmokwqy30i3iv" path="res://audio/meows/MeowNormalShort8.wav" id="21_yl6i5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2xbod"]
+frequency = 0.0575
+domain_warp_amplitude = 31.385
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wn7dx"]
+generate_mipmaps = false
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_2xbod")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wmww"]
+normal_texture = SubResource("NoiseTexture2D_wn7dx")
+rim_tint = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_hcucf"]
+radial_segments = 9
+rings = 6
+
+[sub_resource type="Curve" id="Curve_52fj1"]
+_data = [Vector2(0, 0), 0.0, 1.21622, 0, 1, Vector2(0.822222, 1), 0.741574, 0.741574, 0, 0, Vector2(0.872222, 0.494382), -10.1124, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_6fl1u"]
+radius = 0.3
+section_length = 0.18
+section_rings = 1
+cap_top = false
+curve = SubResource("Curve_52fj1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjxxq"]
+atlas = ExtResource("5_32af4")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5p5i"]
+atlas = ExtResource("5_32af4")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8jovi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjxxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5p5i")
+}],
+"loop": false,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hcucf"]
+size = Vector3(0.8, 0.5, 1.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hcucf"]
+size = Vector3(0.8, 0.5, 1.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_52fj1"]
+size = Vector3(0.3, 0.8, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_52fj1"]
+size = Vector3(0.3, 0.8, 0.3)
+
+[node name="cat" type="Node3D"]
+script = ExtResource("1_hcucf")
+
+[node name="MeowCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="DecisionCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
+mass = 0.5
+physics_material_override = ExtResource("2_6fl1u")
+script = ExtResource("2_52fj1")
+
+[node name="Collision" type="CollisionShape3D" parent="Head"]
+shape = SubResource("SphereShape3D_5u64a")
+
+[node name="Head" type="MeshInstance3D" parent="Head/Collision"]
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("SphereMesh_hcucf")
+skeleton = NodePath("")
+
+[node name="RightEar" type="MeshInstance3D" parent="Head/Collision"]
+transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, 0.35, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("TubeTrailMesh_6fl1u")
+
+[node name="LeftEar" type="MeshInstance3D" parent="Head/Collision"]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, -0.35, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("TubeTrailMesh_6fl1u")
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Head/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000504196, -0.0606747, 0.471354)
+double_sided = false
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_8jovi")
+frame = 1
+frame_progress = 1.0
+
+[node name="Label3D" type="Label3D" parent="Head/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05064, 0)
+ignore_occlusion_culling = true
+billboard = 1
+double_sided = false
+text = "name"
+justification_flags = 0
+
+[node name="Label3D2" type="Label3D" parent="Head/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.884678, 0)
+ignore_occlusion_culling = true
+pixel_size = 0.004
+billboard = 1
+double_sided = false
+modulate = Color(0.589096, 0.589096, 0.589096, 1)
+text = "id
+"
+justification_flags = 0
+
+[node name="Meows" type="Node3D" parent="Head"]
+
+[node name="MeowNormal1" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("6_yf1kj")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal2" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("7_dr6s3")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal3" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("8_3fcyy")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal4" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("9_rgipc")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal5" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("10_4m8cu")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal6" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("11_o8rmy")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal7" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("12_njgcu")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal8" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("13_xcfqr")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort1" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("14_qonxf")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort2" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("15_118il")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort3" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("16_yq6bb")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort4" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("17_ainfc")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort5" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("18_4st07")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort6" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("19_cjkto")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort7" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("20_7ia2j")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort8" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("21_yl6i5")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="Body" type="RigidBody3D" parent="."]
+mass = 0.5
+physics_material_override = ExtResource("2_6fl1u")
+freeze_mode = 1
+script = ExtResource("5_2u0g4")
+
+[node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.456372, -0.199173)
+node_a = NodePath("../../Head")
+node_b = NodePath("..")
+twist_span = 1.22173
+
+[node name="Collision" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -0.7)
+shape = SubResource("BoxShape3D_hcucf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Collision"]
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("BoxMesh_hcucf")
+skeleton = NodePath("../..")
+
+[node name="LeftFront" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.85, -0.2)
+mass = 0.8
+physics_material_override = ExtResource("2_6fl1u")
+script = ExtResource("12_32af4")
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftFront"]
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="LeftFront"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_52fj1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftFront/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("BoxMesh_52fj1")
+skeleton = NodePath("../..")
+
+[node name="RightFront" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.85, -0.2)
+mass = 0.8
+physics_material_override = ExtResource("2_6fl1u")
+script = ExtResource("12_32af4")
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightFront"]
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="RightFront"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_52fj1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightFront/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("BoxMesh_52fj1")
+skeleton = NodePath("../..")
+
+[node name="LeftBack" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.85, -1.2)
+mass = 0.8
+physics_material_override = ExtResource("2_6fl1u")
+script = ExtResource("12_32af4")
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftBack"]
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="LeftBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_52fj1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftBack/Collision"]
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("BoxMesh_52fj1")
+skeleton = NodePath("../..")
+
+[node name="RightBack" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.85, -1.2)
+mass = 0.8
+physics_material_override = ExtResource("2_6fl1u")
+script = ExtResource("12_32af4")
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightBack"]
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="RightBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_52fj1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightBack/Collision"]
+material_override = SubResource("StandardMaterial3D_2wmww")
+mesh = SubResource("BoxMesh_52fj1")
+skeleton = NodePath("../..")
