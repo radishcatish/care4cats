@@ -19,25 +19,25 @@ const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah",
 					"wu", "wus", "xa", "xi", "xit", "ya", "ye", "yi", "yo", 
 					"yu", "za", "ze", "zi", "zo", "zu", "zun", 
 					"a", "e", "i", "o", "u"]
-var syllables     : int = 0
-var catname       := ""
-var voicepitch    : float = 0.0
-var hyperactivity : float = 0.0
-var limbdamping   : float = 0.0
-var limbspeed     : float = 0.0
-var walkspeed     : float = 0.0
-var catcolor      : Color = Color(0,0,0)
+var syllables     : int        = 0
+var catname       : String     = ""
+var voicepitch    : float      = 0.0
+var hyperactivity : float      = 0.0
+var limbdamping   : float      = 0.0
+var limbspeed     : float      = 0.0
+var walkspeed     : float      = 0.0
+var catcolor      : Color      = Color(0,0,0)
+var leg_scale     : Vector3    = Vector3(.3, .8, .3)
+var leg_collision : BoxShape3D = BoxShape3D.new()
+var leg_mesh      : BoxMesh    = BoxMesh.new()
 var material      : StandardMaterial3D = StandardMaterial3D.new()
-var leg_scale     : Vector3 = Vector3(.3, .8, .3)
-var leg_collision      : BoxShape3D = BoxShape3D.new()
-var leg_mesh      : BoxMesh = BoxMesh.new()
-var rng = RandomNumberGenerator.new()
+var rng  = RandomNumberGenerator.new()
 var seed = randi_range(1, 9999)
 
-#TODO
-#TODO all of the personality variables do not carry over 
-#TODO
+
 func _ready() -> void:
+	$Label3D.text = ""
+	await get_tree().create_timer(0.1).timeout
 	var cat_scene = CAT.instantiate()
 	get_parent().add_child(cat_scene)
 	rng.seed = seed.hash() if seed is String else seed
@@ -47,6 +47,7 @@ func _ready() -> void:
 		catname += NAMESYLLABLES[rng.randi_range(0, NAMESYLLABLES.size() - 1)]
 	rng.seed = catname.hash()
 	
+	$Label3D.text = "spawned " + catname + "!"
 	
 	catcolor = Color().from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	material.albedo_color = catcolor
@@ -64,6 +65,8 @@ func _ready() -> void:
 	cat_scene.left_ear_mesh.material_override = material
 	cat_scene.right_ear_mesh.material_override = material
 	cat_scene.body_mesh.material_override = material
+	cat_scene.tail_2_mesh.material_override = material
+	cat_scene.tail_1_mesh.material_override = material
 	cat_scene.left_front_mesh.material_override = material
 	cat_scene.right_front_mesh.material_override = material
 	cat_scene.left_back_mesh.material_override = material
@@ -85,14 +88,18 @@ func _ready() -> void:
 	Vector3(body_extents.x, -body_extents.y, -body_extents.z),
 	Vector3(-body_extents.x, -body_extents.y, -body_extents.z)
 	]
-	#var amt = 0
-	#cat_scene.left_front_collision.position = corner_offsets[0] - Vector3(0, leg_scale.y * amt, 0)
-	#cat_scene.right_front_collision.position = corner_offsets[1] - Vector3(0, leg_scale.y * amt, 0)
-	#cat_scene.left_back_collision.position = corner_offsets[2] - Vector3(0, leg_scale.y * amt, 0)
-	#cat_scene.right_back_collision.position = corner_offsets[3] - Vector3(0, leg_scale.y * amt, 0)
 
 	cat_scene.left_front_collision.position.y = -body_extents.y * leg_scale.y - .2
 	cat_scene.right_front_collision.position.y = -body_extents.y  * leg_scale.y - .2
 	cat_scene.left_back_collision.position.y = -body_extents.y  * leg_scale.y - .2
 	cat_scene.right_back_collision.position.y = -body_extents.y  * leg_scale.y - .2
-	queue_free()
+	cat_scene.global_position = global_position
+
+func _process(delta: float) -> void:
+	
+	$Label3D.position.y += .01
+	$Label3D.modulate.a -= .01
+	$Label3D.outline_modulate.a -= .01
+	
+	if $Timer.is_stopped():
+		queue_free()

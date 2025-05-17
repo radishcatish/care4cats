@@ -32,6 +32,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 const CAT = preload("res://scenes/cat_spawner.tscn")
 const BALL = preload("res://scenes/ball.tscn")
+var body : RigidBody3D
 func _physics_process(delta: float) -> void:
 	
 	move_dir = Input.get_vector(&"left", &"right", &"up", &"down")
@@ -53,13 +54,40 @@ func _physics_process(delta: float) -> void:
 		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("spawncat"):
 		var catscene = CAT.instantiate()
-		add_sibling(catscene)
 		catscene.global_position = global_position
+		add_sibling(catscene)
+		
 
 	if Input.is_action_pressed("spawnball"):
 		var ballscene = BALL.instantiate()
 		add_sibling(ballscene)
 		ballscene.global_position = global_position
+		
+	if Input.is_action_pressed("grab"):
+		if not body:
+			if is_instance_valid($Camera/RayCast3D.get_collider()) and $Camera/RayCast3D.get_collider() is RigidBody3D: 
+				body = $Camera/RayCast3D.get_collider()
+				print("grab worked")
+				$Camera/Node3D.position.z = -3
+			else:
+				print("grab failed")
+				return
+		print("grabbing")
+		var target_position = $Camera/Node3D.global_position
+		var to_target = target_position - body.global_position
+		var force = to_target * 1200 * body.mass
+		body.apply_force(force, Vector3.ZERO)
+		var damping_force = -body.linear_velocity * 100
+		body.apply_force(damping_force, Vector3.ZERO)
+		
+	if Input.is_action_just_released("grab"):
+		print("let go")
+		body = null
+		
+	if Input.is_action_just_pressed("scrollup"):
+		$Camera/Node3D.position.z -= .5
+	if Input.is_action_just_pressed("scrolldown"):
+		$Camera/Node3D.position.z += .5
 func capture_mouse() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true

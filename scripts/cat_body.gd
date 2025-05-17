@@ -12,10 +12,10 @@ extends RigidBody3D
 @onready var forward_direction : Vector3 = transform.basis.x.normalized()
 @onready var look_target: Vector3
 var timer := randf()
-var iswalking := randi_range(0, 2) != 0
+var iswalking := false
 var islooking := false
 var loose := false
-var sitting := not iswalking
+var sitting := false
 var laying := false
 func _ready() -> void:
 	if sitting:

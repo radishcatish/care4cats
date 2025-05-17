@@ -1,14 +1,27 @@
-extends Node
+extends Skeleton3D
 #region nodes
 @onready var head: RigidBody3D = $Head
 @onready var head_mesh: MeshInstance3D = $Head/Collision/Head
-@onready var right_ear_mesh: MeshInstance3D = $Head/Collision/RightEar
-@onready var left_ear_mesh: MeshInstance3D = $Head/Collision/LeftEar
+@onready var right_ear: RigidBody3D = $RightEar
+@onready var right_ear_collision: CollisionShape3D = $RightEar/CollisionShape3D
+@onready var right_ear_mesh: MeshInstance3D = $RightEar/CollisionShape3D/RightEar
+@onready var left_ear: RigidBody3D = $LeftEar
+@onready var left_ear_collision: CollisionShape3D = $LeftEar/CollisionShape3D
+@onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
 
 @onready var body: RigidBody3D = $Body
 @onready var body_joint: ConeTwistJoint3D = $Body/BodyHeadJoint
 @onready var body_collision: CollisionShape3D = $Body/Collision
 @onready var body_mesh: MeshInstance3D = $Body/Collision/MeshInstance3D
+
+@onready var tail_1: RigidBody3D = $Tail1
+@onready var tail_1_joint: Generic6DOFJoint3D = $Tail1/Generic6DOFJoint3D
+@onready var tail_1_collision: CollisionShape3D = $Tail1/CollisionShape3D
+@onready var tail_1_mesh: MeshInstance3D = $Tail1/CollisionShape3D/MeshInstance3D
+@onready var tail_2: RigidBody3D = $Tail2
+@onready var tail_2_joint: Generic6DOFJoint3D = $Tail2/Generic6DOFJoint3D
+@onready var tail_2_collision: CollisionShape3D = $Tail2/CollisionShape3D
+@onready var tail_2_mesh: MeshInstance3D = $Tail2/CollisionShape3D/MeshInstance3D
 
 @onready var left_front: RigidBody3D = $LeftFront
 @onready var left_front_joint: ConeTwistJoint3D = $LeftFront/PinJoint3D
@@ -43,13 +56,13 @@ extends Node
 
 #endregion
 
-var catname       := ""
-@onready var voicepitch    : float = 0.0
-@onready var hyperactivity : float = 0.0
-@onready var limbdamping   : float = 0.0
-@onready var limbspeed     : float = 0.0
-@onready var walkspeed     : float = 0.0
-var make_decision : bool  = true
+var catname                := ""
+@onready var voicepitch    : float = 1
+@onready var hyperactivity : float = 1
+@onready var limbdamping   : float = .5
+@onready var limbspeed     : float = 20
+@onready var walkspeed     : float = 0.1
+var make_decision          : bool  = true
 
 func _ready() -> void:
 	

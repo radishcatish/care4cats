@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://b83yt6ir7dqoy"]
+
+[ext_resource type="PackedScene" uid="uid://bwyx6264ynq0y" path="res://scenes/cat_spawner.tscn" id="1_pm1sx"]
+
+[node name="CatGroup" type="Node3D"]
+
+[node name="CatSpawner" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+
+[node name="CatSpawner2" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10)
+
+[node name="CatSpawner3" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="CatSpawner4" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -10)
+
+[node name="CatSpawner5" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
+
+[node name="CatSpawner6" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5)
+
+[node name="CatSpawner7" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="CatSpawner8" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="CatSpawner9" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+
+[node name="CatSpawner10" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
+
+[node name="CatSpawner11" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="CatSpawner12" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="CatSpawner13" parent="." instance=ExtResource("1_pm1sx")]
+
+[node name="CatSpawner14" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="CatSpawner15" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="CatSpawner16" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5)
+
+[node name="CatSpawner17" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+
+[node name="CatSpawner18" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="CatSpawner19" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="CatSpawner20" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 5)
+
+[node name="CatSpawner21" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10)
+
+[node name="CatSpawner22" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 10)
+
+[node name="CatSpawner23" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="CatSpawner24" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 10)
+
+[node name="CatSpawner25" parent="." instance=ExtResource("1_pm1sx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)

@@ -1,25 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://q2mxcbtohart"]
+[gd_scene load_steps=5 format=3 uid="uid://q2mxcbtohart"]
 
-[ext_resource type="Texture2D" uid="uid://cj1vix8e4fsvm" path="res://images/grassgrid.png" id="1_7s4qf"]
 [ext_resource type="Script" uid="uid://bd718q4simfqr" path="res://scripts/ball.gd" id="1_cxlvu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j4htl"]
 bounce = 0.65
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_j4htl"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cxlvu"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xr5yv"]
-albedo_color = Color(1, 0.784314, 0.796078, 1)
-metallic = 1.0
-metallic_specular = 1.0
-metallic_texture = ExtResource("1_7s4qf")
-emission_on_uv2 = true
-rim = 0.03
-backlight = Color(1, 0, 0, 1)
-refraction_scale = 1.0
-refraction_texture = SubResource("NoiseTexture2D_cxlvu")
 
 [sub_resource type="SphereMesh" id="SphereMesh_ugknh"]
 lightmap_size_hint = Vector2i(17, 9)
@@ -33,7 +19,6 @@ script = ExtResource("1_cxlvu")
 shape = SubResource("SphereShape3D_j4htl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
-material_override = SubResource("StandardMaterial3D_xr5yv")
 gi_mode = 2
 mesh = SubResource("SphereMesh_ugknh")
 skeleton = NodePath("../..")
