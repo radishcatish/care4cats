@@ -18,6 +18,10 @@ boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 
+[display]
+
+window/energy_saving/keep_screen_on=false
+
 [input]
 
 esc={
@@ -116,8 +120,3 @@ jolt_physics_3d/joints/world_node=1
 3d/default_gravity=20.0
 3d/time_before_sleep=0.1
 3d/solver/solver_iterations=12
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

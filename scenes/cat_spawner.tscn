@@ -1,16 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bwyx6264ynq0y"]
 
-[ext_resource type="Script" uid="uid://13fx0t3gtpjm" path="res://scenes/cat_spawner.gd" id="1_rwr7k"]
+[ext_resource type="Script" uid="uid://13fx0t3gtpjm" path="res://scripts/cat_spawner.gd" id="1_rwr7k"]
 
 [node name="CatSpawner" type="Node3D"]
 script = ExtResource("1_rwr7k")
-
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.348885, 0)
-pixel_size = 0.006
-billboard = 1
-text = "hi"
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-autostart = true

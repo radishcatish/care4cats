@@ -1,10 +1,10 @@
 class_name Player extends RigidBody3D
 
-@export_range(1, 35, 1) var speed: float = 5 # m/s
-@export_range(10, 400, 1) var acceleration: float = 100 # m/s^2
+var speed: float = 5 # m/s
+var acceleration: float = 100 # m/s^2
 
-@export_range(0.1, 3.0, 0.1) var jump_height: float = 1 # m
-@export_range(0.1, 3.0, 0.1, "or_greater") var camera_sens: float = 1
+var jump_height: float = 1 # m
+var camera_sens: float = 5
 
 var jumping: bool = false
 var mouse_captured: bool = false
@@ -19,6 +19,10 @@ var grav_vel: Vector3 # Gravity velocity
 var jump_vel: Vector3 # Jumping velocity
 
 @onready var camera: Camera3D = $Camera
+@onready var snd_run: AudioStreamPlayer = $Walking
+@onready var snd_fly: AudioStreamPlayer = $Jetpack
+@onready var crosshair: Label3D = $Camera/Label3D
+@onready var snd_grab: AudioStreamPlayer = $Grab
 
 
 
@@ -43,7 +47,14 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed(&"jump"):
 		linear_velocity.y += 4
-	linear_velocity += walk_vel
+
+	if Input.is_action_just_pressed("jump"):
+		snd_fly.play()
+	if Input.is_action_just_released("jump"):
+		snd_fly.stop()
+		
+		
+	linear_velocity += walk_vel / (float(Input.is_action_pressed("shift")) + 1)
 	linear_velocity.x *= .8
 	linear_velocity.z *= .8
 	
@@ -66,7 +77,8 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_pressed("grab"):
 		if not body:
-			if $Camera/RayCast3D.get_collider() is RigidBody3D: 
+			if $Camera/RayCast3D.get_collider() is RigidBody3D:
+				snd_grab.play()
 				body = $Camera/RayCast3D.get_collider()
 				$Camera/Node3D.position.z = -3
 			else: return
@@ -87,8 +99,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("shift"):
 		camera.position.y = lerpf(camera.position.y, 0, delta * 20)
 		linear_velocity.y -= 4
+
 	else:
 		camera.position.y = lerpf(camera.position.y, 1.3, delta * 20)
+
 func capture_mouse() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true

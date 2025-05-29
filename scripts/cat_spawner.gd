@@ -10,7 +10,6 @@ const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah",
 					"kun", "la", "le", "li", "lo", "lu", "ma", "me",
 					"mo", "mu", "na", "ne", "new", "ni", "nif", "no", 
 					"not", "nu", "nuk", "num", "nie", "om", "os", "pa", "pe", "pi", 
-					"not", "nu", "nuk", "num", "nie", "om", "os", "pa", "pe", "pi", 
 					"po", "pu", "ra", "rak", "re", "rek", "ri", "rip", 
 					"ris", "rit", "ro", "ros", "rot", "ru", "rut", "sa", 
 					"se", "si", "so", "su", "sut", "ta", "te", "tex", "ti", 
@@ -34,9 +33,8 @@ var material      : StandardMaterial3D = StandardMaterial3D.new()
 var rng  = RandomNumberGenerator.new()
 var seed = randi_range(1, 9999)
 
-
+const OUTLINEMATERIAL = preload("res://scenes/outlinematerial.tres")
 func _ready() -> void:
-	$Label3D.text = ""
 	await get_tree().create_timer(0.1).timeout
 	var cat_scene = CAT.instantiate()
 	get_parent().add_child(cat_scene)
@@ -46,12 +44,14 @@ func _ready() -> void:
 	syllables = rng.randi_range(2, 3)
 	for i in syllables:
 		catname += NAMESYLLABLES[rng.randi_range(0, NAMESYLLABLES.size() - 1)]
+	
 	rng.seed = catname.hash()
 	
-	$Label3D.text = "spawned " + catname + "!"
 	
 	catcolor = Color().from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	material.albedo_color = catcolor
+	material.next_pass = OUTLINEMATERIAL
+	
 	cat_scene.voicepitch    = rng.randf_range(0.75, 1.15)
 	cat_scene.hyperactivity = rng.randf_range(0.1, 2)
 	cat_scene.limbdamping   = rng.randf_range(0.1, 1)
@@ -91,18 +91,24 @@ func _ready() -> void:
 	Vector3(body_extents.x, -body_extents.y, -body_extents.z),
 	Vector3(-body_extents.x, -body_extents.y, -body_extents.z)
 	]
+	cat_scene.left_front.position = corner_offsets[0]
+	cat_scene.right_front.position = corner_offsets[1]
+	cat_scene.left_back.position = corner_offsets[2]
+	cat_scene.right_back.position = corner_offsets[3]
+	
 
-	cat_scene.left_front_collision.position.y = -body_extents.y * leg_scale.y - .2
-	cat_scene.right_front_collision.position.y = -body_extents.y  * leg_scale.y - .2
-	cat_scene.left_back_collision.position.y = -body_extents.y  * leg_scale.y - .2
-	cat_scene.right_back_collision.position.y = -body_extents.y  * leg_scale.y - .2
+	cat_scene.left_front.position.y = -body_extents.y * leg_scale.y
+	cat_scene.right_front.position.y = -body_extents.y  * leg_scale.y
+	cat_scene.left_back.position.y = -body_extents.y  * leg_scale.y
+	cat_scene.right_back.position.y = -body_extents.y  * leg_scale.y
 	cat_scene.global_position = global_position
-
-func _process(delta: float) -> void:
 	
-	$Label3D.position.y += .01
-	$Label3D.modulate.a -= .01
-	$Label3D.outline_modulate.a -= .01
-	
-	if $Timer.is_stopped():
-		queue_free()
+	cat_scene.left_front_joint.node_a = cat_scene.left_front.get_path()
+	cat_scene.left_front_joint.node_b = cat_scene.body.get_path()
+	cat_scene.right_front_joint.node_a = cat_scene.right_front.get_path()
+	cat_scene.right_front_joint.node_b = cat_scene.body.get_path()
+	cat_scene.left_back_joint.node_a = cat_scene.left_back.get_path()
+	cat_scene.left_back_joint.node_b = cat_scene.body.get_path()
+	cat_scene.right_back_joint.node_a = cat_scene.right_back.get_path()
+	cat_scene.right_back_joint.node_b = cat_scene.body.get_path()
+	queue_free()

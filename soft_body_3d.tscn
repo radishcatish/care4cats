@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dv3novl0n1kun"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3ynd1"]
+
+[node name="SoftBody3D" type="SoftBody3D"]
+mesh = SubResource("BoxMesh_3ynd1")

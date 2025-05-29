@@ -1,4 +1,4 @@
-extends Skeleton3D
+extends Node3D
 #region nodes
 @onready var head: RigidBody3D = $Head
 @onready var head_mesh: MeshInstance3D = $Head/Collision/Head
@@ -58,25 +58,13 @@ extends Skeleton3D
 
 var catname                := ""
 @onready var voicepitch    : float = 1
-@onready var hyperactivity : float = 1
+@onready var hyperactivity : float = 1.3
 @onready var limbdamping   : float = .5
-@onready var limbspeed     : float = 20
-@onready var walkspeed     : float = 0.1
+@onready var limbspeed     : float = 27
+@onready var walkspeed     : float = 0.2 
 var make_decision          : bool  = true
 
-func _ready() -> void:
-	
-	left_front_joint.node_a = left_front.get_path()
-	left_front_joint.node_b = body.get_path()
-	
-	right_front_joint.node_a = right_front.get_path()
-	right_front_joint.node_b = body.get_path()
-	
-	left_back_joint.node_a = left_back.get_path()
-	left_back_joint.node_b = body.get_path()
-	
-	right_back_joint.node_a = right_back.get_path()
-	right_back_joint.node_b = body.get_path()
+
 	
 	
 func _process(_delta: float) -> void:

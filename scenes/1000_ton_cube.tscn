@@ -1,4 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpcnda66he7a0"]
+[gd_scene load_steps=8 format=3 uid="uid://cpcnda66he7a0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_famg8"]
+friction = 0.0
+bounce = 0.92
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_famg8"]
 
@@ -25,6 +29,7 @@ normal_texture = SubResource("NoiseTexture2D_mlksh")
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_famg8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
