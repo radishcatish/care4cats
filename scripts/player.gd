@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		look_dir = event.relative * 0.001
 		if mouse_captured: _rotate_camera()
 
-const CAT = preload("res://scenes/cat_spawner.tscn")
+
 const BALL = preload("res://scenes/ball.tscn")
 var body : RigidBody3D
 func _physics_process(delta: float) -> void:
@@ -64,12 +64,7 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
-		
-	if Input.is_action_just_pressed("spawncat"):
-		var catscene = CAT.instantiate()
-		catscene.global_position = global_position
-		add_sibling(catscene)
-		
+
 	if Input.is_action_pressed("spawnball"):
 		var ballscene = BALL.instantiate()
 		add_sibling(ballscene)

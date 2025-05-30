@@ -33,7 +33,6 @@ var material      : StandardMaterial3D = StandardMaterial3D.new()
 var rng  = RandomNumberGenerator.new()
 var seed = randi_range(1, 9999)
 
-const OUTLINEMATERIAL = preload("res://scenes/outlinematerial.tres")
 func _ready() -> void:
 	await get_tree().create_timer(0.1).timeout
 	var cat_scene = CAT.instantiate()
