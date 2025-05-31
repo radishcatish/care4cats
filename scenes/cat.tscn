@@ -1,6 +1,7 @@
 [gd_scene load_steps=37 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
+[ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
 [ext_resource type="Script" uid="uid://dh2fqd1tt8oss" path="res://scripts/cat_head.gd" id="2_52fj1"]
 [ext_resource type="Script" uid="uid://ds864nhhe7fyu" path="res://scripts/cat_body.gd" id="5_2u0g4"]
 [ext_resource type="Texture2D" uid="uid://dh5c8euuxvex2" path="res://images/f.png" id="5_32af4"]
@@ -38,14 +39,10 @@ section_rings = 1
 cap_top = false
 curve = SubResource("Curve_52fj1")
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t4omw"]
-rough = true
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_hcucf"]
-lightmap_size_hint = Vector2i(17, 9)
-radial_segments = 10
+radial_segments = 11
 rings = 5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjxxq"]
@@ -127,7 +124,7 @@ skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.580187, 0.741177)
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("2_52fj1")
 
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
@@ -417,7 +414,7 @@ shape = SubResource("BoxShape3D_2wmww")
 mesh = SubResource("BoxMesh_yf1kj")
 
 [node name="Body" type="RigidBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 freeze_mode = 1
 script = ExtResource("5_2u0g4")
 
@@ -429,7 +426,7 @@ mesh = SubResource("BoxMesh_hcucf")
 skeleton = NodePath("../..")
 
 [node name="LeftFront" type="RigidBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("12_32af4")
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftFront"]
@@ -445,7 +442,7 @@ mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
 [node name="RightFront" type="RigidBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("12_32af4")
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightFront"]
@@ -461,7 +458,7 @@ mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
 [node name="LeftBack" type="RigidBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("12_32af4")
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftBack"]
@@ -476,7 +473,7 @@ mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
 
 [node name="RightBack" type="RigidBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_t4omw")
+physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("12_32af4")
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightBack"]
