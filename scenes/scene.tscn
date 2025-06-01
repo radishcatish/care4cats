@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=13 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="Texture2D" uid="uid://cj1vix8e4fsvm" path="res://images/grassgrid.png" id="2_4msxo"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
-[ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://scenes/randomcatspawner.gd" id="4_5fb3c"]
+[ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://dev/randomcatspawner.gd" id="4_5fb3c"]
 [ext_resource type="PackedScene" uid="uid://dulajqguibits" path="res://scenes/cat.tscn" id="4_gjmho"]
+[ext_resource type="Texture2D" uid="uid://dxm33fo06cf7" path="res://images/Mario.png" id="5_gjmho"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_5fb3c"]
 rayleigh_coefficient = 0.5
@@ -24,7 +25,7 @@ glow_enabled = true
 script/source = "extends StaticBody3D
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_pressed(\"decrease\"):
 		scale -= Vector3(0.05, 0, 0.05)
 	if Input.is_action_pressed(\"increase\"):
@@ -116,3 +117,8 @@ catname = "voos"
 [node name="jack" parent="cats" instance=ExtResource("4_gjmho")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 16)
 catname = "jack"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(39.6942, 4.70491, -1.49391, -0.652249, 16.998, 36.2028, 4.89311, -35.9017, 16.9448, -48, 476, 414)
+modulate = Color(1, 1, 1, 0.101961)
+texture = ExtResource("5_gjmho")

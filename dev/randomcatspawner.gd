@@ -18,6 +18,3 @@ func _ready():
 		add_child(ballscene)
 		ballscene.global_position = Vector3(randi_range(-20, 20), 0, randi_range(-20, 20))
 	print("done spawning balls")
-
-func _process(delta: float) -> void:
-	print(Engine.get_frames_per_second())

@@ -153,7 +153,7 @@ func _ready() -> void:
 		id_text.modulate = Color(.5, .5, 0)
 		
 	rng.seed = catname.hash()
-	catcolor = Color().from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
+	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	material.albedo_color = catcolor
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	voicepitch     = rng.randf_range(0.75, 1.15)
@@ -161,7 +161,7 @@ func _ready() -> void:
 	limbdamping    = rng.randf_range(0.1, 1)
 	limbspeed      = rng.randf_range(25, 30)
 	walkspeed      = rng.randf_range(0.05, 0.25)
-	var catscale   = rng.randf_range(0.75, 1.1)
+	catscale       = rng.randf_range(0.75, 1.1)
 	scale          = Vector3(catscale,catscale,catscale)
 	leg_height     = rng.randf_range(.6, 1.4)
 	leg_thickness  = rng.randf_range(.25, .35)
