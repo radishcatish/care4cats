@@ -87,10 +87,24 @@ one_shot = true
 one_shot = true
 
 [node name="RightEar" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.810979, 0.741177)
 collision_layer = 0
 mass = 0.05
 gravity_scale = 0.1
+
+[node name="RightEarJoint" type="Generic6DOFJoint3D" parent="RightEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.230792, 0)
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_x/damping = 0.1
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_y/damping = 0.1
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+angular_spring_z/damping = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RightEar"]
 transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, 0.1, 0.2, 0)
@@ -101,10 +115,24 @@ mesh = ExtResource("2_yf1kj")
 skeleton = NodePath("../../../Head/Collision")
 
 [node name="LeftEar" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.810979, 0.741177)
 collision_layer = 0
 mass = 0.05
 gravity_scale = 0.1
+
+[node name="LeftEarJoint" type="Generic6DOFJoint3D" parent="LeftEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.230792, 0)
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_x/damping = 0.1
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_y/damping = 0.1
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+angular_spring_z/damping = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LeftEar"]
 transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, -0.1, 0.2, 0)
@@ -115,45 +143,12 @@ mesh = ExtResource("2_yf1kj")
 skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.580187, 0.741177)
 physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("2_52fj1")
 
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
 twist_span = 1.22173
-
-[node name="ConeTwistJoint3D2" type="Generic6DOFJoint3D" parent="Head"]
-node_a = NodePath("../../RightEar")
-node_b = NodePath("..")
-angular_limit_x/enabled = false
-angular_limit_y/enabled = false
-angular_limit_z/enabled = false
-angular_spring_x/enabled = true
-angular_spring_x/stiffness = 3.0
-angular_spring_x/damping = 0.1
-angular_spring_y/enabled = true
-angular_spring_y/stiffness = 3.0
-angular_spring_y/damping = 0.1
-angular_spring_z/enabled = true
-angular_spring_z/stiffness = 3.0
-angular_spring_z/damping = 0.1
-
-[node name="ConeTwistJoint3D" type="Generic6DOFJoint3D" parent="Head"]
-node_a = NodePath("../../LeftEar")
-node_b = NodePath("..")
-angular_limit_x/enabled = false
-angular_limit_y/enabled = false
-angular_limit_z/enabled = false
-angular_spring_x/enabled = true
-angular_spring_x/stiffness = 3.0
-angular_spring_x/damping = 0.1
-angular_spring_y/enabled = true
-angular_spring_y/stiffness = 3.0
-angular_spring_y/damping = 0.1
-angular_spring_z/enabled = true
-angular_spring_z/stiffness = 3.0
-angular_spring_z/damping = 0.1
 
 [node name="Collision" type="CollisionShape3D" parent="Head"]
 shape = SubResource("SphereShape3D_5u64a")

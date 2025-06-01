@@ -8,6 +8,9 @@ extends Node3D
 @onready var left_ear: RigidBody3D = $LeftEar
 @onready var left_ear_collision: CollisionShape3D = $LeftEar/CollisionShape3D
 @onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
+@onready var right_ear_joint: Generic6DOFJoint3D = $RightEar/RightEarJoint
+@onready var left_ear_joint: Generic6DOFJoint3D = $LeftEar/LeftEarJoint
+
 
 @onready var body: RigidBody3D = $Body
 @onready var body_joint: ConeTwistJoint3D = $Head/BodyHeadJoint
@@ -59,8 +62,6 @@ const CATEARMESH = preload("res://scenes/catearmesh.tres")
 var ear_mesh = CATEARMESH.duplicate()
 #endregion
 
-
-
 const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah", 
 					"car", "cas", "cu", "cur", "dig", "dix", "dol",
 					"dor", "da", "dox", "dul", "dur", "dus", "ef", "ex", 
@@ -96,10 +97,11 @@ var tail_length    : float      = .6
 var tail_thickness : float      = .2
 var tail_1_angle   : float      = 0
 var tail_2_angle   : float      = 0
-var ear_width      : float      = 0
-var ear_length     : float      = 0
-var leg_collision  : BoxShape3D            = BoxShape3D.new()
-var leg_mesh       : BoxMesh               = BoxMesh.new()
+var ear_width      : float      = .35
+var ear_length     : float      = .18
+var ear_angle      : float      = 0
+var leg_collision      : BoxShape3D            = BoxShape3D.new()
+var leg_mesh           : BoxMesh               = BoxMesh.new()
 var body_collision_new : BoxShape3D            = BoxShape3D.new()
 var body_mesh_new      : BoxMesh               = BoxMesh.new()
 var tail_collision     : BoxShape3D            = BoxShape3D.new()
@@ -171,13 +173,15 @@ func _ready() -> void:
 	tail_thickness = rng.randf_range(.2, .5)
 	tail_1_angle   = rng.randf_range(45, 120)
 	tail_2_angle   = rng.randf_range(45, 75)
-	ear_width      = rng.randf_range(.3, .4)
+	ear_width      = rng.randf_range(.33, .4)
 	ear_length     = rng.randf_range(.15, .25)
+	ear_angle      = rng.randf_range(-20, 12)
 	
 	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
 	ear_mesh.radius = ear_width
 	ear_mesh.section_length = ear_length
-	
+	left_ear.rotation_degrees.z = ear_angle
+	right_ear.rotation_degrees.z = -ear_angle
 	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	
@@ -199,6 +203,8 @@ func _ready() -> void:
 	tail_1.rotation_degrees.x = -tail_1_angle
 	tail_2.rotation_degrees.x = tail_2_angle
 	tail_1_collision.position.y += tail_length / 2
+	left_ear.position = head.position + Vector3(-.15, .15, 0)
+	right_ear.position = head.position + Vector3(.15, .15, 0)
 	$Tail1/Tail2.position.y = tail_length
 	$Tail1/Tail2/CollisionShape3D.position.y += tail_length / 2
 	$Tail1/Tail2.reparent($".")
@@ -272,6 +278,10 @@ func _ready() -> void:
 	tail_1_joint.node_b = body.get_path()
 	tail_2_joint.node_a = tail_2.get_path()
 	tail_2_joint.node_b = tail_1.get_path()
+	left_ear_joint.node_a = head.get_path()
+	left_ear_joint.node_b = left_ear.get_path()
+	right_ear_joint.node_a = head.get_path()
+	right_ear_joint.node_b = right_ear.get_path()
 	name_text.text = catname
 	head_mesh.material_override = material
 	left_ear_mesh.material_override = material
