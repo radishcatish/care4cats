@@ -120,3 +120,8 @@ jolt_physics_3d/joints/world_node=1
 3d/default_gravity=20.0
 3d/time_before_sleep=0.1
 3d/solver/solver_iterations=12
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

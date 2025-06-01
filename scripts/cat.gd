@@ -155,7 +155,7 @@ func _ready() -> void:
 	rng.seed = catname.hash()
 	catcolor = Color().from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	material.albedo_color = catcolor
-	
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	voicepitch     = rng.randf_range(0.75, 1.15)
 	hyperactivity  = rng.randf_range(0.1, 2)
 	limbdamping    = rng.randf_range(0.1, 1)

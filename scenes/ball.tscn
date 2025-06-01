@@ -8,7 +8,8 @@ bounce = 0.65
 [sub_resource type="SphereShape3D" id="SphereShape3D_j4htl"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_ugknh"]
-lightmap_size_hint = Vector2i(17, 9)
+radial_segments = 10
+rings = 3
 
 [node name="ball" type="RigidBody3D" groups=["canbechased", "canbelookedat"]]
 physics_material_override = SubResource("PhysicsMaterial_j4htl")
@@ -18,6 +19,7 @@ script = ExtResource("1_cxlvu")
 shape = SubResource("SphereShape3D_j4htl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
 gi_mode = 2
 mesh = SubResource("SphereMesh_ugknh")
 skeleton = NodePath("../..")
