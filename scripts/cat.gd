@@ -43,10 +43,11 @@ extends Node3D
 @onready var right_back_collision: CollisionShape3D = $RightBack/Collision
 @onready var right_back_mesh: MeshInstance3D = $RightBack/Collision/MeshInstance3D
 
-@onready var thingtolookat_head
-@onready var thingtolookat_body
-@onready var nodestolookat: Array
-@onready var nodestochase: Array
+@onready var left_front_foot: MeshInstance3D = $LeftFront/Collision/Foot
+@onready var right_front_foot: MeshInstance3D = $RightFront/Collision/Foot
+@onready var left_back_foot: MeshInstance3D = $LeftBack/Collision/Foot
+@onready var right_back_foot: MeshInstance3D = $RightBack/Collision/Foot
+
 @onready var meow_cooldown: Timer = $MeowCooldown
 @onready var decision_cooldown: Timer = $DecisionCooldown
 @onready var meows: Node3D = $Head/Meows
@@ -54,7 +55,11 @@ extends Node3D
 @onready var name_text: Label3D = $Head/Collision/Label3D
 @onready var id_text: Label3D = $Head/Collision/Label3D2
 
+const CATEARMESH = preload("res://scenes/catearmesh.tres")
+var ear_mesh = CATEARMESH.duplicate()
 #endregion
+
+
 
 const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah", 
 					"car", "cas", "cu", "cur", "dig", "dix", "dol",
@@ -88,21 +93,28 @@ var body_length    : float      = 1.5
 var body_width     : float      = 1
 var body_height    : float      = .6
 var tail_length    : float      = .6
-var tail_thickness : float     = .2
-var tail_1_angle   : float     = 0
-var tail_2_angle   : float     = 0
+var tail_thickness : float      = .2
+var tail_1_angle   : float      = 0
+var tail_2_angle   : float      = 0
+var ear_width      : float      = 0
+var ear_length     : float      = 0
 var leg_collision  : BoxShape3D            = BoxShape3D.new()
 var leg_mesh       : BoxMesh               = BoxMesh.new()
 var body_collision_new : BoxShape3D            = BoxShape3D.new()
 var body_mesh_new      : BoxMesh               = BoxMesh.new()
 var tail_collision     : BoxShape3D            = BoxShape3D.new()
 var tail_mesh          : BoxMesh               = BoxMesh.new()
+var foot_mesh          : BoxMesh               = BoxMesh.new()
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
 var rng                : RandomNumberGenerator = RandomNumberGenerator.new()
 var rngseed : int = randi_range(1, 9999)
 @export var catname : String = ""
 
 var make_decision : bool = true
+@onready var thingtolookat_head
+@onready var thingtolookat_body
+@onready var nodestolookat: Array
+@onready var nodestochase: Array
 
 func _ready() -> void:
 	left_front_collision.shape = leg_collision
@@ -119,6 +131,13 @@ func _ready() -> void:
 	tail_1_mesh.mesh = tail_mesh
 	tail_2_collision.shape = tail_collision
 	tail_2_mesh.mesh = tail_mesh
+	left_front_foot.mesh = foot_mesh
+	right_front_foot.mesh = foot_mesh
+	left_back_foot.mesh = foot_mesh
+	right_back_foot.mesh = foot_mesh
+	right_ear_mesh.mesh = ear_mesh
+	left_ear_mesh.mesh  = ear_mesh
+	
 	id_text.text = str(rngseed)
 	rng.seed = rngseed
 	
@@ -152,6 +171,13 @@ func _ready() -> void:
 	tail_thickness = rng.randf_range(.2, .5)
 	tail_1_angle   = rng.randf_range(45, 120)
 	tail_2_angle   = rng.randf_range(45, 75)
+	ear_width      = rng.randf_range(.3, .4)
+	ear_length     = rng.randf_range(.15, .25)
+	
+	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
+	ear_mesh.radius = ear_width
+	ear_mesh.section_length = ear_length
+	
 	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	
@@ -210,6 +236,26 @@ func _ready() -> void:
 	-body_extents.z + leg_extents.z
 	)
 	
+	left_front_foot.position = Vector3(0,
+	-leg_extents.y + foot_mesh.size.y / 2,
+	 leg_extents.z
+	)
+
+	right_front_foot.position = Vector3(0,
+	-leg_extents.y + foot_mesh.size.y / 2,
+	 leg_extents.z
+	)
+
+	left_back_foot.position = Vector3(0,
+	-leg_extents.y + foot_mesh.size.y / 2,
+	 leg_extents.z
+	)
+
+	right_back_foot.position = Vector3(0,
+	-leg_extents.y + foot_mesh.size.y / 2,
+	 leg_extents.z
+	)
+	
 	left_front_joint.node_a = left_front.get_path()
 	left_front_joint.node_b = body.get_path()
 	right_front_joint.node_a = right_front.get_path()
@@ -237,6 +283,10 @@ func _ready() -> void:
 	right_back_mesh.material_override = material
 	tail_2_mesh.material_override = material
 	tail_1_mesh.material_override = material
+	left_front_foot.material_override = material
+	right_front_foot.material_override = material
+	left_back_foot.material_override = material
+	right_back_foot.material_override = material
 
 
 	
