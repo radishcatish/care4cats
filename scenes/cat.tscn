@@ -128,9 +128,7 @@ physics_material_override = ExtResource("2_6fl1u")
 script = ExtResource("2_52fj1")
 
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34301, -0.130477)
-node_a = NodePath("..")
-node_b = NodePath("../../Body")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
 twist_span = 1.22173
 
 [node name="ConeTwistJoint3D2" type="Generic6DOFJoint3D" parent="Head"]
@@ -362,14 +360,11 @@ max_polyphony = 7
 doppler_tracking = 1
 
 [node name="Tail1" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.569638, 0.821896, 0, -0.821896, 0.569638, 0, 0.133318, -0.51906)
 collision_layer = 0
 mass = 0.1
 gravity_scale = 0.1
 
 [node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1"]
-node_a = NodePath("..")
-node_b = NodePath("../../Body")
 angular_limit_x/enabled = false
 angular_limit_y/enabled = false
 angular_limit_z/enabled = false
@@ -381,21 +376,17 @@ angular_spring_z/enabled = true
 angular_spring_z/stiffness = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 shape = SubResource("BoxShape3D_2wmww")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/CollisionShape3D"]
 mesh = SubResource("BoxMesh_yf1kj")
 
-[node name="Tail2" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.902209, 0.431299, 0, -0.431299, 0.902209, 0, 0.462996, -1.00295)
-collision_layer = 0
+[node name="Tail2" type="RigidBody3D" parent="Tail1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 mass = 0.1
 gravity_scale = 0.1
 
-[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail2"]
-node_a = NodePath("../../Tail1")
-node_b = NodePath("..")
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1/Tail2"]
 angular_limit_x/enabled = false
 angular_limit_y/enabled = false
 angular_limit_z/enabled = false
@@ -406,11 +397,10 @@ angular_spring_y/stiffness = 3.0
 angular_spring_z/enabled = true
 angular_spring_z/stiffness = 2.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1/Tail2"]
 shape = SubResource("BoxShape3D_2wmww")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail2/CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/Tail2/CollisionShape3D"]
 mesh = SubResource("BoxMesh_yf1kj")
 
 [node name="Body" type="RigidBody3D" parent="."]

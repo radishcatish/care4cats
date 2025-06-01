@@ -10,7 +10,7 @@ extends Node3D
 @onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
 
 @onready var body: RigidBody3D = $Body
-@onready var body_joint: ConeTwistJoint3D = $Body/BodyHeadJoint
+@onready var body_joint: ConeTwistJoint3D = $Head/BodyHeadJoint
 @onready var body_collision: CollisionShape3D = $Body/Collision
 @onready var body_mesh: MeshInstance3D = $Body/Collision/MeshInstance3D
 
@@ -18,10 +18,10 @@ extends Node3D
 @onready var tail_1_joint: Generic6DOFJoint3D = $Tail1/Generic6DOFJoint3D
 @onready var tail_1_collision: CollisionShape3D = $Tail1/CollisionShape3D
 @onready var tail_1_mesh: MeshInstance3D = $Tail1/CollisionShape3D/MeshInstance3D
-@onready var tail_2: RigidBody3D = $Tail2
-@onready var tail_2_joint: Generic6DOFJoint3D = $Tail2/Generic6DOFJoint3D
-@onready var tail_2_collision: CollisionShape3D = $Tail2/CollisionShape3D
-@onready var tail_2_mesh: MeshInstance3D = $Tail2/CollisionShape3D/MeshInstance3D
+@onready var tail_2: RigidBody3D = $Tail1/Tail2
+@onready var tail_2_joint: Generic6DOFJoint3D = $Tail1/Tail2/Generic6DOFJoint3D
+@onready var tail_2_collision: CollisionShape3D = $Tail1/Tail2/CollisionShape3D
+@onready var tail_2_mesh: MeshInstance3D = $Tail1/Tail2/CollisionShape3D/MeshInstance3D
 
 @onready var left_front: RigidBody3D = $LeftFront
 @onready var left_front_joint: ConeTwistJoint3D = $LeftFront/PinJoint3D
@@ -56,16 +56,189 @@ extends Node3D
 
 #endregion
 
-var catname                := ""
-@onready var voicepitch    : float = 1
-@onready var hyperactivity : float = 1.3
-@onready var limbdamping   : float = .5
-@onready var limbspeed     : float = 27
-@onready var walkspeed     : float = 0.2 
-var make_decision          : bool  = true
+const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah", 
+					"car", "cas", "cu", "cur", "dig", "dix", "dol",
+					"dor", "da", "dox", "dul", "dur", "dus", "ef", "ex", 
+					"fe", "fi", "fo", "fu", "fuz", "ga", "ge", "gi", 
+					"go", "gus", "he", "hi", "hin", "ho", "hus", "ja", 
+					"ji", "jo", "ju", "ka", "kel", "ki", "ko", "ku", 
+					"kun", "la", "le", "li", "lo", "lu", "ma", "me",
+					"mo", "mu", "na", "ne", "new", "ni", "nif", "no", 
+					"not", "nu", "nuk", "num", "nie", "om", "os", "pa", "pe", "pi", 
+					"po", "pu", "ra", "rak", "re", "rek", "ri", "rip", 
+					"ris", "rit", "ro", "ros", "rot", "ru", "rut", "sa", 
+					"se", "si", "so", "su", "sut", "ta", "te", "tex", "ti", 
+					"tis", "to", "ton", "tu", "tus", "um", "up", "va", "ve", 
+					"vi", "vid", "vo", "vu", "wa", "wawa", "wed", "wo", "won", "wun", "win",
+					"wu", "wus", "xa", "xi", "xit", "ya", "ye", "yi", "yo", 
+					"yu", "za", "ze", "zi", "zo", "zu", "zun", 
+					"a", "e", "i", "o", "u"]
+var syllables      : int        = 0
+var voicepitch     : float      = 0.0
+var hyperactivity  : float      = 0.0
+var limbdamping    : float      = 0.0
+var limbspeed      : float      = 0.0
+var walkspeed      : float      = 0.0
+var catcolor       : Color      = Color(0,0,0)
+var head_size      : float      = 1
+var leg_height     : float      = 1
+var leg_thickness  : float      = .3
+var catscale       : float      = 1
+var body_length    : float      = 1.5
+var body_width     : float      = 1
+var body_height    : float      = .6
+var tail_length    : float      = .6
+var tail_thickness : float     = .2
+var tail_1_angle   : float     = 0
+var tail_2_angle   : float     = 0
+var leg_collision  : BoxShape3D            = BoxShape3D.new()
+var leg_mesh       : BoxMesh               = BoxMesh.new()
+var body_collision_new : BoxShape3D            = BoxShape3D.new()
+var body_mesh_new      : BoxMesh               = BoxMesh.new()
+var tail_collision     : BoxShape3D            = BoxShape3D.new()
+var tail_mesh          : BoxMesh               = BoxMesh.new()
+var material           : StandardMaterial3D    = StandardMaterial3D.new()
+var rng                : RandomNumberGenerator = RandomNumberGenerator.new()
+var rngseed : int = randi_range(1, 9999)
+@export var catname : String = ""
 
+var make_decision : bool = true
 
+func _ready() -> void:
+	left_front_collision.shape = leg_collision
+	left_front_mesh.mesh = leg_mesh
+	right_front_collision.shape = leg_collision
+	right_front_mesh.mesh = leg_mesh
+	left_back_collision.shape = leg_collision
+	left_back_mesh.mesh = leg_mesh
+	right_back_collision.shape = leg_collision
+	right_back_mesh.mesh = leg_mesh
+	body_collision.shape = body_collision_new
+	body_mesh.mesh = body_mesh_new
+	tail_1_collision.shape = tail_collision
+	tail_1_mesh.mesh = tail_mesh
+	tail_2_collision.shape = tail_collision
+	tail_2_mesh.mesh = tail_mesh
+	id_text.text = str(rngseed)
+	rng.seed = rngseed
 	
+	syllables = rng.randi_range(2, 3)
+	if catname == "":
+		for i in syllables:
+			catname += NAMESYLLABLES[rng.randi_range(0, NAMESYLLABLES.size() - 1)]
+	else: 
+		id_text.text = "custom"
+		name_text.modulate = Color(1, 1, 0)
+		id_text.modulate = Color(.5, .5, 0)
+		
+	rng.seed = catname.hash()
+	catcolor = Color().from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
+	material.albedo_color = catcolor
+	
+	voicepitch     = rng.randf_range(0.75, 1.15)
+	hyperactivity  = rng.randf_range(0.1, 2)
+	limbdamping    = rng.randf_range(0.1, 1)
+	limbspeed      = rng.randf_range(25, 30)
+	walkspeed      = rng.randf_range(0.05, 0.25)
+	var catscale   = rng.randf_range(0.75, 1.1)
+	scale          = Vector3(catscale,catscale,catscale)
+	leg_height     = rng.randf_range(.6, 1.4)
+	leg_thickness  = rng.randf_range(.25, .35)
+	body_length    = rng.randf_range(1.2, 1.8)
+	body_width     = rng.randf_range(.7, 1.3)
+	body_height    = rng.randf_range(.55, .65)
+	head_size      = rng.randf_range(.95, 1.05)
+	tail_length    = rng.randf_range(.7, 1.3)
+	tail_thickness = rng.randf_range(.2, .5)
+	tail_1_angle   = rng.randf_range(45, 120)
+	tail_2_angle   = rng.randf_range(45, 75)
+	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
+	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
+	
+	body_collision.shape.size = Vector3(body_width, body_height, body_length)
+	body_mesh.mesh.size = Vector3(body_width, body_height, body_length)
+	var body_extents = body_collision.shape.extents
+	
+	head.scale = Vector3(head_size,head_size,head_size)
+	head.position = Vector3(0,
+	body_extents.y + head_size / 2 - .1,
+	body_extents.z
+	)
+	
+	tail_1.position = Vector3(0,
+	body_extents.y - .1,
+	-body_extents.z + .2
+	)
+	
+	tail_1.rotation_degrees.x = -tail_1_angle
+	tail_2.rotation_degrees.x = tail_2_angle
+	tail_1_collision.position.y += tail_length / 2
+	$Tail1/Tail2.position.y = tail_length
+	$Tail1/Tail2/CollisionShape3D.position.y += tail_length / 2
+	$Tail1/Tail2.reparent($".")
+	
+#region lots of leg stuff
+	leg_collision.size = Vector3(leg_thickness, leg_height, leg_thickness)
+	leg_mesh.size = Vector3(leg_thickness, leg_height, leg_thickness)
+	var leg_extents = left_front_collision.shape.extents
+	left_front_collision.position.y -= (leg_height - 0.8) / 2.0
+	right_front_collision.position.y -= (leg_height - 0.8) / 2.0
+	left_back_collision.position.y -= (leg_height - 0.8) / 2.0
+	right_back_collision.position.y -= (leg_height - 0.8) / 2.0
+	
+	left_front.position = Vector3(
+	-body_extents.x + leg_extents.x,
+	-body_extents.y,
+	body_extents.z - leg_extents.z
+	)
+
+	right_front.position = Vector3(
+	body_extents.x - leg_extents.x,
+	-body_extents.y,
+	body_extents.z - leg_extents.z
+	)
+
+	left_back.position = Vector3(
+	-body_extents.x + leg_extents.x,
+	-body_extents.y,
+	-body_extents.z + leg_extents.z
+	)
+
+	right_back.position = Vector3(
+	body_extents.x - leg_extents.x,
+	-body_extents.y,
+	-body_extents.z + leg_extents.z
+	)
+	
+	left_front_joint.node_a = left_front.get_path()
+	left_front_joint.node_b = body.get_path()
+	right_front_joint.node_a = right_front.get_path()
+	right_front_joint.node_b = body.get_path()
+	left_back_joint.node_a = left_back.get_path()
+	left_back_joint.node_b = body.get_path()
+	right_back_joint.node_a = right_back.get_path()
+	right_back_joint.node_b = body.get_path()
+#endregion
+
+	body_joint.node_a = head.get_path()
+	body_joint.node_b = body.get_path()
+	tail_1_joint.node_a = tail_1.get_path()
+	tail_1_joint.node_b = body.get_path()
+	tail_2_joint.node_a = tail_2.get_path()
+	tail_2_joint.node_b = tail_1.get_path()
+	name_text.text = catname
+	head_mesh.material_override = material
+	left_ear_mesh.material_override = material
+	right_ear_mesh.material_override = material
+	body_mesh.material_override = material
+	left_front_mesh.material_override = material
+	right_front_mesh.material_override = material
+	left_back_mesh.material_override = material
+	right_back_mesh.material_override = material
+	tail_2_mesh.material_override = material
+	tail_1_mesh.material_override = material
+
+
 	
 func _process(_delta: float) -> void:
 	if decision_cooldown.is_stopped():
@@ -134,7 +307,7 @@ func _process(_delta: float) -> void:
 
 
 	if meow_cooldown.is_stopped():
-		if randi_range(0, 500 / hyperactivity) == 0:
+		if randf_range(0, 500 / hyperactivity) == 0:
 			var soundtoplay = randi_range(0,meows.get_child_count() - 1)
 			meows.get_child(soundtoplay).pitch_scale = voicepitch
 			meows.get_child(soundtoplay).play()

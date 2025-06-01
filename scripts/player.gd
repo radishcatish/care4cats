@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		look_dir = event.relative * 0.001
 		if mouse_captured: _rotate_camera()
 
-const CAT = preload("res://scenes/cat_spawner.tscn")
+const CAT = preload("res://scenes/cat.tscn")
 const BALL = preload("res://scenes/ball.tscn")
 var body : RigidBody3D
 func _physics_process(delta: float) -> void:

@@ -1,11 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=14 format=3 uid="uid://00j5vbbw06c5"]
 
-[ext_resource type="Script" uid="uid://bdvswsivpb0ux" path="res://scripts/static_body_3d.gd" id="1_gjmho"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
 [ext_resource type="ArrayMesh" uid="uid://bmpy2di8x1gbx" path="res://images/Terrain Test Map/Terrain Test Map.obj" id="2_gjmho"]
-[ext_resource type="PackedScene" uid="uid://b83yt6ir7dqoy" path="res://scenes/cat_group.tscn" id="4_5fb3c"]
 [ext_resource type="Texture2D" uid="uid://b73iynfi3ctil" path="res://images/Terrain Test Map/TerrSS00.png" id="4_t7and"]
-[ext_resource type="PackedScene" uid="uid://cpcnda66he7a0" path="res://scenes/1000_ton_cube.tscn" id="5_gjmho"]
 [ext_resource type="PackedScene" uid="uid://dulajqguibits" path="res://scenes/cat.tscn" id="7_ruw3y"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_5fb3c"]
@@ -22,6 +19,17 @@ background_mode = 2
 sky = SubResource("Sky_nxogm")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_t7and"]
+script/source = "extends StaticBody3D
+
+
+func _process(delta: float) -> void:
+	if Input.is_action_pressed(\"decrease\"):
+		scale -= Vector3(0.05, 0, 0.05)
+	if Input.is_action_pressed(\"increase\"):
+		scale += Vector3(0.05, 0, 0.05)
+"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7and"]
 albedo_texture = ExtResource("4_t7and")
@@ -40,7 +48,7 @@ uv1_scale = Vector3(100, 100, 100)
 [node name="scene" type="Node"]
 
 [node name="player" parent="." instance=ExtResource("2_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.05476, -13.2229, 0.869092)
 
 [node name="level" type="Node" parent="."]
 
@@ -55,7 +63,7 @@ environment = SubResource("Environment_3253y")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level/environment"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 13, -14.7, 0)
-script = ExtResource("1_gjmho")
+script = SubResource("GDScript_t7and")
 
 [node name="TerrainTestMap" type="MeshInstance3D" parent="level/environment/StaticBody3D"]
 transform = Transform3D(-50, 0, 4.37114e-06, 0, 50, 0, -4.37114e-06, 0, -50, 0, 0, 0)
@@ -95,60 +103,7 @@ transform = Transform3D(50, 0, 0, 0, 0.001, 0, 0, 0, 50, 0, 0.001, 0)
 material_override = SubResource("StandardMaterial3D_ruw3y")
 mesh = SubResource("BoxMesh_7182s")
 
-[node name="CatGroup1" parent="." instance=ExtResource("4_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.662, 0, -5.1761)
+[node name="cats" type="Node" parent="."]
 
-[node name="CatGroup2" parent="." instance=ExtResource("4_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63, 0, 18)
-
-[node name="CatGroup3" parent="." instance=ExtResource("4_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63, 0, 44)
-
-[node name="CatGroup4" parent="." instance=ExtResource("4_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0, -17)
-
-[node name="CatGroup5" parent="." instance=ExtResource("4_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 20)
-
-[node name="1000 ton cube" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5648, -10.5035, -63.9135)
-mass = 99999.0
-
-[node name="1000 ton cube2" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8057, -10.5035, -63.826)
-mass = 99999.0
-
-[node name="1000 ton cube3" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.6892, -10.5035, -60.5439)
-mass = 99999.0
-
-[node name="1000 ton cube4" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4459, -10.5035, -56.6318)
-mass = 99999.0
-
-[node name="1000 ton cube5" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8834, -10.5035, -53.4172)
-mass = 99999.0
-
-[node name="1000 ton cube6" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3497, -10.5035, -60.1369)
-mass = 99999.0
-
-[node name="1000 ton cube7" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.6892, -10.5035, -60.272)
-mass = 99999.0
-
-[node name="1000 ton cube8" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7466, -10.5035, -53.1453)
-mass = 99999.0
-
-[node name="1000 ton cube9" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.4358, -10.5035, -56.7179)
-mass = 99999.0
-
-[node name="1000 ton cube10" parent="." instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9324, -10.5035, -56.679)
-mass = 99999.0
-
-[node name="cat" parent="." instance=ExtResource("7_ruw3y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.7773, -12.0584, -72.2877)
+[node name="cat1" parent="cats" instance=ExtResource("7_ruw3y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.19947, -12.2737, -9.26029)

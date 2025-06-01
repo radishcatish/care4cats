@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwyx6264ynq0y"]
-
-[ext_resource type="Script" uid="uid://13fx0t3gtpjm" path="res://scripts/cat_spawner.gd" id="1_rwr7k"]
-
-[node name="CatSpawner" type="Node3D"]
-script = ExtResource("1_rwr7k")
