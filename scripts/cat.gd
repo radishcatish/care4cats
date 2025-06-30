@@ -1,5 +1,5 @@
 extends Node3D
-#region nodes
+#region setup stuff
 @onready var head: RigidBody3D = $Head
 @onready var head_mesh: MeshInstance3D = $Head/Collision/Head
 @onready var right_ear: RigidBody3D = $RightEar
@@ -10,7 +10,6 @@ extends Node3D
 @onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
 @onready var right_ear_joint: Generic6DOFJoint3D = $RightEar/RightEarJoint
 @onready var left_ear_joint: Generic6DOFJoint3D = $LeftEar/LeftEarJoint
-
 
 @onready var body: RigidBody3D = $Body
 @onready var body_joint: ConeTwistJoint3D = $Head/BodyHeadJoint
@@ -60,7 +59,7 @@ extends Node3D
 
 const CATEARMESH = preload("res://scenes/catearmesh.tres")
 var ear_mesh = CATEARMESH.duplicate()
-#endregion
+
 
 const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah", 
 					"car", "cas", "cu", "cur", "dig", "dix", "dol",
@@ -82,7 +81,6 @@ const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah",
 var syllables      : int        = 0
 var voicepitch     : float      = 0.0
 var hyperactivity  : float      = 0.0
-var limbdamping    : float      = 0.0
 var limbspeed      : float      = 0.0
 var walkspeed      : float      = 0.0
 var catcolor       : Color      = Color(0,0,0)
@@ -108,15 +106,9 @@ var tail_collision     : BoxShape3D            = BoxShape3D.new()
 var tail_mesh          : BoxMesh               = BoxMesh.new()
 var foot_mesh          : BoxMesh               = BoxMesh.new()
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
-var rng                : RandomNumberGenerator = RandomNumberGenerator.new()
-var rngseed : int = randi_range(1, 9999)
+var rng : RandomNumberGenerator = RandomNumberGenerator.new()
+@export var rngseed : int 
 @export var catname : String = ""
-
-var make_decision : bool = true
-@onready var thingtolookat_head
-@onready var thingtolookat_body
-@onready var nodestolookat: Array
-@onready var nodestochase: Array
 
 func _ready() -> void:
 	left_front_collision.shape = leg_collision
@@ -140,9 +132,17 @@ func _ready() -> void:
 	right_ear_mesh.mesh = ear_mesh
 	left_ear_mesh.mesh  = ear_mesh
 	
+	var is_preset = false
+	if rngseed != 0:
+		is_preset = true
+		name_text.modulate = Color(0, 1, 1)
+		id_text.modulate = Color(0, .5, .5)
+	rngseed = randi_range(1000, 9999) if rngseed == 0 else rngseed
+
 	id_text.text = str(rngseed)
 	rng.seed = rngseed
-	
+	if is_preset:
+		id_text.text += " (preset)"
 	syllables = rng.randi_range(2, 3)
 	if catname == "":
 		for i in syllables:
@@ -151,18 +151,15 @@ func _ready() -> void:
 		id_text.text = "custom"
 		name_text.modulate = Color(1, 1, 0)
 		id_text.modulate = Color(.5, .5, 0)
-		
+	
 	rng.seed = catname.hash()
 	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	material.albedo_color = catcolor
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	voicepitch     = rng.randf_range(0.75, 1.15)
-	hyperactivity  = rng.randf_range(0.1, 2)
-	limbdamping    = rng.randf_range(0.1, 1)
 	limbspeed      = rng.randf_range(25, 30)
 	walkspeed      = rng.randf_range(0.05, 0.25)
 	catscale       = rng.randf_range(0.75, 1.1)
-	scale          = Vector3(catscale,catscale,catscale)
 	leg_height     = rng.randf_range(.6, 1.4)
 	leg_thickness  = rng.randf_range(.25, .35)
 	body_length    = rng.randf_range(1.2, 1.8)
@@ -177,6 +174,7 @@ func _ready() -> void:
 	ear_length     = rng.randf_range(.15, .25)
 	ear_angle      = rng.randf_range(-20, 12)
 	
+	scale = Vector3(catscale,catscale,catscale)
 	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
 	ear_mesh.radius = ear_width
 	ear_mesh.section_length = ear_length
@@ -184,7 +182,6 @@ func _ready() -> void:
 	right_ear.rotation_degrees.z = -ear_angle
 	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
-	
 	body_collision.shape.size = Vector3(body_width, body_height, body_length)
 	body_mesh.mesh.size = Vector3(body_width, body_height, body_length)
 	var body_extents = body_collision.shape.extents
@@ -208,8 +205,7 @@ func _ready() -> void:
 	$Tail1/Tail2.position.y = tail_length
 	$Tail1/Tail2/CollisionShape3D.position.y += tail_length / 2
 	$Tail1/Tail2.reparent($".")
-	
-#region lots of leg stuff
+
 	leg_collision.size = Vector3(leg_thickness, leg_height, leg_thickness)
 	leg_mesh.size = Vector3(leg_thickness, leg_height, leg_thickness)
 	var leg_extents = left_front_collision.shape.extents
@@ -270,8 +266,6 @@ func _ready() -> void:
 	left_back_joint.node_b = body.get_path()
 	right_back_joint.node_a = right_back.get_path()
 	right_back_joint.node_b = body.get_path()
-#endregion
-
 	body_joint.node_a = head.get_path()
 	body_joint.node_b = body.get_path()
 	tail_1_joint.node_a = tail_1.get_path()
@@ -297,77 +291,18 @@ func _ready() -> void:
 	right_front_foot.material_override = material
 	left_back_foot.material_override = material
 	right_back_foot.material_override = material
+#endregion
 
+var make_decision : bool = false
+@onready var look_node_head
+@onready var look_node_body
+@onready var look_nodes: Array
+@onready var chase_nodes: Array
 
-	
 func _process(_delta: float) -> void:
-	if decision_cooldown.is_stopped():
-		make_decision = randi() % 10 == 1 
-	if make_decision:
-		make_decision = false
-		thingtolookat_head = null
-		head.islooking = false
-		thingtolookat_body = null
-
-		
-		match randi_range(0, 8):
-			0, 1: # walk
-				decision_cooldown.start(randf_range(2 / hyperactivity, 10 / hyperactivity))
-				body.iswalking = true
-				if body.iswalking:
-					body.sitting = false
-					body.laying = false
-			2, 3: # sit
-				var sitanim = randi_range(1, 2)
-				body.iswalking = false
-				body.sitting = true if sitanim == 1 else false
-				body.laying = true if sitanim == 2 else false
-				
-				if body.sitting:
-					right_back.apply_torque(body.forward_direction * -35)
-					left_back.apply_torque(body.forward_direction * -35)
-					decision_cooldown.start(randf_range(10 / hyperactivity, 20 / hyperactivity))
-				else:
-					decision_cooldown.start(randf_range(30 / hyperactivity, 120 / hyperactivity))
-				
-
-
-			4: # looking
-				decision_cooldown.start(randf_range(2, 10))
-				if get_tree().get_nodes_in_group("canbelookedat"):
-					nodestolookat = get_tree().get_nodes_in_group("canbelookedat")
-					make_decision = nodestolookat.is_empty()
-					body.sitting = body.laying == false
-					for node in nodestolookat:
-						if node.get_parent() == self:
-							continue
-						if (node.global_position - head.global_position).length() < 10:
-							thingtolookat_head = nodestolookat[randi_range(0, nodestolookat.size() - 1)] 
-							head.islooking = true
-
-			5: # chasing 
-				decision_cooldown.start(randf_range(10 / hyperactivity, 60 / hyperactivity))
-				if get_tree().get_nodes_in_group("canbechased"):
-					body.sitting = false
-					body.laying = false
-					nodestochase = get_tree().get_nodes_in_group("canbechased")
-					make_decision = nodestochase.is_empty()
-					for node in nodestochase:
-						if node.get_parent() == self:
-							continue
-						if (node.global_position - head.global_position).length() < 10:
-							thingtolookat_head = nodestochase[randi_range(0, nodestochase.size() - 1)] 
-							head.islooking = true
-							thingtolookat_body = thingtolookat_head
-							body.islooking = true
-							body.iswalking = true
-			6, 7: # jump
-				body.apply_force(Vector3(0, randi_range(700, 2000), 0))
-				decision_cooldown.start(randf_range(.5 * hyperactivity, 3 * hyperactivity))
-
 
 	if meow_cooldown.is_stopped():
-		if randf_range(0, 500 / hyperactivity) == 0:
+		if randf_range(0, 500) == 0:
 			var soundtoplay = randi_range(0,meows.get_child_count() - 1)
 			meows.get_child(soundtoplay).pitch_scale = voicepitch
 			meows.get_child(soundtoplay).play()

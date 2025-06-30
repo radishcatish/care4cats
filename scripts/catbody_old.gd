@@ -4,10 +4,6 @@ extends RigidBody3D
 @onready var right_front: RigidBody3D = $"../RightFront"
 @onready var left_back: RigidBody3D = $"../LeftBack"
 @onready var right_back: RigidBody3D = $"../RightBack"
-
-
-
-
 @onready var cat: Node = $".."
 @onready var forward_direction : Vector3 = transform.basis.x.normalized()
 @onready var look_target: Vector3

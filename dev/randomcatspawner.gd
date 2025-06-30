@@ -2,7 +2,7 @@ extends Node
 const CAT = preload("res://scenes/cat.tscn")
 const BALL = preload("res://scenes/ball.tscn")
 func _ready():
-
+	return
 	print("spawning cats")
 	for i in 50:
 		await get_tree().create_timer(.01).timeout
@@ -10,6 +10,7 @@ func _ready():
 		add_child(catscene)
 		catscene.global_position = Vector3(randi_range(-20, 20), 0, randi_range(-20, 20))
 	print("done spawning cats")
+	return
 	await get_tree().create_timer(.5).timeout
 	print("spawning balls now")
 	for i in 70:

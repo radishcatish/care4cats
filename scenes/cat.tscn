@@ -1,10 +1,8 @@
-[gd_scene load_steps=37 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=35 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
-[ext_resource type="Script" uid="uid://dh2fqd1tt8oss" path="res://scripts/cat_head.gd" id="2_52fj1"]
 [ext_resource type="TubeTrailMesh" uid="uid://6q5d36f1eh3b" path="res://scenes/catearmesh.tres" id="2_yf1kj"]
-[ext_resource type="Script" uid="uid://ds864nhhe7fyu" path="res://scripts/cat_body.gd" id="5_2u0g4"]
 [ext_resource type="Texture2D" uid="uid://dh5c8euuxvex2" path="res://images/f.png" id="5_32af4"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
 [ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
@@ -144,7 +142,7 @@ skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("2_52fj1")
+script = ExtResource("12_32af4")
 
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
@@ -393,7 +391,7 @@ mesh = SubResource("BoxMesh_yf1kj")
 [node name="Body" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
 freeze_mode = 1
-script = ExtResource("5_2u0g4")
+script = ExtResource("12_32af4")
 
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")
