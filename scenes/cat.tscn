@@ -1,10 +1,12 @@
-[gd_scene load_steps=37 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=34 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
-[ext_resource type="TubeTrailMesh" uid="uid://6q5d36f1eh3b" path="res://scenes/catearmesh.tres" id="2_yf1kj"]
-[ext_resource type="Texture2D" uid="uid://cd03vm8euaaei" path="res://images/faces.png" id="5_t4omw"]
+[ext_resource type="ArrayMesh" uid="uid://b7aplq6iqohyt" path="res://modelstextures/ear.obj" id="2_dr6s3"]
+[ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://modelstextures/head.obj" id="5_2wmww"]
+[ext_resource type="Texture2D" uid="uid://byymlspeinnuy" path="res://dev/face.png" id="6_dr6s3"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
+[ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://modelstextures/face.obj" id="7_3fcyy"]
 [ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
 [ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="8_3fcyy"]
 [ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="9_rgipc"]
@@ -28,41 +30,11 @@ height = 0.848176
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4omw"]
-texture_filter = 0
-
-[sub_resource type="SphereMesh" id="SphereMesh_hcucf"]
-radial_segments = 11
-rings = 5
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2wmww"]
-atlas = ExtResource("5_t4omw")
-region = Rect2(0, 192, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yf1kj"]
-atlas = ExtResource("5_t4omw")
-region = Rect2(48, 192, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dr6s3"]
-atlas = ExtResource("5_t4omw")
-region = Rect2(96, 192, 48, 48)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_8jovi"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2wmww")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yf1kj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dr6s3")
-}],
-"loop": false,
-"name": &"default",
-"speed": 3.0
-}]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rgipc"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("6_dr6s3")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2wmww"]
 size = Vector3(0.26, 0.6, 0.2)
@@ -119,7 +91,8 @@ transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, 
 shape = SubResource("CapsuleShape3D_2wmww")
 
 [node name="RightEar" type="MeshInstance3D" parent="RightEar/CollisionShape3D"]
-mesh = ExtResource("2_yf1kj")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("2_dr6s3")
 skeleton = NodePath("../../../Head/Collision")
 
 [node name="LeftEar" type="RigidBody3D" parent="."]
@@ -147,7 +120,8 @@ transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 
 shape = SubResource("CapsuleShape3D_2wmww")
 
 [node name="LeftEar" type="MeshInstance3D" parent="LeftEar/CollisionShape3D"]
-mesh = ExtResource("2_yf1kj")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("2_dr6s3")
 skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
@@ -162,19 +136,15 @@ twist_span = 1.22173
 shape = SubResource("SphereShape3D_5u64a")
 
 [node name="Head" type="MeshInstance3D" parent="Head/Collision"]
-material_override = SubResource("StandardMaterial3D_t4omw")
-mesh = SubResource("SphereMesh_hcucf")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("5_2wmww")
 skeleton = NodePath("")
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="Head/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.471)
-pixel_size = 0.0125
-double_sided = false
-alpha_antialiasing_mode = 2
-alpha_antialiasing_edge = 1.0
-texture_filter = 0
-sprite_frames = SubResource("SpriteFrames_8jovi")
-frame_progress = 1.0
+[node name="Face" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.00953, -0.0299536, -0.00740848, 0.0299034, 1.00953, -0.00685314, 0.0076083, 0.0066306, 1.00995, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_rgipc")
+mesh = ExtResource("7_3fcyy")
+skeleton = NodePath("")
 
 [node name="Label3D" type="Label3D" parent="Head/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05064, 0)
@@ -381,6 +351,7 @@ mesh = SubResource("BoxMesh_yf1kj")
 
 [node name="Tail2" type="RigidBody3D" parent="Tail1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+collision_layer = 0
 mass = 0.1
 gravity_scale = 0.1
 
@@ -399,11 +370,11 @@ angular_spring_z/stiffness = 2.0
 shape = SubResource("BoxShape3D_2wmww")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/Tail2/CollisionShape3D"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_yf1kj")
 
 [node name="Body" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
-freeze_mode = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")

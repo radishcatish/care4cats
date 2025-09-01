@@ -50,45 +50,53 @@ extends Node3D
 @onready var left_back_foot: MeshInstance3D = $LeftBack/Collision/Foot
 @onready var right_back_foot: MeshInstance3D = $RightBack/Collision/Foot
 var HEADPATTERN
-
-
-
-
 @onready var meow_cooldown: Timer = $MeowCooldown
 @onready var decision_cooldown: Timer = $DecisionCooldown
 @onready var meows: Node3D = $Head/Meows
-@onready var face: AnimatedSprite3D = $Head/Collision/Sprite3D
 @onready var name_text: Label3D = $Head/Collision/Label3D
 @onready var id_text: Label3D = $Head/Collision/Label3D2
 const SHADER = preload("res://scripts/pallettereplace2color.gdshader")
-const CATEARMESH = preload("res://scenes/catearmesh.tres")
+const CATEARMESH = preload("res://modelstextures/ear.obj")
 var ear_mesh = CATEARMESH.duplicate()
 
+const BODYTEX = [
+	"res://modelstextures/belly.png",
+	"res://modelstextures/frontbelly.png",
+	"res://modelstextures/spots1.png",
+	"res://modelstextures/spots.png",
+	"res://modelstextures/tabby.png",
+	"res://modelstextures/shadow.png",
+	"res://modelstextures/headpattern0.png"
+]
+const LEGTEX = [
+	"res://modelstextures/headpattern0.png",
+	"res://modelstextures/shoes.png",
+	"res://modelstextures/socks.png",
+	"res://modelstextures/thighhighs.png",
+	"res://modelstextures/toes.png",
+]
+const HEADTEX = [
+	"res://modelstextures/headpattern0.png",
+	"res://modelstextures/headpattern1.png",
+	"res://modelstextures/headpattern2.png",
+	"res://modelstextures/headpattern3.png",
+	"res://modelstextures/headpattern4.png",
+	"res://modelstextures/headpattern5.png",
+	"res://modelstextures/headpattern6.png",
+	"res://modelstextures/headpattern7.png",
+	"res://modelstextures/headpattern8.png"
+]
 
-const NAMESYLLABLES =  ["ba", "be", "bi", "bo", "bu", "bun", "cah", 
-					"car", "cas", "cu", "cur", "dig", "dix", "dol",
-					"dor", "da", "dox", "dul", "dur", "dus", "ef", "ex", 
-					"fe", "fi", "fo", "fu", "fuz", "ga", "ge", "gi", 
-					"go", "gus", "he", "hi", "hin", "ho", "hus", "ja", 
-					"ji", "jo", "ju", "ka", "kel", "ki", "ko", "ku", 
-					"kun", "la", "le", "li", "lo", "lu", "ma", "me",
-					"mo", "mu", "na", "ne", "new", "ni", "nif", "no", 
-					"not", "nu", "nuk", "num", "nie", "om", "os", "pa", "pe", "pi", 
-					"po", "pu", "ra", "rak", "re", "rek", "ri", "rip", 
-					"ris", "rit", "ro", "ros", "rot", "ru", "rut", "sa", 
-					"se", "si", "so", "su", "sut", "ta", "te", "tex", "ti", 
-					"tis", "to", "ton", "tu", "tus", "um", "up", "va", "ve", 
-					"vi", "vid", "vo", "vu", "wa", "wawa", "wed", "wo", "won", "wun", "win",
-					"wu", "wus", "xa", "xi", "xit", "ya", "ye", "yi", "yo", 
-					"yu", "za", "ze", "zi", "zo", "zu", "zun", 
-					"a", "e", "i", "o", "u"]
-var syllables      : int        = 0
+const CONSONANTS = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "w"]
+const VOWELS = ["a", "e", "i", "o", "u"]
+var namelength      : int        = 0
 var voicepitch     : float      = 0.0
 var hyperactivity  : float      = 0.0
 var limbspeed      : float      = 0.0
 var walkspeed      : float      = 0.0
 var catcolor       : Color      = Color(0,0,0)
 var catcolor_alt   : Color      = Color(0,0,0)
+var catcolor_alt2  : Color      = Color(0,0,0)
 var head_size      : float      = 1
 var leg_height     : float      = 1
 var leg_thickness  : float      = .3
@@ -103,6 +111,7 @@ var tail_2_angle   : float      = 0
 var ear_width      : float      = .35
 var ear_length     : float      = .18
 var ear_angle      : float      = 0
+var dark_ears      : bool       = false
 var leg_collision      : BoxShape3D            = BoxShape3D.new()
 var leg_mesh           : BoxMesh               = BoxMesh.new()
 var body_collision_new : BoxShape3D            = BoxShape3D.new()
@@ -142,27 +151,89 @@ func _ready() -> void:
 		is_preset = true
 		name_text.modulate = Color(0, 1, 1)
 		id_text.modulate = Color(0, .5, .5)
-	rngseed = randi_range(1000, 9999) if rngseed == 0 else rngseed
-
+	rngseed = randi() if rngseed == 0 else rngseed
 	id_text.text = str(rngseed)
 	rng.seed = rngseed
 	if is_preset:
 		id_text.text += " (preset)"
-	syllables = rng.randi_range(2, 3)
+	var is_vowel_turn = rng.randf() < 0.5
+	namelength = rng.randi_range(4, 7)
 	if catname == "":
-		for i in syllables:
-			catname += NAMESYLLABLES[rng.randi_range(0, NAMESYLLABLES.size() - 1)]
+		for i in namelength:
+			var last_char_was_vowel = false
+			if is_vowel_turn:
+				var new_char = VOWELS[rng.randi_range(0, VOWELS.size() - 1)]
+				if rng.randf() < 0.2: # 20% chance to double vowels
+					new_char += VOWELS[rng.randi_range(0, VOWELS.size() - 1)]
+				catname += new_char
+				last_char_was_vowel = true
+			else:
+				var new_char = CONSONANTS[rng.randi_range(0, CONSONANTS.size() - 1)]
+				catname += new_char
+				last_char_was_vowel = false
+				
+			is_vowel_turn = not last_char_was_vowel
 	else: 
 		id_text.text = "custom"
 		name_text.modulate = Color(1, 1, 0)
 		id_text.modulate = Color(.5, .5, 0)
-	
 	rng.seed = catname.hash()
+	
 	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
-	catcolor_alt = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + rng.randf_range(-0.2, 0.2), 0, 1))
-	material.albedo_color = catcolor
+	catcolor_alt = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + .2, 0, 1))
+	catcolor_alt2 = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v - .2, 0, 1))
+	var body_texture = BODYTEX[rng.randi_range(0, BODYTEX.size() - 1)]
+	var legtexnum = rng.randi_range(0, LEGTEX.size() - 1)
+	var leg_texture = LEGTEX[legtexnum]
+	var headtexnum = rng.randi_range(0, HEADTEX.size() - 1)
+	var head_texture = HEADTEX[headtexnum]
+	var ear_texture
+	if headtexnum > 5:
+		ear_texture = load("res://modelstextures/eartexdark.png")
+	else:
+		ear_texture = load("res://modelstextures/eartex.png")
 
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
+	var shader_template = ShaderMaterial.new()
+	shader_template.shader = SHADER
+	shader_template.set_shader_parameter("original_colors", [Color(0, 1, 0), Color(1, 0, 0), Color(0, 0, 1)])
+	shader_template.set_shader_parameter("replace_colors", [catcolor, catcolor_alt, catcolor_alt2])
+
+	var legmat = shader_template.duplicate(true)
+	legmat.set_shader_parameter("texture_albedo", load(leg_texture))
+	left_front_mesh.material_override = legmat
+	right_front_mesh.material_override = legmat
+	left_back_mesh.material_override = legmat
+	right_back_mesh.material_override = legmat
+
+	var headmat = shader_template.duplicate(true)
+	headmat.set_shader_parameter("texture_albedo", load(head_texture))
+	head_mesh.material_override = headmat
+
+	var earmat = shader_template.duplicate(true)
+	earmat.set_shader_parameter("texture_albedo", ear_texture)
+	left_ear_mesh.material_override = earmat
+	right_ear_mesh.material_override = earmat
+
+	var bodymat = shader_template.duplicate(true)
+	bodymat.set_shader_parameter("texture_albedo", load(body_texture))
+	body_mesh.material_override = bodymat
+
+	var footmat = shader_template.duplicate(true)
+	if legtexnum == 0:
+		footmat.set_shader_parameter("texture_albedo", load("res://modelstextures/headpattern0.png"))
+	else:
+		footmat.set_shader_parameter("texture_albedo", load("res://modelstextures/paws.png"))
+		
+	left_front_foot.material_override = footmat
+	right_front_foot.material_override = footmat
+	left_back_foot.material_override = footmat
+	right_back_foot.material_override = footmat
+	tail_2_mesh.material_override = legmat
+	
+	var tail1mat = shader_template.duplicate(true)
+	tail1mat.set_shader_parameter("texture_albedo", load("res://modelstextures/headpattern0.png"))
+	tail_1_mesh.material_override = tail1mat
+
 	voicepitch     = rng.randf_range(0.75, 1.15)
 	limbspeed      = rng.randf_range(25, 30)
 	walkspeed      = rng.randf_range(0.05, 0.25)
@@ -170,23 +241,27 @@ func _ready() -> void:
 	leg_height     = rng.randf_range(.6, 1.4)
 	leg_thickness  = rng.randf_range(.25, .35)
 	body_length    = rng.randf_range(1.2, 1.8)
-	body_width     = rng.randf_range(.7, 1.3)
+	body_width     = rng.randf_range(.7, 1)
 	body_height    = rng.randf_range(.55, .65)
 	head_size      = rng.randf_range(.95, 1.05)
 	tail_length    = rng.randf_range(.7, 1.3)
 	tail_thickness = rng.randf_range(.2, .5)
 	tail_1_angle   = rng.randf_range(45, 120)
 	tail_2_angle   = rng.randf_range(45, 75)
-	ear_width      = rng.randf_range(.33, .4)
-	ear_length     = rng.randf_range(.15, .25)
+	ear_width      = rng.randf_range(.7, 1)
+	ear_length     = rng.randf_range(.7, 1)
 	ear_angle      = rng.randf_range(-20, 12)
-	HEADPATTERN = load("res://images/catpatterns/catpatternhead" + str(rng.randi_range(1, 6)) + ".png")
+	
 	
 	scale = Vector3(catscale,catscale,catscale)
 	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
-	ear_mesh.radius = ear_width
-	ear_mesh.section_length = ear_length
+	left_ear.scale.x = ear_width
+	left_ear.scale.z = ear_width
+	left_ear.scale.y = ear_length
 	left_ear.rotation_degrees.z = ear_angle
+	right_ear.scale.x = ear_width
+	right_ear.scale.z = ear_width
+	right_ear.scale.y = ear_length
 	right_ear.rotation_degrees.z = -ear_angle
 	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
 	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
@@ -208,8 +283,8 @@ func _ready() -> void:
 	tail_1.rotation_degrees.x = -tail_1_angle
 	tail_2.rotation_degrees.x = tail_2_angle
 	tail_1_collision.position.y += tail_length / 2
-	left_ear.position = head.position + Vector3(-.15, .15, 0)
-	right_ear.position = head.position + Vector3(.15, .15, 0)
+	left_ear.position = head.position + Vector3(-.15, 0, 0)
+	right_ear.position = head.position + Vector3(.15, 0, 0)
 	$Tail1/Tail2.position.y = tail_length
 	$Tail1/Tail2/CollisionShape3D.position.y += tail_length / 2
 	$Tail1/Tail2.reparent($".")
@@ -285,41 +360,7 @@ func _ready() -> void:
 	right_ear_joint.node_a = head.get_path()
 	right_ear_joint.node_b = right_ear.get_path()
 	name_text.text = catname
-	head_mesh.material_override = material
-	left_ear_mesh.material_override = material
-	right_ear_mesh.material_override = material
-	body_mesh.material_override = material
-	left_front_mesh.material_override = material
-	right_front_mesh.material_override = material
-	left_back_mesh.material_override = material
-	right_back_mesh.material_override = material
-	tail_2_mesh.material_override = material
-	tail_1_mesh.material_override = material
-	left_front_foot.material_override = material
-	right_front_foot.material_override = material
-	left_back_foot.material_override = material
-	right_back_foot.material_override = material
 #endregion
 
-	var shader_material = ShaderMaterial.new()
-	shader_material.shader = SHADER
 
-	shader_material.set_shader_parameter("texture_albedo", HEADPATTERN)
-	shader_material.set_shader_parameter("original_colors", [Color(0, 1, 0), Color(1, 0, 0)])
-	shader_material.set_shader_parameter("replace_colors", [catcolor, catcolor_alt])
-	head_mesh.material_override = shader_material
-
-var make_decision : bool = false
-
-
-func _process(_delta: float) -> void:
-
-	if meow_cooldown.is_stopped():
-		if randf_range(0, 500) == 0:
-			var soundtoplay = randi_range(0,meows.get_child_count() - 1)
-			meows.get_child(soundtoplay).pitch_scale = voicepitch
-			meows.get_child(soundtoplay).play()
-			meow_cooldown.start(randf_range(0, .8))
-			face.play("default")
-			face.frame = 0
-			head.apply_force(Vector3(0, 100, 0))
+	

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnk62rc30bwmb"
-path="res://.godot/imported/catpatternhead6.png-89ead2faa4e0048b840ab200d8e148c9.ctex"
+uid="uid://2icveqy516gp"
+path="res://.godot/imported/headpattern8.png-445fb0c281255151621aeba13e13393f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/catpatterns/catpatternhead6.png"
-dest_files=["res://.godot/imported/catpatternhead6.png-89ead2faa4e0048b840ab200d8e148c9.ctex"]
+source_file="res://modelstextures/headpattern8.png"
+dest_files=["res://.godot/imported/headpattern8.png-445fb0c281255151621aeba13e13393f.ctex"]
 
 [params]
 

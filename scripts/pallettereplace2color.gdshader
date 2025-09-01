@@ -1,26 +1,38 @@
 shader_type spatial;
 
+// The texture with the original colors. The hint sets the filter mode.
 uniform sampler2D texture_albedo : filter_nearest;
-uniform vec4 original_colors[2]: source_color;
-uniform vec4 replace_colors[2]: source_color;
 
-vec4 swap_color(vec4 color){
-    for (int i = 0; i < 2; i ++) {
-        if (distance(color, original_colors[i]) <= 0.0){
-            return replace_colors[i];
-        }
-    }
-    return color;
-}
+// Arrays for the colors to replace and their new values
+uniform vec4 original_colors[3] : source_color;
+uniform vec4 replace_colors[3] : source_color;
+
+// Tolerance for color matching
+uniform float color_tolerance = 0.05;
 
 void fragment() {
-    // Sample the texture using the UV coordinates
-    vec4 tex_color = texture(texture_albedo, UV);
+    // Sample the color from the texture
+    vec4 albedo_color = texture(texture_albedo, UV);
+    
+    // A flag to check if a color has been replaced
+    bool color_replaced = false;
 
-    // Swap the colors
-    vec4 final_color = swap_color(tex_color);
+    // Loop through the defined color pairs
+    for (int i = 0; i < 3; i++) {
+        // Calculate the distance between the current pixel color and the original color
+        float color_diff = distance(albedo_color.rgb, original_colors[i].rgb);
 
-    // Apply the final color to the ALBEDO channel
-    ALBEDO = final_color.rgb;
-    ALPHA = final_color.a;
+        // If the colors are close enough, perform the replacement and set the flag
+        if (color_diff < color_tolerance) {
+            ALBEDO = replace_colors[i].rgb;
+            color_replaced = true;
+            break;
+        }
+    }
+    
+    // If no color was replaced, use the original texture's color
+    if (!color_replaced) {
+        ALBEDO = albedo_color.rgb;
+
+    }
 }
