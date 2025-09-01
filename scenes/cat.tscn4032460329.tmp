@@ -29,7 +29,6 @@ height = 0.848176
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4omw"]
-texture_filter = 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_hcucf"]
 radial_segments = 11

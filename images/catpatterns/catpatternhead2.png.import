@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj1vix8e4fsvm"
-path.s3tc="res://.godot/imported/grassgrid.png-523a623cc90b9611e47e2f63fe6c1bbd.s3tc.ctex"
+uid="uid://cb5rkvamgcrun"
+path.s3tc="res://.godot/imported/catpatternhead2.png-539f3e61f56ae03e61022f205741c38b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://images/grassgrid.png"
-dest_files=["res://.godot/imported/grassgrid.png-523a623cc90b9611e47e2f63fe6c1bbd.s3tc.ctex"]
+source_file="res://images/catpatterns/catpatternhead2.png"
+dest_files=["res://.godot/imported/catpatternhead2.png-539f3e61f56ae03e61022f205741c38b.s3tc.ctex"]
 
 [params]
 

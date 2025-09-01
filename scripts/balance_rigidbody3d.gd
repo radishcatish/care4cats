@@ -1,6 +1,6 @@
 extends RigidBody3D
-var damping : float = .5
-var speed   : float = 25
+var damping : float = 0
+var speed   : float = 50
 var loose   : bool  = false
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd03vm8euaaei"
-path.s3tc="res://.godot/imported/faces.png-1dc25521a11b1e47b2c73fdd13fbea04.s3tc.ctex"
+uid="uid://bsig8ijv3e8en"
+path.s3tc="res://.godot/imported/catpatternhead1.png-8f04af49ab0cda732f9d46ad2471011f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://images/faces.png"
-dest_files=["res://.godot/imported/faces.png-1dc25521a11b1e47b2c73fdd13fbea04.s3tc.ctex"]
+source_file="res://images/catpatterns/catpatternhead1.png"
+dest_files=["res://.godot/imported/catpatternhead1.png-8f04af49ab0cda732f9d46ad2471011f.s3tc.ctex"]
 
 [params]
 

@@ -49,6 +49,10 @@ extends Node3D
 @onready var right_front_foot: MeshInstance3D = $RightFront/Collision/Foot
 @onready var left_back_foot: MeshInstance3D = $LeftBack/Collision/Foot
 @onready var right_back_foot: MeshInstance3D = $RightBack/Collision/Foot
+var HEADPATTERN
+
+
+
 
 @onready var meow_cooldown: Timer = $MeowCooldown
 @onready var decision_cooldown: Timer = $DecisionCooldown
@@ -56,7 +60,7 @@ extends Node3D
 @onready var face: AnimatedSprite3D = $Head/Collision/Sprite3D
 @onready var name_text: Label3D = $Head/Collision/Label3D
 @onready var id_text: Label3D = $Head/Collision/Label3D2
-
+const SHADER = preload("res://scripts/pallettereplace2color.gdshader")
 const CATEARMESH = preload("res://scenes/catearmesh.tres")
 var ear_mesh = CATEARMESH.duplicate()
 
@@ -84,6 +88,7 @@ var hyperactivity  : float      = 0.0
 var limbspeed      : float      = 0.0
 var walkspeed      : float      = 0.0
 var catcolor       : Color      = Color(0,0,0)
+var catcolor_alt   : Color      = Color(0,0,0)
 var head_size      : float      = 1
 var leg_height     : float      = 1
 var leg_thickness  : float      = .3
@@ -154,12 +159,14 @@ func _ready() -> void:
 	
 	rng.seed = catname.hash()
 	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
+	catcolor_alt = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + rng.randf_range(-0.2, 0.2), 0, 1))
 	material.albedo_color = catcolor
+
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	voicepitch     = rng.randf_range(0.75, 1.15)
 	limbspeed      = rng.randf_range(25, 30)
 	walkspeed      = rng.randf_range(0.05, 0.25)
-	catscale       = rng.randf_range(0.75, 1.1)
+	catscale       = rng.randf_range(0.7, 1)
 	leg_height     = rng.randf_range(.6, 1.4)
 	leg_thickness  = rng.randf_range(.25, .35)
 	body_length    = rng.randf_range(1.2, 1.8)
@@ -173,6 +180,7 @@ func _ready() -> void:
 	ear_width      = rng.randf_range(.33, .4)
 	ear_length     = rng.randf_range(.15, .25)
 	ear_angle      = rng.randf_range(-20, 12)
+	HEADPATTERN = load("res://images/catpatterns/catpatternhead" + str(rng.randi_range(1, 6)) + ".png")
 	
 	scale = Vector3(catscale,catscale,catscale)
 	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
@@ -293,11 +301,16 @@ func _ready() -> void:
 	right_back_foot.material_override = material
 #endregion
 
+	var shader_material = ShaderMaterial.new()
+	shader_material.shader = SHADER
+
+	shader_material.set_shader_parameter("texture_albedo", HEADPATTERN)
+	shader_material.set_shader_parameter("original_colors", [Color(0, 1, 0), Color(1, 0, 0)])
+	shader_material.set_shader_parameter("replace_colors", [catcolor, catcolor_alt])
+	head_mesh.material_override = shader_material
+
 var make_decision : bool = false
-@onready var look_node_head
-@onready var look_node_body
-@onready var look_nodes: Array
-@onready var chase_nodes: Array
+
 
 func _process(_delta: float) -> void:
 
