@@ -84,7 +84,7 @@ func _physics_process(delta: float) -> void:
 			else: return
 		var target_position = $Camera/Node3D.global_position
 		var to_target = target_position - body.global_position
-		var force = to_target * 1200 * body.mass
+		var force = to_target * 1200 
 		body.apply_force(force, Vector3.ZERO)
 		body.apply_force(-body.linear_velocity * 100 * body.mass, Vector3.ZERO)
 		

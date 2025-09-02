@@ -47,7 +47,6 @@ texture = ExtResource("5_gjmho")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment"]
 transform = Transform3D(0.97288, 0.200318, -0.115653, -1.34568e-08, 0.5, 0.866026, 0.231306, -0.842541, 0.48644, 0, 83, 0)
-shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="environment"]
 environment = SubResource("Environment_3253y")
