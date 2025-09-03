@@ -50,10 +50,13 @@ modulate = Color(1, 1, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "+"
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_g2els")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transparency = 1.0
 mesh = SubResource("CapsuleMesh_qlg0r")
 
 [node name="Walking" type="AudioStreamPlayer" parent="."]

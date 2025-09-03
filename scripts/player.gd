@@ -67,13 +67,13 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("spawncat"):
 		var catscene = CAT.instantiate()
-		catscene.global_position = global_position
+		catscene.global_position = $Camera/Node3D.global_position
 		add_sibling(catscene)
 		
 	if Input.is_action_pressed("spawnball"):
 		var ballscene = BALL.instantiate()
 		add_sibling(ballscene)
-		ballscene.global_position = global_position
+		ballscene.global_position = $Camera/Node3D.global_position
 		
 	if Input.is_action_pressed("grab"):
 		if not body:

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://84ajo108ynl6"
+path="res://.godot/imported/35. 7 PM.mp3-5a01e4ccb133fede0f5ccd3bcee595e6.mp3str"
+
+[deps]
+
+source_file="res://dev/35. 7 PM.mp3"
+dest_files=["res://.godot/imported/35. 7 PM.mp3-5a01e4ccb133fede0f5ccd3bcee595e6.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

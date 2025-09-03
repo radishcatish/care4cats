@@ -1,18 +1,18 @@
-[gd_scene load_steps=34 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=30 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
-[ext_resource type="ArrayMesh" uid="uid://b7aplq6iqohyt" path="res://modelstextures/ear.obj" id="2_dr6s3"]
-[ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://modelstextures/head.obj" id="5_2wmww"]
+[ext_resource type="ArrayMesh" uid="uid://b7aplq6iqohyt" path="res://models/ear.obj" id="2_dr6s3"]
+[ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://models/head.obj" id="5_2wmww"]
 [ext_resource type="Texture2D" uid="uid://byymlspeinnuy" path="res://dev/face.png" id="6_dr6s3"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
-[ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://modelstextures/face.obj" id="7_3fcyy"]
+[ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://models/face.obj" id="7_3fcyy"]
 [ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
+[ext_resource type="FontFile" uid="uid://nnqk8yk5lfsp" path="res://images/m6x11plus.ttf" id="7_yf1kj"]
 [ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="8_3fcyy"]
 [ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="9_rgipc"]
 [ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://sounds/meows/MeowNormal5.wav" id="10_4m8cu"]
 [ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://sounds/meows/MeowNormal6.wav" id="11_o8rmy"]
-[ext_resource type="Script" uid="uid://c3mft8vlsk56y" path="res://scripts/balance_rigidbody3d.gd" id="12_32af4"]
 [ext_resource type="AudioStream" uid="uid://bx754mo8y5ohl" path="res://sounds/meows/MeowNormal7.wav" id="12_njgcu"]
 [ext_resource type="AudioStream" uid="uid://bbisslj03lct7" path="res://sounds/meows/MeowNormal8.wav" id="13_xcfqr"]
 [ext_resource type="AudioStream" uid="uid://xxhyy1n7j6ml" path="res://sounds/meows/MeowNormalShort1.wav" id="14_qonxf"]
@@ -23,6 +23,9 @@
 [ext_resource type="AudioStream" uid="uid://g75rgvu7fquq" path="res://sounds/meows/MeowNormalShort6.wav" id="19_cjkto"]
 [ext_resource type="AudioStream" uid="uid://b02gg8y5rb326" path="res://sounds/meows/MeowNormalShort7.wav" id="20_7ia2j"]
 [ext_resource type="AudioStream" uid="uid://cmokwqy30i3iv" path="res://sounds/meows/MeowNormalShort8.wav" id="21_yl6i5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2wmww"]
+size = Vector3(0.26, 0.6, 0.2)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2wmww"]
 radius = 0.178513
@@ -36,35 +39,93 @@ alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("6_dr6s3")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2wmww"]
-size = Vector3(0.26, 0.6, 0.2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_yf1kj"]
-size = Vector3(0.26, 0.6, 0.2)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_hcucf"]
-size = Vector3(0.8, 0.5, 1.3)
-
-[sub_resource type="BoxMesh" id="BoxMesh_hcucf"]
 size = Vector3(0.8, 0.5, 1.3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_52fj1"]
 size = Vector3(0.3, 0.8, 0.3)
 
-[sub_resource type="BoxMesh" id="BoxMesh_52fj1"]
-size = Vector3(0.3, 0.8, 0.3)
-
-[sub_resource type="BoxMesh" id="BoxMesh_2wmww"]
-size = Vector3(0.3, 0.2, 0.05)
-
 [node name="cat" type="Node3D"]
 script = ExtResource("1_hcucf")
 
-[node name="MeowCooldown" type="Timer" parent="."]
-one_shot = true
+[node name="Nametags" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23439, 0)
 
-[node name="DecisionCooldown" type="Timer" parent="."]
-one_shot = true
+[node name="Name" type="Label3D" parent="Nametags"]
+ignore_occlusion_culling = true
+visibility_range_end = 3.0
+visibility_range_end_margin = 1.0
+visibility_range_fade_mode = 1
+pixel_size = 0.004
+billboard = 1
+double_sided = false
+fixed_size = true
+texture_filter = 0
+text = "cat"
+font = ExtResource("7_yf1kj")
+justification_flags = 0
+
+[node name="ID" type="Label3D" parent="Nametags"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.187793, 0)
+ignore_occlusion_culling = true
+visibility_range_end = 3.0
+visibility_range_end_margin = 1.0
+visibility_range_fade_mode = 1
+pixel_size = 0.002
+billboard = 1
+double_sided = false
+fixed_size = true
+texture_filter = 0
+modulate = Color(0.588235, 0.588235, 0.588235, 0.545098)
+outline_modulate = Color(0, 0, 0, 0.435294)
+text = "no id
+"
+font = ExtResource("7_yf1kj")
+justification_flags = 0
+
+[node name="Tail1" type="RigidBody3D" parent="."]
+collision_layer = 0
+mass = 0.1
+gravity_scale = 0.1
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1"]
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1"]
+shape = SubResource("BoxShape3D_2wmww")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/CollisionShape3D"]
+
+[node name="Tail2" type="RigidBody3D" parent="Tail1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+collision_layer = 0
+mass = 0.1
+gravity_scale = 0.1
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1/Tail2"]
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 2.0
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1/Tail2"]
+shape = SubResource("BoxShape3D_2wmww")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/Tail2/CollisionShape3D"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="RightEar" type="RigidBody3D" parent="."]
 collision_layer = 0
@@ -126,7 +187,8 @@ skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("12_32af4")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
@@ -145,25 +207,6 @@ transform = Transform3D(1.00953, -0.0299536, -0.00740848, 0.0299034, 1.00953, -0
 material_override = SubResource("StandardMaterial3D_rgipc")
 mesh = ExtResource("7_3fcyy")
 skeleton = NodePath("")
-
-[node name="Label3D" type="Label3D" parent="Head/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05064, 0)
-ignore_occlusion_culling = true
-billboard = 1
-double_sided = false
-text = "cat"
-justification_flags = 0
-
-[node name="Label3D2" type="Label3D" parent="Head/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.884678, 0)
-ignore_occlusion_culling = true
-pixel_size = 0.004
-billboard = 1
-double_sided = false
-modulate = Color(0.589096, 0.589096, 0.589096, 1)
-text = "no id
-"
-justification_flags = 0
 
 [node name="Meows" type="Node3D" parent="Head"]
 
@@ -327,65 +370,22 @@ max_distance = 50.0
 max_polyphony = 7
 doppler_tracking = 1
 
-[node name="Tail1" type="RigidBody3D" parent="."]
-collision_layer = 0
-mass = 0.1
-gravity_scale = 0.1
-
-[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1"]
-angular_limit_x/enabled = false
-angular_limit_y/enabled = false
-angular_limit_z/enabled = false
-angular_spring_x/enabled = true
-angular_spring_x/stiffness = 3.0
-angular_spring_y/enabled = true
-angular_spring_y/stiffness = 3.0
-angular_spring_z/enabled = true
-angular_spring_z/stiffness = 3.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1"]
-shape = SubResource("BoxShape3D_2wmww")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/CollisionShape3D"]
-mesh = SubResource("BoxMesh_yf1kj")
-
-[node name="Tail2" type="RigidBody3D" parent="Tail1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-collision_layer = 0
-mass = 0.1
-gravity_scale = 0.1
-
-[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1/Tail2"]
-angular_limit_x/enabled = false
-angular_limit_y/enabled = false
-angular_limit_z/enabled = false
-angular_spring_x/enabled = true
-angular_spring_x/stiffness = 2.0
-angular_spring_y/enabled = true
-angular_spring_y/stiffness = 3.0
-angular_spring_z/enabled = true
-angular_spring_z/stiffness = 2.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1/Tail2"]
-shape = SubResource("BoxShape3D_2wmww")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/Tail2/CollisionShape3D"]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_yf1kj")
-
 [node name="Body" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Collision"]
-mesh = SubResource("BoxMesh_hcucf")
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 skeleton = NodePath("../..")
 
 [node name="LeftFront" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("12_32af4")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftFront"]
 twist_span = 1.5708
@@ -396,16 +396,12 @@ shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeftFront/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
-mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
-
-[node name="Foot" type="MeshInstance3D" parent="LeftFront/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.15)
-mesh = SubResource("BoxMesh_2wmww")
 
 [node name="RightFront" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("12_32af4")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightFront"]
 twist_span = 1.5708
@@ -416,17 +412,12 @@ shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightFront/Collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
-mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
-
-[node name="Foot" type="MeshInstance3D" parent="RightFront/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.15)
-mesh = SubResource("BoxMesh_2wmww")
-skeleton = NodePath("../../../LeftFront/Collision")
 
 [node name="LeftBack" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("12_32af4")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftBack"]
 twist_span = 1.5708
@@ -436,17 +427,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LeftBack/Collision"]
-mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
-
-[node name="Foot" type="MeshInstance3D" parent="LeftBack/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.15)
-mesh = SubResource("BoxMesh_2wmww")
-skeleton = NodePath("../../../LeftFront/Collision")
 
 [node name="RightBack" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
-script = ExtResource("12_32af4")
+contact_monitor = true
+max_contacts_reported = 1
 
 [node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightBack"]
 twist_span = 1.5708
@@ -456,10 +442,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 shape = SubResource("BoxShape3D_52fj1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightBack/Collision"]
-mesh = SubResource("BoxMesh_52fj1")
 skeleton = NodePath("../..")
-
-[node name="Foot" type="MeshInstance3D" parent="RightBack/Collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.15)
-mesh = SubResource("BoxMesh_2wmww")
-skeleton = NodePath("../../../LeftFront/Collision")

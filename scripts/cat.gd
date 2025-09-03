@@ -45,48 +45,20 @@ extends Node3D
 @onready var right_back_collision: CollisionShape3D = $RightBack/Collision
 @onready var right_back_mesh: MeshInstance3D = $RightBack/Collision/MeshInstance3D
 
-@onready var left_front_foot: MeshInstance3D = $LeftFront/Collision/Foot
-@onready var right_front_foot: MeshInstance3D = $RightFront/Collision/Foot
-@onready var left_back_foot: MeshInstance3D = $LeftBack/Collision/Foot
-@onready var right_back_foot: MeshInstance3D = $RightBack/Collision/Foot
-var HEADPATTERN
-@onready var meow_cooldown: Timer = $MeowCooldown
-@onready var decision_cooldown: Timer = $DecisionCooldown
-@onready var meows: Node3D = $Head/Meows
-@onready var name_text: Label3D = $Head/Collision/Label3D
-@onready var id_text: Label3D = $Head/Collision/Label3D2
-const SHADER = preload("res://scripts/pallettereplace2color.gdshader")
-const CATEARMESH = preload("res://modelstextures/ear.obj")
+
+
+@onready var name_text: Label3D = $Nametags/Name
+@onready var id_text: Label3D = $Nametags/ID
+
+const SHADER = preload("res://shaders/cat.gdshader")
+const CATEARMESH = preload("res://models/ear.obj")
+const CUBE = preload("res://models/cube.obj")
 var ear_mesh = CATEARMESH.duplicate()
 
-const BODYTEX = [
-	"res://modelstextures/belly.png",
-	"res://modelstextures/frontbelly.png",
-	"res://modelstextures/spots1.png",
-	"res://modelstextures/spots.png",
-	"res://modelstextures/tabby.png",
-	"res://modelstextures/shadow.png",
-	"res://modelstextures/headpattern0.png"
-]
-const LEGTEX = [
-	"res://modelstextures/headpattern0.png",
-	"res://modelstextures/shoes.png",
-	"res://modelstextures/socks.png",
-	"res://modelstextures/thighhighs.png",
-	"res://modelstextures/toes.png",
-]
-const HEADTEX = [
-	"res://modelstextures/headpattern0.png",
-	"res://modelstextures/headpattern1.png",
-	"res://modelstextures/headpattern2.png",
-	"res://modelstextures/headpattern3.png",
-	"res://modelstextures/headpattern4.png",
-	"res://modelstextures/headpattern5.png",
-	"res://modelstextures/headpattern6.png",
-	"res://modelstextures/headpattern7.png",
-	"res://modelstextures/headpattern8.png"
-]
-
+const BODYTEX = "res://images/cat/body/"
+const LEGTEX = "res://images/cat/legs/"
+const HEADTEX = "res://images/cat/head/"
+const EARTEX = "res://images/cat/ears/"
 const CONSONANTS = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "w"]
 const VOWELS = ["a", "e", "i", "o", "u"]
 var namelength      : int        = 0
@@ -113,17 +85,40 @@ var ear_length     : float      = .18
 var ear_angle      : float      = 0
 var dark_ears      : bool       = false
 var leg_collision      : BoxShape3D            = BoxShape3D.new()
-var leg_mesh           : BoxMesh               = BoxMesh.new()
+var leg_mesh           :                       = CUBE.duplicate()
 var body_collision_new : BoxShape3D            = BoxShape3D.new()
-var body_mesh_new      : BoxMesh               = BoxMesh.new()
+var body_mesh_new      :                       = CUBE.duplicate()
 var tail_collision     : BoxShape3D            = BoxShape3D.new()
-var tail_mesh          : BoxMesh               = BoxMesh.new()
-var foot_mesh          : BoxMesh               = BoxMesh.new()
+var tail_mesh          :                       = CUBE.duplicate()
+var foot_mesh          :                       = CUBE.duplicate()
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 @export var rngseed : int 
 @export var catname : String = ""
 
+func get_random_texture_file(path: String, starts: String = "", ends: String = "", exclude_contains: String = "") -> String:
+	var dir_access = DirAccess.open(path)
+	var files = dir_access.get_files()
+	var texture_files = []
+	
+	for file in files:
+		var starts_with = starts.is_empty() or not file.begins_with(starts)
+		var ends_with = ends.is_empty() or not file.ends_with(ends)
+		var contains = exclude_contains.is_empty() or not exclude_contains in file
+		if starts_with and ends_with and contains:
+			if file.ends_with(".import"):
+				# Remove the .import extension and add the file to the list
+				var base_file = file.substr(0, file.length() - 7)
+				texture_files.append(base_file)
+			else:
+				texture_files.append(file)
+	if texture_files.is_empty():
+		return "res://images/cat/green.png"
+	var random_index = randi_range(0, texture_files.size() - 1)
+	var The_File = path.path_join(texture_files[random_index])
+	
+	return The_File
+	
 func _ready() -> void:
 	left_front_collision.shape = leg_collision
 	left_front_mesh.mesh = leg_mesh
@@ -139,10 +134,6 @@ func _ready() -> void:
 	tail_1_mesh.mesh = tail_mesh
 	tail_2_collision.shape = tail_collision
 	tail_2_mesh.mesh = tail_mesh
-	left_front_foot.mesh = foot_mesh
-	right_front_foot.mesh = foot_mesh
-	left_back_foot.mesh = foot_mesh
-	right_back_foot.mesh = foot_mesh
 	right_ear_mesh.mesh = ear_mesh
 	left_ear_mesh.mesh  = ear_mesh
 	
@@ -157,19 +148,21 @@ func _ready() -> void:
 	if is_preset:
 		id_text.text += " (preset)"
 	var is_vowel_turn = rng.randf() < 0.5
-	namelength = rng.randi_range(4, 7)
+	namelength = rng.randi_range(3, 6)
 	if catname == "":
 		for i in namelength:
 			var last_char_was_vowel = false
 			if is_vowel_turn:
 				var new_char = VOWELS[rng.randi_range(0, VOWELS.size() - 1)]
-				if rng.randf() < 0.2: # 20% chance to double vowels
-					new_char += VOWELS[rng.randi_range(0, VOWELS.size() - 1)]
 				catname += new_char
+				if rng.randf() < 0.2: # 20% chance to double
+					continue
 				last_char_was_vowel = true
 			else:
 				var new_char = CONSONANTS[rng.randi_range(0, CONSONANTS.size() - 1)]
 				catname += new_char
+				if rng.randf() < 0.2: # 20% chance to double
+					continue
 				last_char_was_vowel = false
 				
 			is_vowel_turn = not last_char_was_vowel
@@ -182,17 +175,26 @@ func _ready() -> void:
 	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
 	catcolor_alt = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + .2, 0, 1))
 	catcolor_alt2 = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v - .2, 0, 1))
-	var body_texture = BODYTEX[rng.randi_range(0, BODYTEX.size() - 1)]
-	var legtexnum = rng.randi_range(0, LEGTEX.size() - 1)
-	var leg_texture = LEGTEX[legtexnum]
-	var headtexnum = rng.randi_range(0, HEADTEX.size() - 1)
-	var head_texture = HEADTEX[headtexnum]
-	var ear_texture
-	if headtexnum > 5:
-		ear_texture = load("res://modelstextures/eartexdark.png")
+	name_text.modulate = catcolor_alt
+	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
+	
+	
+	
+	
+	var body_texture = get_random_texture_file(BODYTEX)
+	var leg_texture = get_random_texture_file(LEGTEX)
+	var tail2_texture = get_random_texture_file(LEGTEX)
+	var head_texture = get_random_texture_file(HEADTEX)
+	print(head_texture)
+	var ear_texture 
+	
+	if head_texture.contains("dark"):
+		ear_texture = load("res://images/cat/ears/eardark.png")
 	else:
-		ear_texture = load("res://modelstextures/eartex.png")
+		ear_texture = load(get_random_texture_file(EARTEX, "", "", "dark"))
 
+
+	
 	var shader_template = ShaderMaterial.new()
 	shader_template.shader = SHADER
 	shader_template.set_shader_parameter("original_colors", [Color(0, 1, 0), Color(1, 0, 0), Color(0, 0, 1)])
@@ -218,21 +220,15 @@ func _ready() -> void:
 	bodymat.set_shader_parameter("texture_albedo", load(body_texture))
 	body_mesh.material_override = bodymat
 
-	var footmat = shader_template.duplicate(true)
-	if legtexnum == 0:
-		footmat.set_shader_parameter("texture_albedo", load("res://modelstextures/headpattern0.png"))
-	else:
-		footmat.set_shader_parameter("texture_albedo", load("res://modelstextures/paws.png"))
-		
-	left_front_foot.material_override = footmat
-	right_front_foot.material_override = footmat
-	left_back_foot.material_override = footmat
-	right_back_foot.material_override = footmat
-	tail_2_mesh.material_override = legmat
+	
+	var tail2mat = shader_template.duplicate(true)
+	tail2mat.set_shader_parameter("texture_albedo", load(tail2_texture))
+	tail_2_mesh.material_override = tail2mat
 	
 	var tail1mat = shader_template.duplicate(true)
-	tail1mat.set_shader_parameter("texture_albedo", load("res://modelstextures/headpattern0.png"))
+	tail1mat.set_shader_parameter("texture_albedo", load("res://images/cat/green.png"))
 	tail_1_mesh.material_override = tail1mat
+	
 
 	voicepitch     = rng.randf_range(0.75, 1.15)
 	limbspeed      = rng.randf_range(25, 30)
@@ -254,7 +250,7 @@ func _ready() -> void:
 	
 	
 	scale = Vector3(catscale,catscale,catscale)
-	foot_mesh.size = Vector3(leg_thickness, leg_height / 5, .2)
+	
 	left_ear.scale.x = ear_width
 	left_ear.scale.z = ear_width
 	left_ear.scale.y = ear_length
@@ -264,9 +260,11 @@ func _ready() -> void:
 	right_ear.scale.y = ear_length
 	right_ear.rotation_degrees.z = -ear_angle
 	tail_collision.size = Vector3(tail_thickness, tail_length, tail_thickness)
-	tail_mesh.size = Vector3(tail_thickness, tail_length, tail_thickness)
+	tail_1_mesh.scale = Vector3(tail_thickness, tail_length, tail_thickness)
+	tail_2_mesh.scale = Vector3(tail_thickness, tail_length, tail_thickness)
 	body_collision.shape.size = Vector3(body_width, body_height, body_length)
-	body_mesh.mesh.size = Vector3(body_width, body_height, body_length)
+	body_mesh.scale = Vector3(body_width, body_height, body_length)
+
 	var body_extents = body_collision.shape.extents
 	
 	head.scale = Vector3(head_size,head_size,head_size)
@@ -290,7 +288,10 @@ func _ready() -> void:
 	$Tail1/Tail2.reparent($".")
 
 	leg_collision.size = Vector3(leg_thickness, leg_height, leg_thickness)
-	leg_mesh.size = Vector3(leg_thickness, leg_height, leg_thickness)
+	left_front_mesh.scale = Vector3(leg_thickness, leg_height, leg_thickness)
+	right_front_mesh.scale = Vector3(leg_thickness, leg_height, leg_thickness)
+	left_back_mesh.scale = Vector3(leg_thickness, leg_height, leg_thickness)
+	right_back_mesh.scale = Vector3(leg_thickness, leg_height, leg_thickness)
 	var leg_extents = left_front_collision.shape.extents
 	left_front_collision.position.y -= (leg_height - 0.8) / 2.0
 	right_front_collision.position.y -= (leg_height - 0.8) / 2.0
@@ -321,25 +322,7 @@ func _ready() -> void:
 	-body_extents.z + leg_extents.z
 	)
 	
-	left_front_foot.position = Vector3(0,
-	-leg_extents.y + foot_mesh.size.y / 2,
-	 leg_extents.z
-	)
-
-	right_front_foot.position = Vector3(0,
-	-leg_extents.y + foot_mesh.size.y / 2,
-	 leg_extents.z
-	)
-
-	left_back_foot.position = Vector3(0,
-	-leg_extents.y + foot_mesh.size.y / 2,
-	 leg_extents.z
-	)
-
-	right_back_foot.position = Vector3(0,
-	-leg_extents.y + foot_mesh.size.y / 2,
-	 leg_extents.z
-	)
+	
 	
 	left_front_joint.node_a = left_front.get_path()
 	left_front_joint.node_b = body.get_path()
@@ -362,5 +345,12 @@ func _ready() -> void:
 	name_text.text = catname
 #endregion
 
-
-	
+@onready var nametags: Node3D = $Nametags
+func _physics_process(_delta: float) -> void:
+	for child in get_children():
+		if child is not RigidBody3D or child.collision_layer == 0: 
+			continue
+		child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 50 + (-child.angular_velocity))
+		
+	nametags.global_position = head.global_position + Vector3(0, 1, 0)
+		

@@ -2,7 +2,7 @@ extends Node
 const CAT = preload("res://scenes/cat.tscn")
 const BALL = preload("res://scenes/ball.tscn")
 func _ready():
-
+	return
 	print("spawning cats")
 	for i in 50:
 		await get_tree().create_timer(.05).timeout
