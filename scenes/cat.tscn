@@ -1,14 +1,15 @@
-[gd_scene load_steps=30 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=31 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
+[ext_resource type="FontFile" uid="uid://ugrmhi5sa66n" path="res://fonts/m5x7.ttf" id="2_3fcyy"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
 [ext_resource type="ArrayMesh" uid="uid://b7aplq6iqohyt" path="res://models/ear.obj" id="2_dr6s3"]
 [ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://models/head.obj" id="5_2wmww"]
-[ext_resource type="Texture2D" uid="uid://byymlspeinnuy" path="res://dev/face.png" id="6_dr6s3"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
 [ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://models/face.obj" id="7_3fcyy"]
+[ext_resource type="Texture2D" uid="uid://bi8gsn65toin7" path="res://images/cat/faces/face6.png" id="7_4m8cu"]
 [ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
-[ext_resource type="FontFile" uid="uid://nnqk8yk5lfsp" path="res://images/m6x11plus.ttf" id="7_yf1kj"]
+[ext_resource type="Shader" uid="uid://db84ci1ndnubd" path="res://shaders/catface.gdshader" id="7_rgipc"]
 [ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="8_3fcyy"]
 [ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="9_rgipc"]
 [ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://sounds/meows/MeowNormal5.wav" id="10_4m8cu"]
@@ -33,11 +34,13 @@ height = 0.848176
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rgipc"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-albedo_texture = ExtResource("6_dr6s3")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2wmww"]
+render_priority = 0
+shader = ExtResource("7_rgipc")
+shader_parameter/texture_albedo = ExtResource("7_4m8cu")
+shader_parameter/original_colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/replace_colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/color_tolerance = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hcucf"]
 size = Vector3(0.8, 0.5, 1.3)
@@ -56,31 +59,14 @@ ignore_occlusion_culling = true
 visibility_range_end = 3.0
 visibility_range_end_margin = 1.0
 visibility_range_fade_mode = 1
-pixel_size = 0.004
+pixel_size = 0.006
 billboard = 1
 double_sided = false
 fixed_size = true
 texture_filter = 0
 text = "cat"
-font = ExtResource("7_yf1kj")
-justification_flags = 0
-
-[node name="ID" type="Label3D" parent="Nametags"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.187793, 0)
-ignore_occlusion_culling = true
-visibility_range_end = 3.0
-visibility_range_end_margin = 1.0
-visibility_range_fade_mode = 1
-pixel_size = 0.002
-billboard = 1
-double_sided = false
-fixed_size = true
-texture_filter = 0
-modulate = Color(0.588235, 0.588235, 0.588235, 0.545098)
-outline_modulate = Color(0, 0, 0, 0.435294)
-text = "no id
-"
-font = ExtResource("7_yf1kj")
+font = ExtResource("2_3fcyy")
+outline_size = 7
 justification_flags = 0
 
 [node name="Tail1" type="RigidBody3D" parent="."]
@@ -186,6 +172,7 @@ mesh = ExtResource("2_dr6s3")
 skeleton = NodePath("../../../Head/Collision")
 
 [node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
+collision_layer = 17
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
@@ -204,7 +191,7 @@ skeleton = NodePath("")
 
 [node name="Face" type="MeshInstance3D" parent="Head/Collision/Head"]
 transform = Transform3D(1.00953, -0.0299536, -0.00740848, 0.0299034, 1.00953, -0.00685314, 0.0076083, 0.0066306, 1.00995, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_rgipc")
+material_override = SubResource("ShaderMaterial_2wmww")
 mesh = ExtResource("7_3fcyy")
 skeleton = NodePath("")
 
@@ -371,6 +358,8 @@ max_polyphony = 7
 doppler_tracking = 1
 
 [node name="Body" type="RigidBody3D" parent="."]
+collision_layer = 17
+collision_mask = 0
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1

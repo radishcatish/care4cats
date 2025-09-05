@@ -10,6 +10,7 @@ extends Node3D
 @onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
 @onready var right_ear_joint: Generic6DOFJoint3D = $RightEar/RightEarJoint
 @onready var left_ear_joint: Generic6DOFJoint3D = $LeftEar/LeftEarJoint
+@onready var face: MeshInstance3D = $Head/Collision/Head/Face
 
 @onready var body: RigidBody3D = $Body
 @onready var body_joint: ConeTwistJoint3D = $Head/BodyHeadJoint
@@ -44,13 +45,10 @@ extends Node3D
 @onready var right_back_joint: ConeTwistJoint3D = $RightBack/PinJoint3D
 @onready var right_back_collision: CollisionShape3D = $RightBack/Collision
 @onready var right_back_mesh: MeshInstance3D = $RightBack/Collision/MeshInstance3D
-
-
-
 @onready var name_text: Label3D = $Nametags/Name
-@onready var id_text: Label3D = $Nametags/ID
 
 const SHADER = preload("res://shaders/cat.gdshader")
+const FACESHADER = preload("res://shaders/catface.gdshader")
 const CATEARMESH = preload("res://models/ear.obj")
 const CUBE = preload("res://models/cube.obj")
 var ear_mesh = CATEARMESH.duplicate()
@@ -59,9 +57,10 @@ const BODYTEX = "res://images/cat/body/"
 const LEGTEX = "res://images/cat/legs/"
 const HEADTEX = "res://images/cat/head/"
 const EARTEX = "res://images/cat/ears/"
+const FACETEX = "res://images/cat/faces/"
 const CONSONANTS = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "w"]
 const VOWELS = ["a", "e", "i", "o", "u"]
-var namelength      : int        = 0
+var namelength     : int        = 0
 var voicepitch     : float      = 0.0
 var hyperactivity  : float      = 0.0
 var limbspeed      : float      = 0.0
@@ -69,6 +68,8 @@ var walkspeed      : float      = 0.0
 var catcolor       : Color      = Color(0,0,0)
 var catcolor_alt   : Color      = Color(0,0,0)
 var catcolor_alt2  : Color      = Color(0,0,0)
+var facecolor      : Color      = Color(0,0,0)
+var mouthcolor     : Color      = Color(0,0,0)
 var head_size      : float      = 1
 var leg_height     : float      = 1
 var leg_thickness  : float      = .3
@@ -91,10 +92,16 @@ var body_mesh_new      :                       = CUBE.duplicate()
 var tail_collision     : BoxShape3D            = BoxShape3D.new()
 var tail_mesh          :                       = CUBE.duplicate()
 var foot_mesh          :                       = CUBE.duplicate()
+var body_texture
+var leg_texture
+var tail2_texture
+var head_texture
+var ear_texture
+var face_texture
+var face_texture_blink
+var face_texture_meow
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
-var rng : RandomNumberGenerator = RandomNumberGenerator.new()
-@export var rngseed : int 
-@export var catname : String = ""
+var catname : String = ""
 
 func get_random_texture_file(path: String, starts: String = "", ends: String = "", exclude_contains: String = "") -> String:
 	var dir_access = DirAccess.open(path)
@@ -118,7 +125,66 @@ func get_random_texture_file(path: String, starts: String = "", ends: String = "
 	var The_File = path.path_join(texture_files[random_index])
 	
 	return The_File
+
+func makecat():
+	var is_vowel_turn = randf() < 0.5
+	namelength = randi_range(3, 6)
+	for i in namelength:
+		var last_char_was_vowel = false
+		if is_vowel_turn:
+			catname += VOWELS[randi_range(0, VOWELS.size() - 1)]
+			if randf() < 0.2: # 20% chance to double
+				continue
+			last_char_was_vowel = true
+		else:
+			catname += CONSONANTS[randi_range(0, CONSONANTS.size() - 1)]
+			if randf() < 0.2: # 20% chance to double
+				continue
+			last_char_was_vowel = false
+		is_vowel_turn = not last_char_was_vowel
+
+	catcolor = Color.from_hsv(randf(), randf(), randf_range(0.5, 0.9))
+	catcolor_alt = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + .2, 0, 1))
+	catcolor_alt2 = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v - .2, 0, 1))
+	facecolor = Color.from_hsv(randf(), randf(), randf_range(0.5, 0.9))
+	mouthcolor = Color.from_hsv(facecolor.h + randf_range(-0.1, 0.1), facecolor.s + randf_range(-0.1, 0.1), clamp(facecolor.v - 0.1, 0, 1))
+	if catcolor.get_luminance() < .4:
+		facecolor = Color.from_hsv(facecolor.h, facecolor.s, ((catcolor.v - 1) * -1) + .2)
+		mouthcolor = Color.from_hsv(mouthcolor.h, mouthcolor.s, ((mouthcolor.v - 1) * -1))
+	else:
+		facecolor = Color.from_hsv(facecolor.h, facecolor.s, ((catcolor.v - 1) * -1) - .05)
+
+	name_text.modulate = catcolor_alt
+	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
+	body_texture = get_random_texture_file(BODYTEX)
+	leg_texture = get_random_texture_file(LEGTEX)
+	tail2_texture = get_random_texture_file(LEGTEX)
+	head_texture = get_random_texture_file(HEADTEX)
+	face_texture = load("res://images/cat/faces/face" + str((randi_range(0, 13) * 3) + 1) + ".png")
+	if head_texture.contains("dark"):
+		ear_texture = load("res://images/cat/ears/eardark.png")
+	else:
+		ear_texture = load(get_random_texture_file(EARTEX, "", "", "dark"))
+		
+	voicepitch     = randf_range(0.75, 1.15)
+	limbspeed      = randf_range(25, 30)
+	walkspeed      = randf_range(0.05, 0.25)
+	catscale       = randf_range(0.7, 1)
+	leg_height     = randf_range(.6, 1.4)
+	leg_thickness  = randf_range(.25, .35)
+	body_length    = randf_range(1.2, 1.8)
+	body_width     = randf_range(.7, 1)
+	body_height    = randf_range(.55, .65)
+	head_size      = randf_range(.95, 1.05)
+	tail_length    = randf_range(.7, 1.3)
+	tail_thickness = randf_range(.2, .5)
+	tail_1_angle   = randf_range(45, 120)
+	tail_2_angle   = randf_range(45, 75)
+	ear_width      = randf_range(.7, 1)
+	ear_length     = randf_range(.7, 1)
+	ear_angle      = randf_range(-20, 12)
 	
+var premade: bool = false
 func _ready() -> void:
 	left_front_collision.shape = leg_collision
 	left_front_mesh.mesh = leg_mesh
@@ -137,63 +203,7 @@ func _ready() -> void:
 	right_ear_mesh.mesh = ear_mesh
 	left_ear_mesh.mesh  = ear_mesh
 	
-	var is_preset = false
-	if rngseed != 0:
-		is_preset = true
-		name_text.modulate = Color(0, 1, 1)
-		id_text.modulate = Color(0, .5, .5)
-	rngseed = randi() if rngseed == 0 else rngseed
-	id_text.text = str(rngseed)
-	rng.seed = rngseed
-	if is_preset:
-		id_text.text += " (preset)"
-	var is_vowel_turn = rng.randf() < 0.5
-	namelength = rng.randi_range(3, 6)
-	if catname == "":
-		for i in namelength:
-			var last_char_was_vowel = false
-			if is_vowel_turn:
-				var new_char = VOWELS[rng.randi_range(0, VOWELS.size() - 1)]
-				catname += new_char
-				if rng.randf() < 0.2: # 20% chance to double
-					continue
-				last_char_was_vowel = true
-			else:
-				var new_char = CONSONANTS[rng.randi_range(0, CONSONANTS.size() - 1)]
-				catname += new_char
-				if rng.randf() < 0.2: # 20% chance to double
-					continue
-				last_char_was_vowel = false
-				
-			is_vowel_turn = not last_char_was_vowel
-	else: 
-		id_text.text = "custom"
-		name_text.modulate = Color(1, 1, 0)
-		id_text.modulate = Color(.5, .5, 0)
-	rng.seed = catname.hash()
-	
-	catcolor = Color.from_hsv(rng.randf(), rng.randf(), rng.randf_range(0.5, 0.9))
-	catcolor_alt = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + .2, 0, 1))
-	catcolor_alt2 = Color.from_hsv(catcolor.h + rng.randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v - .2, 0, 1))
-	name_text.modulate = catcolor_alt
-	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
-	
-	
-	
-	
-	var body_texture = get_random_texture_file(BODYTEX)
-	var leg_texture = get_random_texture_file(LEGTEX)
-	var tail2_texture = get_random_texture_file(LEGTEX)
-	var head_texture = get_random_texture_file(HEADTEX)
-	print(head_texture)
-	var ear_texture 
-	
-	if head_texture.contains("dark"):
-		ear_texture = load("res://images/cat/ears/eardark.png")
-	else:
-		ear_texture = load(get_random_texture_file(EARTEX, "", "", "dark"))
-
-
+	if not premade: makecat()
 	
 	var shader_template = ShaderMaterial.new()
 	shader_template.shader = SHADER
@@ -219,7 +229,6 @@ func _ready() -> void:
 	var bodymat = shader_template.duplicate(true)
 	bodymat.set_shader_parameter("texture_albedo", load(body_texture))
 	body_mesh.material_override = bodymat
-
 	
 	var tail2mat = shader_template.duplicate(true)
 	tail2mat.set_shader_parameter("texture_albedo", load(tail2_texture))
@@ -229,28 +238,12 @@ func _ready() -> void:
 	tail1mat.set_shader_parameter("texture_albedo", load("res://images/cat/green.png"))
 	tail_1_mesh.material_override = tail1mat
 	
+	face.material_override = face.material_override.duplicate()
 
-	voicepitch     = rng.randf_range(0.75, 1.15)
-	limbspeed      = rng.randf_range(25, 30)
-	walkspeed      = rng.randf_range(0.05, 0.25)
-	catscale       = rng.randf_range(0.7, 1)
-	leg_height     = rng.randf_range(.6, 1.4)
-	leg_thickness  = rng.randf_range(.25, .35)
-	body_length    = rng.randf_range(1.2, 1.8)
-	body_width     = rng.randf_range(.7, 1)
-	body_height    = rng.randf_range(.55, .65)
-	head_size      = rng.randf_range(.95, 1.05)
-	tail_length    = rng.randf_range(.7, 1.3)
-	tail_thickness = rng.randf_range(.2, .5)
-	tail_1_angle   = rng.randf_range(45, 120)
-	tail_2_angle   = rng.randf_range(45, 75)
-	ear_width      = rng.randf_range(.7, 1)
-	ear_length     = rng.randf_range(.7, 1)
-	ear_angle      = rng.randf_range(-20, 12)
-	
-	
+	face.material_override.set_shader_parameter("texture_albedo", face_texture)
+	face.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
+	face.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
 	scale = Vector3(catscale,catscale,catscale)
-	
 	left_ear.scale.x = ear_width
 	left_ear.scale.z = ear_width
 	left_ear.scale.y = ear_length
@@ -322,8 +315,6 @@ func _ready() -> void:
 	-body_extents.z + leg_extents.z
 	)
 	
-	
-	
 	left_front_joint.node_a = left_front.get_path()
 	left_front_joint.node_b = body.get_path()
 	right_front_joint.node_a = right_front.get_path()
@@ -345,6 +336,7 @@ func _ready() -> void:
 	name_text.text = catname
 #endregion
 
+
 @onready var nametags: Node3D = $Nametags
 func _physics_process(_delta: float) -> void:
 	for child in get_children():
@@ -354,3 +346,4 @@ func _physics_process(_delta: float) -> void:
 		
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
 		
+	

@@ -1,3 +1,6 @@
 cats scream when thrown
 MAKE CUSTOM MEOWING SOUNDS!!! FUCK
 add ability to pet cats
+
+resting faces folder, meowing faces folder, and blinking faces folder. each have to be in the same style so as to not look weird
+may have a secret faces folder where all of the 3 states are in the same style. could possibly have different meowing sounds?

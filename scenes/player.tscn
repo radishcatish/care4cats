@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3jmy381wrbkf"]
+[gd_scene load_steps=7 format=3 uid="uid://b3jmy381wrbkf"]
 
 [ext_resource type="Script" uid="uid://cedigb4dllbn0" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="AudioStream" uid="uid://ciyss12decpoy" path="res://sounds/walking.ogg" id="2_qhqgy"]
@@ -14,10 +14,6 @@ absorbent = true
 radius = 0.618422
 height = 3.0
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_qlg0r"]
-radius = 0.7
-height = 3.0
-
 [node name="RigidBody3D" type="RigidBody3D"]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
@@ -27,14 +23,17 @@ physics_material_override = SubResource("PhysicsMaterial_g2els")
 gravity_scale = 3.0
 script = ExtResource("1_4flbx")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_g2els")
+
 [node name="Camera" type="Camera3D" parent="." groups=["canbechased", "canbelookedat", "player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 current = true
 fov = 90.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera"]
-visible = false
 target_position = Vector3(0, 0, -50)
+collision_mask = 16
 hit_back_faces = false
 debug_shape_thickness = 5
 
@@ -52,13 +51,6 @@ text = "+"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_g2els")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
-transparency = 1.0
-mesh = SubResource("CapsuleMesh_qlg0r")
-
 [node name="Walking" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qhqgy")
 volume_db = -25.0
@@ -72,8 +64,3 @@ parameters/looping = true
 [node name="Grab" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_dqkch")
 volume_db = -25.0
-
-[node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.44723, 0)
-target_position = Vector3(0, -0.125, 0)
-hit_from_inside = true
