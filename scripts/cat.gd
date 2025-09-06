@@ -10,7 +10,9 @@ extends Node3D
 @onready var left_ear_mesh: MeshInstance3D = $LeftEar/CollisionShape3D/LeftEar
 @onready var right_ear_joint: Generic6DOFJoint3D = $RightEar/RightEarJoint
 @onready var left_ear_joint: Generic6DOFJoint3D = $LeftEar/LeftEarJoint
-@onready var face: MeshInstance3D = $Head/Collision/Head/Face
+@onready var eyes: MeshInstance3D = $Head/Collision/Head/Eyes
+@onready var mouth: MeshInstance3D = $Head/Collision/Head/Mouth
+
 
 @onready var body: RigidBody3D = $Body
 @onready var body_joint: ConeTwistJoint3D = $Head/BodyHeadJoint
@@ -97,9 +99,10 @@ var leg_texture
 var tail2_texture
 var head_texture
 var ear_texture
-var face_texture
-var face_texture_blink
-var face_texture_meow
+var eyes_texture
+var mouth_texture
+var eyes_texture_blink
+var mouth_texture_meow
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
 var catname : String = ""
 
@@ -160,7 +163,8 @@ func makecat():
 	leg_texture = get_random_texture_file(LEGTEX)
 	tail2_texture = get_random_texture_file(LEGTEX)
 	head_texture = get_random_texture_file(HEADTEX)
-	face_texture = load("res://images/cat/faces/face" + str((randi_range(0, 13) * 3) + 1) + ".png")
+	eyes_texture = get_random_texture_file(FACETEX, "mouth")
+	mouth_texture = get_random_texture_file(FACETEX, "eye")
 	if head_texture.contains("dark"):
 		ear_texture = load("res://images/cat/ears/eardark.png")
 	else:
@@ -238,11 +242,14 @@ func _ready() -> void:
 	tail1mat.set_shader_parameter("texture_albedo", load("res://images/cat/green.png"))
 	tail_1_mesh.material_override = tail1mat
 	
-	face.material_override = face.material_override.duplicate()
-
-	face.material_override.set_shader_parameter("texture_albedo", face_texture)
-	face.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
-	face.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
+	eyes.material_override = eyes.material_override.duplicate()
+	eyes.material_override.set_shader_parameter("texture_albedo", load(eyes_texture))
+	eyes.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
+	eyes.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
+	mouth.material_override = mouth.material_override.duplicate()
+	mouth.material_override.set_shader_parameter("texture_albedo", load(mouth_texture))
+	mouth.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
+	mouth.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
 	scale = Vector3(catscale,catscale,catscale)
 	left_ear.scale.x = ear_width
 	left_ear.scale.z = ear_width
@@ -345,5 +352,5 @@ func _physics_process(_delta: float) -> void:
 		child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 50 + (-child.angular_velocity))
 		
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
-		
+
 	

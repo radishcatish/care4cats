@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=33 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="FontFile" uid="uid://ugrmhi5sa66n" path="res://fonts/m5x7.ttf" id="2_3fcyy"]
@@ -7,10 +7,11 @@
 [ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://models/head.obj" id="5_2wmww"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
 [ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://models/face.obj" id="7_3fcyy"]
-[ext_resource type="Texture2D" uid="uid://bi8gsn65toin7" path="res://images/cat/faces/face6.png" id="7_4m8cu"]
+[ext_resource type="Texture2D" uid="uid://t1u1sgrjg4lw" path="res://images/cat/faces/eyetype13.png" id="7_4m8cu"]
 [ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="7_dr6s3"]
 [ext_resource type="Shader" uid="uid://db84ci1ndnubd" path="res://shaders/catface.gdshader" id="7_rgipc"]
 [ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="8_3fcyy"]
+[ext_resource type="Texture2D" uid="uid://18nfte56ku5f" path="res://images/cat/faces/mouthtype5.png" id="9_o8rmy"]
 [ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="9_rgipc"]
 [ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://sounds/meows/MeowNormal5.wav" id="10_4m8cu"]
 [ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://sounds/meows/MeowNormal6.wav" id="11_o8rmy"]
@@ -34,12 +35,20 @@ height = 0.848176
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2wmww"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_njgcu"]
 render_priority = 0
 shader = ExtResource("7_rgipc")
 shader_parameter/texture_albedo = ExtResource("7_4m8cu")
-shader_parameter/original_colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/replace_colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/original_colors = PackedColorArray(0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1)
+shader_parameter/replace_colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1)
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2wmww"]
+render_priority = 0
+shader = ExtResource("7_rgipc")
+shader_parameter/texture_albedo = ExtResource("9_o8rmy")
+shader_parameter/original_colors = PackedColorArray(0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1)
+shader_parameter/replace_colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1)
 shader_parameter/color_tolerance = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hcucf"]
@@ -189,8 +198,14 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 mesh = ExtResource("5_2wmww")
 skeleton = NodePath("")
 
-[node name="Face" type="MeshInstance3D" parent="Head/Collision/Head"]
-transform = Transform3D(1.00953, -0.0299536, -0.00740848, 0.0299034, 1.00953, -0.00685314, 0.0076083, 0.0066306, 1.00995, 0, 0, 0)
+[node name="Eyes" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.01, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_njgcu")
+mesh = ExtResource("7_3fcyy")
+skeleton = NodePath("")
+
+[node name="Mouth" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.0201, 0, 0, 0, 1.02009, 0, 0, 0, 1.0201, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_2wmww")
 mesh = ExtResource("7_3fcyy")
 skeleton = NodePath("")
