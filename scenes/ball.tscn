@@ -12,6 +12,7 @@ radial_segments = 10
 rings = 3
 
 [node name="ball" type="RigidBody3D" groups=["canbechased", "canbelookedat"]]
+collision_layer = 17
 physics_material_override = SubResource("PhysicsMaterial_j4htl")
 script = ExtResource("1_cxlvu")
 

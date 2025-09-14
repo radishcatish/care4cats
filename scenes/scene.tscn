@@ -13,14 +13,17 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f71q"]
 shading_mode = 0
+specular_mode = 2
 albedo_texture = ExtResource("1_7ftgl")
 heightmap_enabled = true
 heightmap_scale = 2.388
 heightmap_deep_parallax = true
-heightmap_min_layers = 64
-heightmap_max_layers = 64
+heightmap_min_layers = 16
+heightmap_max_layers = 16
 heightmap_texture = ExtResource("1_7ftgl")
-texture_filter = 0
+uv1_triplanar_sharpness = 32.0
+uv1_world_triplanar = true
+grow_amount = 16.0
 proximity_fade_distance = 1376.52
 distance_fade_mode = 2
 distance_fade_min_distance = 400.0
@@ -148,6 +151,7 @@ cap_bottom = false
 [node name="clouds" type="MeshInstance3D" parent="environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 0)
 material_override = SubResource("StandardMaterial3D_0f71q")
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_7182s")
 skeleton = NodePath("../WorldEnvironment")
 script = ExtResource("1_tpwpp")
@@ -206,6 +210,7 @@ shape = SubResource("ConcavePolygonShape3D_5yiy0")
 transform = Transform3D(1.23, 0, 0, 0, 2.368, 0, 0, 0, 1.23, 0, -6, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="environment/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.53378, 0)
 shape = SubResource("WorldBoundaryShape3D_1kc1q")
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="environment/StaticBody3D"]
@@ -261,10 +266,22 @@ mesh = SubResource("CylinderMesh_0f71q")
 skeleton = NodePath("../../StaticBody3D2")
 
 [node name="player" parent="." instance=ExtResource("2_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, -15)
 
 [node name="cats" type="Node" parent="."]
 script = ExtResource("4_5fb3c")
 
 [node name="cat" parent="cats" instance=ExtResource("4_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -20.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 4, -20.8)
+
+[node name="cat5" parent="cats" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 4, -20.8)
+
+[node name="cat2" parent="cats" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, -22.6)
+
+[node name="cat3" parent="cats" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.3, -19.3)
+
+[node name="cat4" parent="cats" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, -20)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://dulajqguibits"]
+[gd_scene load_steps=35 format=3 uid="uid://dulajqguibits"]
 
 [ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_hcucf"]
 [ext_resource type="FontFile" uid="uid://ugrmhi5sa66n" path="res://fonts/m5x7.ttf" id="2_3fcyy"]
 [ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="2_6fl1u"]
 [ext_resource type="ArrayMesh" uid="uid://b7aplq6iqohyt" path="res://models/ear.obj" id="2_dr6s3"]
 [ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://models/head.obj" id="5_2wmww"]
+[ext_resource type="Texture2D" uid="uid://cy178cg1xsejr" path="res://images/cat/head/regular.png" id="5_rgipc"]
 [ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="6_yf1kj"]
 [ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://models/face.obj" id="7_3fcyy"]
 [ext_resource type="Texture2D" uid="uid://t1u1sgrjg4lw" path="res://images/cat/faces/eyetype13.png" id="7_4m8cu"]
@@ -34,6 +35,9 @@ radius = 0.178513
 height = 0.848176
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4m8cu"]
+albedo_texture = ExtResource("5_rgipc")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_njgcu"]
 render_priority = 0
@@ -195,6 +199,7 @@ shape = SubResource("SphereShape3D_5u64a")
 
 [node name="Head" type="MeshInstance3D" parent="Head/Collision"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_4m8cu")
 mesh = ExtResource("5_2wmww")
 skeleton = NodePath("")
 

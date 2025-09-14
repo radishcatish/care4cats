@@ -26,9 +26,8 @@ normal_texture = SubResource("NoiseTexture2D_mlksh")
 [sub_resource type="BoxMesh" id="BoxMesh_xbici"]
 
 [node name="1000 ton cube" type="RigidBody3D"]
-axis_lock_angular_x = true
-axis_lock_angular_z = true
-mass = 1000.0
+collision_layer = 17
+mass = 1e+07
 physics_material_override = SubResource("PhysicsMaterial_famg8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

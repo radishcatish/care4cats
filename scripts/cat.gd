@@ -146,16 +146,16 @@ func makecat():
 			last_char_was_vowel = false
 		is_vowel_turn = not last_char_was_vowel
 
-	catcolor = Color.from_hsv(randf(), randf(), randf_range(0.5, 0.9))
-	catcolor_alt = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v + .2, 0, 1))
-	catcolor_alt2 = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s, clamp(catcolor.v - .2, 0, 1))
-	facecolor = Color.from_hsv(randf(), randf(), randf_range(0.5, 0.9))
-	mouthcolor = Color.from_hsv(facecolor.h + randf_range(-0.1, 0.1), facecolor.s + randf_range(-0.1, 0.1), clamp(facecolor.v - 0.1, 0, 1))
+	catcolor = Color.from_hsv(randf(), randf(), randf()) 
+	catcolor_alt = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s + randf_range(-0.05, 0.05), clamp(catcolor.v + randf_range(0.1, 0.2), 0, 1))
+	catcolor_alt2 = Color.from_hsv(catcolor.h + randf_range(-0.05, 0.05), catcolor.s + randf_range(-0.05, 0.05), clamp(catcolor.v - randf_range(0.1, 0.2), 0, 1))
+	facecolor = Color.from_hsv(randf(), randf(), 0)
 	if catcolor.get_luminance() < .4:
-		facecolor = Color.from_hsv(facecolor.h, facecolor.s, ((catcolor.v - 1) * -1) + .2)
-		mouthcolor = Color.from_hsv(mouthcolor.h, mouthcolor.s, ((mouthcolor.v - 1) * -1))
+		facecolor.v = randf_range(.45, 1)
 	else:
-		facecolor = Color.from_hsv(facecolor.h, facecolor.s, ((catcolor.v - 1) * -1) - .05)
+		facecolor.v -= randf_range(.05, 5)
+		
+	mouthcolor = Color.from_hsv(facecolor.h - .2, facecolor.s, clamp(facecolor.v - .2, 0, 1))
 
 	name_text.modulate = catcolor_alt
 	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))

@@ -71,9 +71,10 @@ func _physics_process(delta: float) -> void:
 		add_sibling(catscene)
 		
 	if Input.is_action_pressed("spawnball"):
-		var ballscene = BALL.instantiate()
-		add_sibling(ballscene)
-		ballscene.global_position = $Camera/Node3D.global_position
+		for i in 30:
+			var ballscene = BALL.instantiate()
+			add_sibling(ballscene)
+			ballscene.global_position = $Camera/Node3D.global_position
 		
 	if Input.is_action_pressed("grab"):
 		if not body:
@@ -84,7 +85,7 @@ func _physics_process(delta: float) -> void:
 			else: return
 		var target_position = $Camera/Node3D.global_position
 		var to_target = target_position - body.global_position
-		var force = to_target * 1200 
+		var force = to_target * 1200 * body.mass
 		body.apply_force(force, Vector3.ZERO)
 		body.apply_force(-body.linear_velocity * 100 * body.mass, Vector3.ZERO)
 		
