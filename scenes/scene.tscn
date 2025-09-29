@@ -1,6 +1,6 @@
-[gd_scene load_steps=34 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=39 format=3 uid="uid://00j5vbbw06c5"]
 
-[ext_resource type="Texture2D" uid="uid://csvqh0jj6ovwl" path="res://scenes/clouds.tres" id="1_7ftgl"]
+[ext_resource type="Texture2D" uid="uid://b4g0xbbhndltn" path="res://images/clouds.png" id="1_7ftgl"]
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
 [ext_resource type="Script" uid="uid://ca4m3rudr38si" path="res://scripts/clouds.gd" id="1_tpwpp"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
@@ -11,28 +11,46 @@
 [ext_resource type="Shader" uid="uid://bb8d7irwilhlm" path="res://shaders/water.gdshader" id="5_7182s"]
 [ext_resource type="Texture2D" uid="uid://dxm33fo06cf7" path="res://images/Mario.png" id="5_gjmho"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f71q"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqloj"]
+transparency = 1
 shading_mode = 0
+diffuse_mode = 3
 specular_mode = 2
 albedo_texture = ExtResource("1_7ftgl")
-heightmap_enabled = true
-heightmap_scale = 2.388
-heightmap_deep_parallax = true
-heightmap_min_layers = 16
-heightmap_max_layers = 16
-heightmap_texture = ExtResource("1_7ftgl")
-uv1_triplanar_sharpness = 32.0
-uv1_world_triplanar = true
-grow_amount = 16.0
-proximity_fade_distance = 1376.52
-distance_fade_mode = 2
-distance_fade_min_distance = 400.0
+texture_filter = 0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7182s"]
 top_radius = 400.0
 bottom_radius = 400.0
 height = 0.001
 radial_segments = 7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ftgl"]
+transparency = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(1, 1, 1, 0.7137255)
+albedo_texture = ExtResource("1_7ftgl")
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f71q"]
+transparency = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(1, 1, 1, 0.4862745)
+albedo_texture = ExtResource("1_7ftgl")
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tvkk6"]
+transparency = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(1, 1, 1, 0.25882354)
+albedo_texture = ExtResource("1_7ftgl")
+texture_filter = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tpwpp"]
 render_priority = 0
@@ -103,10 +121,10 @@ colors = PackedColorArray(1, 0.941176, 0.611765, 1, 1, 1, 0.768627, 1)
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5yiy0"]
 width = 110
 height = 78
+noise = SubResource("FastNoiseLite_dqloj")
+color_ramp = SubResource("Gradient_7ftgl")
 seamless = true
 seamless_blend_skirt = 0.68
-color_ramp = SubResource("Gradient_7ftgl")
-noise = SubResource("FastNoiseLite_dqloj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dv0eb"]
 albedo_texture = SubResource("NoiseTexture2D_5yiy0")
@@ -128,10 +146,10 @@ colors = PackedColorArray(0, 0.38, 0.234333, 1, 1.08294e-06, 0.495371, 0.262246,
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dqloj"]
 width = 110
 height = 78
+noise = SubResource("FastNoiseLite_7ftgl")
+color_ramp = SubResource("Gradient_tpwpp")
 seamless = true
 seamless_blend_skirt = 0.68
-color_ramp = SubResource("Gradient_tpwpp")
-noise = SubResource("FastNoiseLite_7ftgl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5yiy0"]
 albedo_texture = SubResource("NoiseTexture2D_dqloj")
@@ -144,13 +162,48 @@ radial_segments = 15
 rings = 0
 cap_bottom = false
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cc7s"]
+shading_mode = 0
+albedo_color = Color(1, 0.8745098, 0, 1)
+stencil_flags = 2
+stencil_color = Color(1, 1, 0, 0.2)
+stencil_outline_thickness = 0.049
+
+[sub_resource type="SphereMesh" id="SphereMesh_r2e7w"]
+radial_segments = 9
+rings = 9
+
 [node name="scene" type="Node"]
 
 [node name="environment" type="Node" parent="."]
 
 [node name="clouds" type="MeshInstance3D" parent="environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 0)
+material_override = SubResource("StandardMaterial3D_dqloj")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_7182s")
+skeleton = NodePath("../WorldEnvironment")
+script = ExtResource("1_tpwpp")
+
+[node name="clouds2" type="MeshInstance3D" parent="environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0)
+material_override = SubResource("StandardMaterial3D_7ftgl")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_7182s")
+skeleton = NodePath("../WorldEnvironment")
+script = ExtResource("1_tpwpp")
+
+[node name="clouds3" type="MeshInstance3D" parent="environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71, 0)
 material_override = SubResource("StandardMaterial3D_0f71q")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_7182s")
+skeleton = NodePath("../WorldEnvironment")
+script = ExtResource("1_tpwpp")
+
+[node name="clouds4" type="MeshInstance3D" parent="environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 72, 0)
+material_override = SubResource("StandardMaterial3D_tvkk6")
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_7182s")
 skeleton = NodePath("../WorldEnvironment")
@@ -264,6 +317,11 @@ transform = Transform3D(3.84959, 0, 0, 0, 2.53378, 0, 0, 0, 3.84959, 0, 0.475507
 material_override = SubResource("StandardMaterial3D_5yiy0")
 mesh = SubResource("CylinderMesh_0f71q")
 skeleton = NodePath("../../StaticBody3D2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="environment"]
+transform = Transform3D(96.605, 0, 0, 0, 96.605, 0, 0, 0, 96.605, 153, 166, -136)
+material_override = SubResource("StandardMaterial3D_8cc7s")
+mesh = SubResource("SphereMesh_r2e7w")
 
 [node name="player" parent="." instance=ExtResource("2_5fb3c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, -15)
