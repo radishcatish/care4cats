@@ -1,95 +1,21 @@
-[gd_scene load_steps=39 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=25 format=3 uid="uid://00j5vbbw06c5"]
 
-[ext_resource type="Texture2D" uid="uid://b4g0xbbhndltn" path="res://images/clouds.png" id="1_7ftgl"]
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
-[ext_resource type="Script" uid="uid://ca4m3rudr38si" path="res://scripts/clouds.gd" id="1_tpwpp"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
-[ext_resource type="Shader" uid="uid://cjlk217kjtu5e" path="res://shaders/sky.gdshader" id="3_ruw3y"]
-[ext_resource type="Script" uid="uid://cghuq7jcec87w" path="res://scripts/water.gd" id="3_tpwpp"]
 [ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://dev/randomcatspawner.gd" id="4_5fb3c"]
 [ext_resource type="PackedScene" uid="uid://dulajqguibits" path="res://scenes/cat.tscn" id="4_gjmho"]
-[ext_resource type="Shader" uid="uid://bb8d7irwilhlm" path="res://shaders/water.gdshader" id="5_7182s"]
-[ext_resource type="Texture2D" uid="uid://dxm33fo06cf7" path="res://images/Mario.png" id="5_gjmho"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqloj"]
-transparency = 1
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-albedo_texture = ExtResource("1_7ftgl")
-texture_filter = 0
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gjmho"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_7182s"]
-top_radius = 400.0
-bottom_radius = 400.0
-height = 0.001
-radial_segments = 7
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5fb3c"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ftgl"]
-transparency = 1
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-albedo_color = Color(1, 1, 1, 0.7137255)
-albedo_texture = ExtResource("1_7ftgl")
-texture_filter = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f71q"]
-transparency = 1
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-albedo_color = Color(1, 1, 1, 0.4862745)
-albedo_texture = ExtResource("1_7ftgl")
-texture_filter = 0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tvkk6"]
-transparency = 1
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-albedo_color = Color(1, 1, 1, 0.25882354)
-albedo_texture = ExtResource("1_7ftgl")
-texture_filter = 0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tpwpp"]
-render_priority = 0
-shader = ExtResource("5_7182s")
-shader_parameter/color1 = Color(0, 0, 0.639216, 1)
-shader_parameter/color2 = Color(0, 0, 0.509804, 1)
-shader_parameter/color3 = Color(0.364706, 0.509804, 1, 1)
-shader_parameter/x_amount = 4096.0
-shader_parameter/y_amount = 4096.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1id6j"]
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-disable_ambient_light = true
-albedo_color = Color(0, 0.635294, 1, 1)
-distance_fade_mode = 2
-distance_fade_max_distance = 264.02
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7182s"]
-shader = ExtResource("3_ruw3y")
-shader_parameter/sky_color = Color(0.03, 0.05, 0.11, 1)
-shader_parameter/star_base_color = Color(0.8, 1, 0.3, 1)
-shader_parameter/star_hue_offset = 0.6
-shader_parameter/star_intensity = 0.08
-shader_parameter/star_twinkle_speed = 0.8
-shader_parameter/star_twinkle_intensity = 0.2
-shader_parameter/layer_scale = 20.0
-shader_parameter/layer_scale_step = 10.0
-shader_parameter/layers_count = 3
-
-[sub_resource type="Sky" id="Sky_nxogm"]
-sky_material = SubResource("ShaderMaterial_7182s")
+[sub_resource type="Sky" id="Sky_gjmho"]
+sky_material = SubResource("ProceduralSkyMaterial_5fb3c")
 
 [sub_resource type="Environment" id="Environment_3253y"]
-background_mode = 1
+background_mode = 2
 background_color = Color(9.02452e-09, 0.0396363, 0.0767023, 1)
-background_energy_multiplier = 16.0
-sky = SubResource("Sky_nxogm")
+sky = SubResource("Sky_gjmho")
 ambient_light_sky_contribution = 0.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_7ftgl"]
@@ -162,60 +88,9 @@ radial_segments = 15
 rings = 0
 cap_bottom = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cc7s"]
-shading_mode = 0
-albedo_color = Color(1, 0.8745098, 0, 1)
-stencil_flags = 2
-stencil_color = Color(1, 1, 0, 0.2)
-stencil_outline_thickness = 0.049
-
-[sub_resource type="SphereMesh" id="SphereMesh_r2e7w"]
-radial_segments = 9
-rings = 9
-
 [node name="scene" type="Node"]
 
 [node name="environment" type="Node" parent="."]
-
-[node name="clouds" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 0)
-material_override = SubResource("StandardMaterial3D_dqloj")
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_7182s")
-skeleton = NodePath("../WorldEnvironment")
-script = ExtResource("1_tpwpp")
-
-[node name="clouds2" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0)
-material_override = SubResource("StandardMaterial3D_7ftgl")
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_7182s")
-skeleton = NodePath("../WorldEnvironment")
-script = ExtResource("1_tpwpp")
-
-[node name="clouds3" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71, 0)
-material_override = SubResource("StandardMaterial3D_0f71q")
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_7182s")
-skeleton = NodePath("../WorldEnvironment")
-script = ExtResource("1_tpwpp")
-
-[node name="clouds4" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 72, 0)
-material_override = SubResource("StandardMaterial3D_tvkk6")
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_7182s")
-skeleton = NodePath("../WorldEnvironment")
-script = ExtResource("1_tpwpp")
-
-[node name="water" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7, 0)
-material_override = SubResource("ShaderMaterial_tpwpp")
-material_overlay = SubResource("StandardMaterial3D_1id6j")
-mesh = SubResource("CylinderMesh_7182s")
-skeleton = NodePath("../StaticBody3D2")
-script = ExtResource("3_tpwpp")
 
 [node name="35_7Pm" type="AudioStreamPlayer" parent="environment"]
 stream = ExtResource("1_t7and")
@@ -224,7 +99,7 @@ stream = ExtResource("1_t7and")
 transform = Transform3D(-21.6378, 0, -33.6423, 0, 40, 0, 33.6423, 0, -21.6378, -828.985, 0, -545.25)
 visible = false
 modulate = Color(1, 1, 1, 0.101961)
-texture = ExtResource("5_gjmho")
+texture = SubResource("CompressedTexture2D_gjmho")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="environment"]
 transform = Transform3D(0.97288, 0.200318, -0.115653, -1.34568e-08, 0.5, 0.866026, 0.231306, -0.842541, 0.48644, 0, 83, 0)
@@ -317,11 +192,6 @@ transform = Transform3D(3.84959, 0, 0, 0, 2.53378, 0, 0, 0, 3.84959, 0, 0.475507
 material_override = SubResource("StandardMaterial3D_5yiy0")
 mesh = SubResource("CylinderMesh_0f71q")
 skeleton = NodePath("../../StaticBody3D2")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="environment"]
-transform = Transform3D(96.605, 0, 0, 0, 96.605, 0, 0, 0, 96.605, 153, 166, -136)
-material_override = SubResource("StandardMaterial3D_8cc7s")
-mesh = SubResource("SphereMesh_r2e7w")
 
 [node name="player" parent="." instance=ExtResource("2_5fb3c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, -15)

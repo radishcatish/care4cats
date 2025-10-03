@@ -27,6 +27,10 @@ window/size/viewport_height=480
 window/stretch/mode="canvas_items"
 window/dpi/allow_hidpi=false
 
+[dotnet]
+
+project/assembly_name="care4cats"
+
 [input]
 
 esc={
