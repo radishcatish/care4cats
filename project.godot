@@ -124,16 +124,14 @@ shift={
 
 2d/run_on_separate_thread=true
 3d/run_on_separate_thread=true
-common/max_physics_steps_per_frame=100
-common/physics_jitter_fix=2.0
 3d/physics_engine="Jolt Physics"
-jolt_physics_3d/simulation/velocity_steps=2
-jolt_physics_3d/simulation/position_steps=1
 jolt_physics_3d/simulation/sleep_velocity_threshold=0.1
 jolt_physics_3d/joints/world_node=1
-3d/default_gravity=20.0
-3d/time_before_sleep=0.1
-3d/solver/solver_iterations=1
+3d/default_gravity=15.0
+common/physics_interpolation=true
+jolt_physics_3d/solver/solver_iterations=1
+jolt_physics_3d/time_before_sleep=0.5
+jolt_physics_3d/default_gravity=15.0
 
 [rendering]
 

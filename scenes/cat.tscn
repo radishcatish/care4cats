@@ -410,6 +410,8 @@ doppler_tracking = 1
 [node name="Body" type="RigidBody3D" parent="."]
 collision_layer = 17
 collision_mask = 0
+axis_lock_angular_y = true
+mass = 0.5
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1

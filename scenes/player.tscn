@@ -50,6 +50,12 @@ outline_modulate = Color(0, 0, 0, 0)
 text = "+"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -185.21231)
+spot_range = 1000.0
+spot_attenuation = 0.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera"]
+omni_range = 241.213
 
 [node name="Walking" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qhqgy")

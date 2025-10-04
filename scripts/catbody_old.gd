@@ -8,7 +8,7 @@ extends RigidBody3D
 @onready var forward_direction : Vector3 = transform.basis.x.normalized()
 @onready var look_target: Vector3
 var timer := randf()
-var iswalking := false
+var iswalking := true
 var islooking := false
 var loose := false
 var sitting := false
@@ -22,15 +22,14 @@ func _ready() -> void:
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var correction_axis: Vector3 = state.transform.basis.y.cross(Vector3.UP)
-	var total_torque: Vector3 = correction_axis * owner.limbspeed + (-state.angular_velocity * owner.limbdamping)
+	var total_torque: Vector3 = correction_axis * 20 + (-state.angular_velocity * .2)
 	var target_direction: Vector3 = (state.transform.origin - look_target).normalized()
 	var current_forward: Vector3 = -state.transform.basis.z
 	var rotation_axis: Vector3 = current_forward.cross(target_direction).normalized()
 	var rotation_angle: float = acos(current_forward.dot(target_direction))
-	var torque: Vector3 = rotation_axis * rotation_angle * owner.limbspeed - (state.angular_velocity * owner.limbdamping)
+	var torque: Vector3 = rotation_axis * rotation_angle * 20 - (state.angular_velocity * .2)
 	forward_direction = transform.basis.x.normalized()
-	timer += owner.walkspeed
-	var walkwave : float = sin(timer) * 35
+
 	
 	if islooking and cat.thingtolookat_body:
 		look_target = cat.thingtolookat_body.position
@@ -40,11 +39,13 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		state.apply_torque(total_torque)
 		
 	if iswalking:
-		apply_force(Vector3(0, 10, 0))
+		var forward = transform.basis.z.normalized()
+		state.apply_central_force(forward * 50.0) # adjust strength
+		var walkwave = sin(Time.get_ticks_msec() * 10.0) * 60.0
 		left_front.apply_torque(forward_direction * -walkwave)
 		right_back.apply_torque(forward_direction * -walkwave)
-		right_front.apply_torque(forward_direction * (walkwave - 10))
-		left_back.apply_torque(forward_direction * (walkwave - 10))
+		right_front.apply_torque(forward_direction * walkwave)
+		left_back.apply_torque(forward_direction * walkwave)
 		
 	if laying:
 		right_front.apply_torque(forward_direction * -10)
@@ -56,8 +57,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		right_back.apply_torque(forward_direction * -2)
 		left_back.apply_torque(forward_direction * -2)
 
-	right_back.loose = sitting or laying 
-	left_back.loose = sitting or laying 
-	right_front.loose = laying 
-	left_front.loose = laying 
-	loose = (sitting or laying)
+	#right_back.loose = sitting or laying 
+	#left_back.loose = sitting or laying 
+	#right_front.loose = laying 
+	#left_front.loose = laying 
+	#loose = (sitting or laying)

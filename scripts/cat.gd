@@ -351,14 +351,40 @@ func _ready() -> void:
 	name_text.text = catname
 #endregion
 
-
-@onready var nametags: Node3D = $Nametags
-func _physics_process(_delta: float) -> void:
-	for child in get_children():
-		if child is not RigidBody3D or child.collision_layer == 0: 
-			continue
-		child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 50 + (-child.angular_velocity))
-		
+func _process(_delta: float) -> void:
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
 
+
+@onready var nametags: Node3D = $Nametags
+var iswalking := true
+var islooking := false
+var loose := false
+var sitting := false
+var laying := false
+var walktimer := 0.0
+
+func _physics_process(_delta: float) -> void:
+	if not loose:
+		for child in get_children():
+			if child is not RigidBody3D or child.collision_layer == 0: 
+				continue
+			child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 20 + (-child.angular_velocity))
+	var forward = body.transform.basis.z.normalized()
+	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 50 + (-body.angular_velocity))
+	body.apply_torque(-forward * 8)
+	head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
 	
+	if iswalking:
+		var forward_legs = body.transform.basis.x.normalized()
+		walktimer += .15
+		body.apply_torque(-forward * 8)
+		body.apply_central_force(forward * 20.0)
+		body.apply_central_force(Vector3(0, 15, 0))
+		var yaw_resist = -Vector3.UP * body.angular_velocity.y * 10.0
+		body.apply_torque(yaw_resist)
+		var walkwave = sin(walktimer + PI) * 40.0
+		var walkwave2 = sin(walktimer + 2) * 40.0
+		left_front.apply_torque(forward_legs * -walkwave)
+		right_back.apply_torque(forward_legs * -walkwave)
+		right_front.apply_torque(forward_legs * walkwave2)
+		left_back.apply_torque(forward_legs * walkwave2)
