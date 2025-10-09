@@ -349,34 +349,49 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
-
+@onready var player: Player = $"../../player"
 
 @onready var nametags: Node3D = $Nametags
 var iswalking := true
-var islooking := false
 var loose := false
 var sitting := false
 var laying := false
 var walktimer := 0.0
 var grabbed := false
-var lookingat : Node
-var walkspeed := .7
+var lookingat_head := Vector3(0, 0, 0)
+var headlookspeed := 30.0
+var lookingat_body := Vector3(0, 0, 0)
+var bodylookspeed := 30.0
+var walkspeed := 1
 func _physics_process(_delta: float) -> void:
 	var forward = body.transform.basis.z.normalized()
-	if not loose:
-		for child in get_children():
-			if child is not RigidBody3D or child.collision_layer == 0: 
-				continue
-			child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 20 + (-child.angular_velocity))
-		
-	if lookingat:
-		pass
+	lookingat_head = player.position + Vector3(0, 2, 0)
+	lookingat_body = player.position + Vector3(0, 2, 0)
+	if lookingat_head != Vector3.ZERO:
+		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 30 + (-head.angular_velocity))
+		var direction_to_target = (lookingat_head - head.global_transform.origin).normalized()
+		var desired_forward = -direction_to_target
+		var current_forward = -head.global_transform.basis.z
+		var rotation_axis = current_forward.cross(desired_forward).normalized()
+		var angle = acos(current_forward.dot(desired_forward))
+		if angle > 0.001:
+			var torque = rotation_axis * angle * headlookspeed
+			head.apply_torque_impulse(torque * get_physics_process_delta_time())
 	else:
 		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
 		
-
+	if lookingat_body != Vector3.ZERO:
+		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
+		var direction_to_target = (lookingat_body - body.global_transform.origin).normalized()
+		var desired_forward = -direction_to_target
+		var current_forward = -body.global_transform.basis.z
+		var rotation_axis = current_forward.cross(desired_forward).normalized()
+		var angle = acos(current_forward.dot(desired_forward))
+		if angle > 0.001:
+			var torque = rotation_axis * angle * bodylookspeed
+			body.apply_torque_impulse(torque * get_physics_process_delta_time())
+		
 	if iswalking and not grabbed:
-		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 300 + (-body.angular_velocity))
 		walktimer += _delta * (4.5 * walkspeed)
 		var forward_legs = body.transform.basis.x.normalized()
 		var side_legs = body.transform.basis.z.normalized()
@@ -384,6 +399,7 @@ func _physics_process(_delta: float) -> void:
 		body.apply_central_force(forward_body * (10.0 + (leg_height + .4) * 10) * walkspeed)
 		body.apply_central_force(Vector3.UP * 40.0)
 		body.apply_torque(-forward * 10)
+		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 300 + (-body.angular_velocity))
 		var circle_forward = cos(walktimer)
 		var circle_side = sin(walktimer)
 		var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 20.0
@@ -392,3 +408,8 @@ func _physics_process(_delta: float) -> void:
 		right_back.apply_torque(torque_vec)
 		right_front.apply_torque(opposite_torque)
 		left_back.apply_torque(opposite_torque)
+	else:
+		left_front.apply_torque(left_front.transform.basis.y.cross(Vector3.UP) * 30 + (-left_front.angular_velocity))
+		left_back.apply_torque(left_back.transform.basis.y.cross(Vector3.UP) * 30 + (-left_back.angular_velocity))
+		right_front.apply_torque(right_front.transform.basis.y.cross(Vector3.UP) * 30 + (-right_front.angular_velocity))
+		right_back.apply_torque(right_back.transform.basis.y.cross(Vector3.UP) * 30 + (-right_back.angular_velocity))
