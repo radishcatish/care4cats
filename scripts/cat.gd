@@ -66,8 +66,6 @@ const VOWELS = ["a", "e", "i", "o", "u"]
 var namelength       : int        = 0
 var voicepitch       : float      = 0.0
 var hyperactivity    : float      = 0.0
-var limbspeed        : float      = 0.0
-var walkspeed        : float      = 0.0
 var catcolor         : Color      = Color(0,0,0)
 var catcolor_alt     : Color      = Color(0,0,0)
 var catcolor_alt2    : Color      = Color(0,0,0)
@@ -172,8 +170,6 @@ func makecat():
 		ear_texture = load(get_random_texture_file(EARTEX, "", "", "dark"))
 		
 	voicepitch     = randf_range(0.75, 1.15)
-	limbspeed      = randf_range(25, 30)
-	walkspeed      = randf_range(0.05, 0.25)
 	catscale       = randf_range(0.7, 1)
 	leg_height     = randf_range(.6, 1.4)
 	leg_thickness  = randf_range(.25, .35)
@@ -362,29 +358,37 @@ var loose := false
 var sitting := false
 var laying := false
 var walktimer := 0.0
-
+var grabbed := false
+var lookingat : Node
+var walkspeed := .7
 func _physics_process(_delta: float) -> void:
+	var forward = body.transform.basis.z.normalized()
 	if not loose:
 		for child in get_children():
 			if child is not RigidBody3D or child.collision_layer == 0: 
 				continue
 			child.apply_torque(child.transform.basis.y.cross(Vector3.UP) * 20 + (-child.angular_velocity))
-	var forward = body.transform.basis.z.normalized()
-	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 50 + (-body.angular_velocity))
-	body.apply_torque(-forward * 8)
-	head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
-	
-	if iswalking:
+		
+	if lookingat:
+		pass
+	else:
+		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
+		
+
+	if iswalking and not grabbed:
+		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 8888888 + (-body.angular_velocity))
+		walktimer += _delta * (4.0 * walkspeed)
 		var forward_legs = body.transform.basis.x.normalized()
-		walktimer += .15
-		body.apply_torque(-forward * 8)
-		body.apply_central_force(forward * 20.0)
-		body.apply_central_force(Vector3(0, 15, 0))
-		var yaw_resist = -Vector3.UP * body.angular_velocity.y * 10.0
-		body.apply_torque(yaw_resist)
-		var walkwave = sin(walktimer + PI) * 40.0
-		var walkwave2 = sin(walktimer + 2) * 40.0
-		left_front.apply_torque(forward_legs * -walkwave)
-		right_back.apply_torque(forward_legs * -walkwave)
-		right_front.apply_torque(forward_legs * walkwave2)
-		left_back.apply_torque(forward_legs * walkwave2)
+		var side_legs = body.transform.basis.z.normalized()
+		var forward_body = body.transform.basis.z.normalized()
+		body.apply_central_force(forward_body * (10.0 + (leg_height + .4) * 10) * walkspeed)
+		body.apply_central_force(Vector3.UP * 40.0)
+		body.apply_torque(-forward * 10)
+		var circle_forward = cos(walktimer)
+		var circle_side = sin(walktimer)
+		var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 30.0
+		var opposite_torque = (forward_legs * -circle_forward + side_legs * -circle_side) * 30.0
+		left_front.apply_torque(torque_vec)
+		right_back.apply_torque(torque_vec)
+		right_front.apply_torque(opposite_torque)
+		left_back.apply_torque(opposite_torque)

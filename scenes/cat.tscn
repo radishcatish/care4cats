@@ -410,7 +410,6 @@ doppler_tracking = 1
 [node name="Body" type="RigidBody3D" parent="."]
 collision_layer = 17
 collision_mask = 0
-axis_lock_angular_y = true
 mass = 0.5
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
@@ -424,6 +423,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 skeleton = NodePath("../..")
 
 [node name="LeftFront" type="RigidBody3D" parent="."]
+collision_layer = 0
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
@@ -440,6 +440,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
 skeleton = NodePath("../..")
 
 [node name="RightFront" type="RigidBody3D" parent="."]
+collision_layer = 0
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
@@ -456,6 +457,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49012e-08)
 skeleton = NodePath("../..")
 
 [node name="LeftBack" type="RigidBody3D" parent="."]
+collision_layer = 0
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
@@ -471,6 +473,7 @@ shape = SubResource("BoxShape3D_52fj1")
 skeleton = NodePath("../..")
 
 [node name="RightBack" type="RigidBody3D" parent="."]
+collision_layer = 0
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1

@@ -76,6 +76,7 @@ func _physics_process(delta: float) -> void:
 			add_sibling(ballscene)
 			ballscene.global_position = $Camera/Node3D.global_position
 		
+	
 	if Input.is_action_pressed("grab"):
 		if not body:
 			if $Camera/RayCast3D.get_collider() is RigidBody3D:
@@ -88,6 +89,12 @@ func _physics_process(delta: float) -> void:
 		var force = to_target * 1200 * body.mass
 		body.apply_force(force, Vector3.ZERO)
 		body.apply_force(-body.linear_velocity * 100 * body.mass, Vector3.ZERO)
+		if body.get_parent().name == "cat": 
+			body.get_parent().grabbed = true
+	else:
+		if body:
+			if body.get_parent().name == "cat": 
+				body.get_parent().grabbed = false
 		
 
 	body = null if Input.is_action_just_released("grab") else body
