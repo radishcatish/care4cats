@@ -376,8 +376,8 @@ func _physics_process(_delta: float) -> void:
 		
 
 	if iswalking and not grabbed:
-		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 8888888 + (-body.angular_velocity))
-		walktimer += _delta * (4.0 * walkspeed)
+		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 300 + (-body.angular_velocity))
+		walktimer += _delta * (4.5 * walkspeed)
 		var forward_legs = body.transform.basis.x.normalized()
 		var side_legs = body.transform.basis.z.normalized()
 		var forward_body = body.transform.basis.z.normalized()
@@ -386,8 +386,8 @@ func _physics_process(_delta: float) -> void:
 		body.apply_torque(-forward * 10)
 		var circle_forward = cos(walktimer)
 		var circle_side = sin(walktimer)
-		var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 30.0
-		var opposite_torque = (forward_legs * -circle_forward + side_legs * -circle_side) * 30.0
+		var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 20.0
+		var opposite_torque = (forward_legs * -circle_forward + side_legs * -circle_side) * 20.0
 		left_front.apply_torque(torque_vec)
 		right_back.apply_torque(torque_vec)
 		right_front.apply_torque(opposite_torque)
