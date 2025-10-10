@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=21 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
@@ -72,8 +72,6 @@ radial_segments = 15
 rings = 0
 cap_bottom = false
 
-[sub_resource type="BoxMesh" id="BoxMesh_5fb3c"]
-
 [node name="scene" type="Node"]
 
 [node name="environment" type="Node" parent="."]
@@ -96,6 +94,8 @@ environment = SubResource("Environment_3253y")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="environment"]
 transform = Transform3D(1.23, 0, 0, 0, 2.368, 0, 0, 0, 1.23, 0, -6, 0)
+collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="environment/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.53378, 0)
@@ -153,15 +153,11 @@ material_override = SubResource("StandardMaterial3D_5yiy0")
 mesh = SubResource("CylinderMesh_0f71q")
 skeleton = NodePath("")
 
-[node name="player" parent="." instance=ExtResource("2_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, 8.933743)
-
-[node name="cats" type="Node" parent="."]
+[node name="Entities" type="Node" parent="."]
 script = ExtResource("4_5fb3c")
 
-[node name="cat" parent="cats" instance=ExtResource("4_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9145281, 4, 3.1337433)
+[node name="player" parent="Entities" instance=ExtResource("2_5fb3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, 8.933743)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
-mesh = SubResource("BoxMesh_5fb3c")
+[node name="cat" parent="Entities" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9145281, 4, 3.1337433)
