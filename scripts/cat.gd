@@ -352,7 +352,7 @@ func _process(_delta: float) -> void:
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
 
 
-
+@onready var agent: NavigationAgent3D = $Body/NavigationAgent3D
 @onready var nametags: Node3D = $Nametags
 var iswalking := false
 var loose := false

@@ -10,14 +10,17 @@ height = 3.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqkch"]
 transparency = 1
-cull_mode = 1
+cull_mode = 2
 shading_mode = 0
+diffuse_mode = 3
 albedo_texture = ExtResource("2_qhqgy")
 texture_filter = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhqgy"]
 transparency = 1
 cull_mode = 1
+depth_draw_mode = 1
+no_depth_test = true
 shading_mode = 2
 diffuse_mode = 3
 specular_mode = 2
@@ -60,6 +63,12 @@ transform = Transform3D(1.7320508, 1, 0, 1, -1.7320508, 0, 0, 0, 2, 0.4, -0.3, -
 material_override = SubResource("StandardMaterial3D_qhqgy")
 mesh = ExtResource("3_dqkch")
 skeleton = NodePath("../LeftHand")
+
+[node name="RayCast3DLookforPet" type="RayCast3D" parent="Camera"]
+target_position = Vector3(0, 0, -50)
+collision_mask = 16
+hit_back_faces = false
+debug_shape_thickness = 5
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera"]
 target_position = Vector3(0, 0, -50)

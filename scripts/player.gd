@@ -28,49 +28,60 @@ func _physics_process(delta):
 	velocity += Vector3(direction.x * 1.5, -gravity * delta, direction.z * 1.5)
 	velocity *= Vector3(.9, 1, .9)
 	move_and_slide()
-
-
+	
+	if Input.is_action_just_pressed("scrolldown"):
+		hold_point.position.z += 1
+	if Input.is_action_just_pressed("scrollup"):
+		hold_point.position.z -= 1
+	hold_point.position.z = clamp(hold_point.position.z, -3, -1)
 	if Input.is_action_pressed("grab"):
 		if not body:
 			var collider = ray.get_collider()
 			if collider is RigidBody3D:
 				body = collider
 				hold_point.position.z = -3
+				var fsdfsd = hold_point.global_position - body.global_position
+				if fsdfsd.length() > 2:
+					body = null
 			else:
 				return
-		var target_pos = hold_point.global_position
-		var to_target = target_pos - body.global_position
+		if not body: 
+			return
+		var to_target = hold_point.global_position - body.global_position
 		var strength = 50.0
-		var max_speed = 100.0
+		var max_speed = INF
 		if body.get_parent().name == "cat":
-			max_speed = 30
+			max_speed = 50
 		var desired_vel = to_target * strength
 		if desired_vel.length() > max_speed:
 			desired_vel = desired_vel.normalized() * max_speed
 		var force = (desired_vel - body.linear_velocity) * body.mass / delta
 		body.apply_central_force(force)
-		left_hand.visible = true
-		right_hand.visible = true
-		camera_hand.visible = false
+
 		if body.get_parent().name == "cat":
 			body.get_parent().forcelookplayer = global_position + Vector3(0, 2, 0)
 			var cat_basis = body.global_transform.basis
 			var cat_right = cat_basis.x.normalized()
 			var cat_up = cat_basis.y.normalized()
-			var side_offset = 0.5
+			var side_offset = body.get_parent().body_width / 4 + 0.2
 			var height_offset = 0.2
 			left_hand.global_position = body.global_position + (-cat_right * side_offset) + (cat_up * height_offset)
 			right_hand.global_position = body.global_position + (cat_right * side_offset) + (cat_up * height_offset)
-
 			left_hand.look_at(body.global_position, Vector3.UP)
 			right_hand.look_at(body.global_position, Vector3.UP)
+			left_hand.visible = true
+			right_hand.visible = true
+			camera_hand.visible = false
 
 	else:
 		left_hand.visible = false
 		right_hand.visible = false
-		camera_hand.visible = true
+		camera_hand.visible = false
 
 		if body:
 			if body.get_parent().name == "cat":
 				body.get_parent().forcelookplayer = Vector3.ZERO
+				for child in body.get_parent().get_children():
+					if child is RigidBody3D:
+						child.linear_velocity /= 4
 			body = null

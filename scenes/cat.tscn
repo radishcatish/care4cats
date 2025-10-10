@@ -416,6 +416,8 @@ physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
 
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Body"]
+
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")
 

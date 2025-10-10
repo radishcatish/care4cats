@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=22 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
 [ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://dev/randomcatspawner.gd" id="4_5fb3c"]
 [ext_resource type="PackedScene" uid="uid://dulajqguibits" path="res://scenes/cat.tscn" id="4_gjmho"]
+[ext_resource type="PackedScene" uid="uid://q2mxcbtohart" path="res://scenes/ball.tscn" id="5_gjmho"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gjmho"]
 
@@ -161,3 +162,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, 8.933743)
 
 [node name="cat" parent="Entities" instance=ExtResource("4_gjmho")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9145281, 4, 3.1337433)
+
+[node name="ball" parent="Entities" instance=ExtResource("5_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
+
+[node name="ball2" parent="Entities" instance=ExtResource("5_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
+
+[node name="ball3" parent="Entities" instance=ExtResource("5_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
