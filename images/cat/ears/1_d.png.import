@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ua4shf64grx4"
-path="res://.godot/imported/regularnose.png-cf9e107cf2037db7a21dad59203d9785.ctex"
+uid="uid://da5eu73ihtwxw"
+path="res://.godot/imported/1_d.png-761aa3bc9bc1f12b1518cda93f60630f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/head/regularnose.png"
-dest_files=["res://.godot/imported/regularnose.png-cf9e107cf2037db7a21dad59203d9785.ctex"]
+source_file="res://images/cat/ears/1_d.png"
+dest_files=["res://.godot/imported/1_d.png-761aa3bc9bc1f12b1518cda93f60630f.ctex"]
 
 [params]
 

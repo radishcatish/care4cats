@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg1to8sc2vw7s"
-path="res://.godot/imported/tabbynone.png-dd283420cb48277cd806a232dc463afc.ctex"
+uid="uid://c6idog0tln157"
+path="res://.godot/imported/5.png-7c1c503e07171993321c9f17963cfee3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/head/tabbynone.png"
-dest_files=["res://.godot/imported/tabbynone.png-dd283420cb48277cd806a232dc463afc.ctex"]
+source_file="res://images/cat/body/5.png"
+dest_files=["res://.godot/imported/5.png-7c1c503e07171993321c9f17963cfee3.ctex"]
 
 [params]
 

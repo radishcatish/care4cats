@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0g4hpkueyry3"
-path="res://.godot/imported/spots.png-c02eb2a83780267d871ebd415c0b9f45.ctex"
+uid="uid://dxf4nfxxbimmj"
+path="res://.godot/imported/2.png-06a13d4eb479f06eba70217892e0501d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/body/spots.png"
-dest_files=["res://.godot/imported/spots.png-c02eb2a83780267d871ebd415c0b9f45.ctex"]
+source_file="res://images/cat/body/2.png"
+dest_files=["res://.godot/imported/2.png-06a13d4eb479f06eba70217892e0501d.ctex"]
 
 [params]
 

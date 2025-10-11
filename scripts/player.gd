@@ -52,6 +52,7 @@ func _physics_process(delta):
 		var max_speed = INF
 		if body.get_parent().name == "cat":
 			max_speed = 50
+			hold_point.position.z = -2
 		var desired_vel = to_target * strength
 		if desired_vel.length() > max_speed:
 			desired_vel = desired_vel.normalized() * max_speed
@@ -63,7 +64,7 @@ func _physics_process(delta):
 			var cat_basis = body.global_transform.basis
 			var cat_right = cat_basis.x.normalized()
 			var cat_up = cat_basis.y.normalized()
-			var side_offset = body.get_parent().body_width / 4 + 0.2
+			var side_offset = body.get_parent().body_width / 4 + 0.1
 			var height_offset = 0.2
 			left_hand.global_position = body.global_position + (-cat_right * side_offset) + (cat_up * height_offset)
 			right_hand.global_position = body.global_position + (cat_right * side_offset) + (cat_up * height_offset)

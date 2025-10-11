@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwfam5awnpuaf"
-path="res://.godot/imported/darkregular.png-ceae285d4c8190e08e74229f0bb9e357.ctex"
+uid="uid://dg0cb3ny1vocf"
+path="res://.godot/imported/2.png-5d09b5a0e0a688b362ed1db02337c5b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/head/darkregular.png"
-dest_files=["res://.godot/imported/darkregular.png-ceae285d4c8190e08e74229f0bb9e357.ctex"]
+source_file="res://images/cat/legs/2.png"
+dest_files=["res://.godot/imported/2.png-5d09b5a0e0a688b362ed1db02337c5b5.ctex"]
 
 [params]
 

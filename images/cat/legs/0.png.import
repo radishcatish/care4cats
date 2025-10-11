@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dis861agaor75"
-path="res://.godot/imported/earnormaldeco.png-a5a023e2d005a99a4720d0d83cd8da61.ctex"
+uid="uid://cj7hxtwqps41"
+path="res://.godot/imported/0.png-af23125e5d6015adef1fd40cb0c143f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/ears/earnormaldeco.png"
-dest_files=["res://.godot/imported/earnormaldeco.png-a5a023e2d005a99a4720d0d83cd8da61.ctex"]
+source_file="res://images/cat/legs/0.png"
+dest_files=["res://.godot/imported/0.png-af23125e5d6015adef1fd40cb0c143f0.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

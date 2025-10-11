@@ -82,7 +82,6 @@ stream = ExtResource("1_t7and")
 
 [node name="Mario" type="Sprite3D" parent="environment"]
 transform = Transform3D(-21.6378, 0, -33.6423, 0, 40, 0, 33.6423, 0, -21.6378, -828.985, 0, -545.25)
-visible = false
 modulate = Color(1, 1, 1, 0.101961)
 texture = SubResource("CompressedTexture2D_gjmho")
 

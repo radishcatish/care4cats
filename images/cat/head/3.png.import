@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x3v1fh0yy6pf"
-path="res://.godot/imported/socks.png-f0529f2095fe95e5d43be0e7af2a64ce.ctex"
+uid="uid://bvoyc8ndv8i57"
+path="res://.godot/imported/3.png-ac3a009f46f9a51f8d5c1446c9101285.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/legs/socks.png"
-dest_files=["res://.godot/imported/socks.png-f0529f2095fe95e5d43be0e7af2a64ce.ctex"]
+source_file="res://images/cat/head/3.png"
+dest_files=["res://.godot/imported/3.png-ac3a009f46f9a51f8d5c1446c9101285.ctex"]
 
 [params]
 

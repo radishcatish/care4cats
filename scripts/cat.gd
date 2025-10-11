@@ -89,7 +89,14 @@ var ear_angle        : float      = 0
 var left_eye_offset  : Vector2    = Vector2(0.2, .1)
 var right_eye_offset : Vector2    = Vector2(-0.2, .1)
 var mouth_offset     : float      = 0
-var dark_ears      : bool         = false
+var body_texture     : int        = 0
+var leg_texture      : int        = 0
+var tail2_texture    : int        = 0
+var head_texture     : int        = 0
+var ear_texture      : int        = 0
+var eyes_texture     : int        = 0
+var mouth_texture    : int        = 0
+var head_dark        : bool       = false
 var leg_collision      : BoxShape3D            = BoxShape3D.new()
 var leg_mesh           :                       = CUBE.duplicate()
 var body_collision_new : BoxShape3D            = BoxShape3D.new()
@@ -97,39 +104,8 @@ var body_mesh_new      :                       = CUBE.duplicate()
 var tail_collision     : BoxShape3D            = BoxShape3D.new()
 var tail_mesh          :                       = CUBE.duplicate()
 var foot_mesh          :                       = CUBE.duplicate()
-var body_texture
-var leg_texture
-var tail2_texture
-var head_texture
-var ear_texture
-var eyes_texture
-var mouth_texture
-var eyes_texture_blink
-var mouth_texture_meow
 var material           : StandardMaterial3D    = StandardMaterial3D.new()
 var catname : String = ""
-
-func get_random_texture_file(path: String, starts: String = "", ends: String = "", exclude_contains: String = "") -> String:
-	var dir_access = DirAccess.open(path)
-	var files = dir_access.get_files()
-	var texture_files = []
-	
-	for file in files:
-		var starts_with = starts.is_empty() or not file.begins_with(starts)
-		var ends_with = ends.is_empty() or not file.ends_with(ends)
-		var contains = exclude_contains.is_empty() or not exclude_contains in file
-		if starts_with and ends_with and contains:
-			if file.ends_with(".import"):
-				var base_file = file.substr(0, file.length() - 7)
-				texture_files.append(base_file)
-			else:
-				texture_files.append(file)
-	if texture_files.is_empty():
-		return "res://images/cat/green.png"
-	var random_index = randi_range(0, texture_files.size() - 1)
-	var The_File = path.path_join(texture_files[random_index])
-	
-	return The_File
 
 func makecat():
 	var is_vowel_turn = randf() < 0.5
@@ -138,12 +114,12 @@ func makecat():
 		var last_char_was_vowel = false
 		if is_vowel_turn:
 			catname += VOWELS[randi_range(0, VOWELS.size() - 1)]
-			if randf() < 0.2: # 20% chance to double
+			if randf() < 0.2:
 				continue
 			last_char_was_vowel = true
 		else:
 			catname += CONSONANTS[randi_range(0, CONSONANTS.size() - 1)]
-			if randf() < 0.2: # 20% chance to double
+			if randf() < 0.2:
 				continue
 			last_char_was_vowel = false
 		is_vowel_turn = not last_char_was_vowel
@@ -158,36 +134,34 @@ func makecat():
 	mouthcolor = Color.from_hsv(facecolor.h - .2, facecolor.s, clamp(facecolor.v - .2, 0, 1))
 
 	name_text.modulate = catcolor_alt
-	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
-	body_texture = get_random_texture_file(BODYTEX)
-	leg_texture = get_random_texture_file(LEGTEX)
-	tail2_texture = get_random_texture_file(LEGTEX)
-	head_texture = get_random_texture_file(HEADTEX)
-	eyes_texture = get_random_texture_file(FACETEX, "mouth")
-	mouth_texture = get_random_texture_file(FACETEX, "eye")
-	if head_texture.contains("dark"):
-		ear_texture = load("res://images/cat/ears/eardark.png")
-	else:
-		ear_texture = load(get_random_texture_file(EARTEX, "", "", "dark"))
-		
-	voicepitch     = randf_range(0.75, 1.15)
-	catscale       = randf_range(0.7, 1)
-	leg_height     = randf_range(.6, 1.4)
-	leg_thickness  = randf_range(.25, .35)
-	body_length    = randf_range(1.2, 1.8)
-	body_width     = randf_range(.7, 1)
-	body_height    = randf_range(.55, .65)
-	head_size      = randf_range(.95, 1.05)
-	tail_length    = randf_range(.7, 1.3)
-	tail_thickness = randf_range(.2, .5)
-	tail_1_angle   = randf_range(45, 120)
-	tail_2_angle   = randf_range(45, 75)
-	ear_width      = randf_range(.7, 1)
-	ear_length     = randf_range(.7, 1)
-	ear_angle      = randf_range(-20, 12)
-	left_eye_offset = Vector2(randf_range(0.15, 0.25), randf_range(-.1, .1))
+	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))		
+	voicepitch       = randf_range(0.75, 1.15)
+	catscale         = randf_range(0.7, 1)
+	leg_height       = randf_range(.6, 1.4)
+	leg_thickness    = randf_range(.25, .35)
+	body_length      = randf_range(1.2, 1.8)
+	body_width       = randf_range(.7, 1)
+	body_height      = randf_range(.55, .65)
+	head_size        = randf_range(.95, 1.05)
+	tail_length      = randf_range(.7, 1.3)
+	tail_thickness   = randf_range(.2, .5)
+	tail_1_angle     = randf_range(45, 120)
+	tail_2_angle     = randf_range(45, 75)
+	ear_width        = randf_range(.7, 1)
+	ear_length       = randf_range(.7, 1)
+	ear_angle        = randf_range(-20, 12)
+	left_eye_offset  = Vector2(randf_range(0.15, 0.25), randf_range(-.1, .1))
 	right_eye_offset = Vector2(randf_range(-0.15, -0.25), randf_range(-.1, .1))
-	mouth_offset = randf_range(-.3, -.2)
+	mouth_offset     = randf_range(-.3, -.2)
+	body_texture     = randi_range(0, 5)
+	leg_texture      = randi_range(0, 3)
+	tail2_texture    = randi_range(0, 3)
+	head_texture     = randi_range(0, 5)
+	ear_texture      = randi_range(0, 1)
+	eyes_texture     = randi_range(1, 3)
+	mouth_texture    = randi_range(1, 2)
+	head_dark        = randi_range(0, 1)
+	
 	
 var premade: bool = false
 func _ready() -> void:
@@ -216,42 +190,49 @@ func _ready() -> void:
 	shader_template.set_shader_parameter("replace_colors", [catcolor, catcolor_alt, catcolor_alt2])
 
 	var legmat = shader_template.duplicate(true)
-	legmat.set_shader_parameter("texture_albedo", load(leg_texture))
+	legmat.set_shader_parameter("texture_albedo", load(LEGTEX + str(leg_texture) + ".png"))
 	left_front_mesh.material_override = legmat
 	right_front_mesh.material_override = legmat
 	left_back_mesh.material_override = legmat
 	right_back_mesh.material_override = legmat
+	
+	var tempvarhead = HEADTEX + str(head_texture)
+	tempvarhead += "_d.png" if head_dark else ".png"
 
 	var headmat = shader_template.duplicate(true)
-	headmat.set_shader_parameter("texture_albedo", load(head_texture))
+	headmat.set_shader_parameter("texture_albedo", load(tempvarhead))
 	head_mesh.material_override = headmat
-
+	
+	var tempvarear = EARTEX + str(ear_texture)
+	tempvarear += "_d.png" if head_dark else ".png"
 	var earmat = shader_template.duplicate(true)
-	earmat.set_shader_parameter("texture_albedo", ear_texture)
+	earmat.set_shader_parameter("texture_albedo", load(tempvarear))
 	left_ear_mesh.material_override = earmat
 	right_ear_mesh.material_override = earmat
 
 	var bodymat = shader_template.duplicate(true)
-	bodymat.set_shader_parameter("texture_albedo", load(body_texture))
+	bodymat.set_shader_parameter("texture_albedo", load(BODYTEX + str(body_texture) + ".png"))
 	body_mesh.material_override = bodymat
 	
 	var tail2mat = shader_template.duplicate(true)
-	tail2mat.set_shader_parameter("texture_albedo", load(tail2_texture))
+	tail2mat.set_shader_parameter("texture_albedo", load(LEGTEX + str(tail2_texture) + ".png"))
 	tail_2_mesh.material_override = tail2mat
 	
 	var tail1mat = shader_template.duplicate(true)
 	tail1mat.set_shader_parameter("texture_albedo", load("res://images/cat/green.png"))
 	tail_1_mesh.material_override = tail1mat
 	
+	var tempvareye = FACETEX + "eyetype" + str(eyes_texture) + ".png"
+	var tempvarmouth = FACETEX + "mouthtype" + str(mouth_texture) + ".png"
 	eye_left.material_override = eye_left.material_override.duplicate()
-	eye_left.material_override.set_shader_parameter("texture_albedo", load(eyes_texture))
+	eye_left.material_override.set_shader_parameter("texture_albedo", load(tempvareye))
 	eye_left.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
 	eye_left.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
 	eye_right.material_override = eye_left.material_override.duplicate()
 	eye_left.material_override.set_shader_parameter("texture_offset", left_eye_offset)
 	eye_right.material_override.set_shader_parameter("texture_offset", right_eye_offset)
 	mouth.material_override = mouth.material_override.duplicate()
-	mouth.material_override.set_shader_parameter("texture_albedo", load(mouth_texture))
+	mouth.material_override.set_shader_parameter("texture_albedo", load(tempvarmouth))
 	mouth.material_override.set_shader_parameter("original_colors", [Color(0, 0, 1), Color(1, 0, 0), Color(0, 1, 0)])
 	mouth.material_override.set_shader_parameter("replace_colors", [facecolor, mouthcolor, Color(0, 0, 0, 0)])
 	mouth.material_override.set_shader_parameter("texture_offset", Vector2(0, mouth_offset))

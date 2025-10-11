@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxymxy0iybdpq"
-path="res://.godot/imported/thighhighs.png-a5dfab7737f4ef6eac594a3110eef761.ctex"
+uid="uid://df5maehj2ltve"
+path="res://.godot/imported/1.png-738b60f5f39aaac51e02950e77f52258.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/legs/thighhighs.png"
-dest_files=["res://.godot/imported/thighhighs.png-a5dfab7737f4ef6eac594a3110eef761.ctex"]
+source_file="res://images/cat/legs/1.png"
+dest_files=["res://.godot/imported/1.png-738b60f5f39aaac51e02950e77f52258.ctex"]
 
 [params]
 

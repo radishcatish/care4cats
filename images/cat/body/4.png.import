@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsh8nnt6p00q"
-path="res://.godot/imported/darktabbyregularnose.png-a7e22d31654926517b0d2527aed469b7.ctex"
+uid="uid://4ngv2ibty4kd"
+path="res://.godot/imported/4.png-4df67883813420978a0b22fd694add30.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/cat/head/darktabbyregularnose.png"
-dest_files=["res://.godot/imported/darktabbyregularnose.png-a7e22d31654926517b0d2527aed469b7.ctex"]
+source_file="res://images/cat/body/4.png"
+dest_files=["res://.godot/imported/4.png-4df67883813420978a0b22fd694add30.ctex"]
 
 [params]
 
