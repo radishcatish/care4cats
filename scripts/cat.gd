@@ -1,5 +1,4 @@
 extends Node3D
-class_name Cat
 #region setup stuff
 @onready var head: RigidBody3D = $Head
 @onready var head_mesh: MeshInstance3D = $Head/Collision/Head
@@ -94,8 +93,8 @@ var leg_texture      : int        = 0
 var tail2_texture    : int        = 0
 var head_texture     : int        = 0
 var ear_texture      : int        = 0
-var eyes_texture     : int        = 0
-var mouth_texture    : int        = 0
+var eyes_texture     : int        = 1
+var mouth_texture    : int        = 1
 var head_dark        : bool       = false
 var leg_collision      : BoxShape3D            = BoxShape3D.new()
 var leg_mesh           :                       = CUBE.duplicate()
@@ -362,10 +361,10 @@ func _physics_process(_delta: float) -> void:
 			head.apply_torque_impulse(torque * get_physics_process_delta_time())
 	else:
 		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
-		
+	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
+	
 	if lookingat_body != Vector3.ZERO or forcelookplayer != Vector3.ZERO:
 		var pos = lookingat_body if not forcelookplayer != Vector3.ZERO else forcelookplayer
-		body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
 		var direction_to_target = (pos - body.global_transform.origin).normalized()
 		var desired_forward = -direction_to_target
 		var current_forward = -body.global_transform.basis.z
@@ -374,10 +373,6 @@ func _physics_process(_delta: float) -> void:
 		if angle > 0.001:
 			var torque = rotation_axis * angle * bodylookspeed
 			body.apply_torque_impulse(torque * get_physics_process_delta_time())
-		
-		
-
-		
 		
 	if not grabbed:
 		if iswalking:

@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=26 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
 [ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://dev/randomcatspawner.gd" id="4_5fb3c"]
 [ext_resource type="PackedScene" uid="uid://dulajqguibits" path="res://scenes/cat.tscn" id="4_gjmho"]
 [ext_resource type="PackedScene" uid="uid://q2mxcbtohart" path="res://scenes/ball.tscn" id="5_gjmho"]
+[ext_resource type="Texture2D" uid="uid://cgglose676cem" path="res://dev/what.png" id="6_t7and"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gjmho"]
 
@@ -72,6 +73,20 @@ top_radius = 7.31
 radial_segments = 15
 rings = 0
 cap_bottom = false
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tpwpp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7and"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("6_t7and")
+texture_filter = 0
+texture_repeat = false
+disable_receive_shadows = true
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_ruw3y"]
+size = Vector2(4, 4)
 
 [node name="scene" type="Node"]
 
@@ -157,16 +172,38 @@ skeleton = NodePath("")
 script = ExtResource("4_5fb3c")
 
 [node name="player" parent="Entities" instance=ExtResource("2_5fb3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 3, 8.933743)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.24804, 8.102614)
 
 [node name="cat" parent="Entities" instance=ExtResource("4_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9145281, 4, 3.1337433)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3.1634862, 0)
+
+[node name="cat2" parent="Entities" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1634862, 0)
+
+[node name="cat3" parent="Entities" instance=ExtResource("4_gjmho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.1634862, 0)
 
 [node name="ball" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9165487, 0)
 
 [node name="ball2" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9165487, 0)
 
 [node name="ball3" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.509086, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9165487, 0)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Entities"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 6.3450537, 3.882199, 0)
+collision_layer = 255
+collision_mask = 255
+mass = 1000.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entities/RigidBody3D"]
+shape = SubResource("SphereShape3D_tpwpp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Entities/RigidBody3D"]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_t7and")
+gi_mode = 2
+mesh = SubResource("QuadMesh_ruw3y")
+skeleton = NodePath("../..")

@@ -50,7 +50,7 @@ func _physics_process(delta):
 		var to_target = hold_point.global_position - body.global_position
 		var strength = 50.0
 		var max_speed = INF
-		if body.get_parent().name == "cat":
+		if body.get_parent().name.contains("cat"):
 			max_speed = 50
 			hold_point.position.z = -2
 		var desired_vel = to_target * strength
@@ -59,7 +59,7 @@ func _physics_process(delta):
 		var force = (desired_vel - body.linear_velocity) * body.mass / delta
 		body.apply_central_force(force)
 
-		if body.get_parent().name == "cat":
+		if body.get_parent().name.contains("cat"):
 			body.get_parent().forcelookplayer = global_position + Vector3(0, 2, 0)
 			var cat_basis = body.global_transform.basis
 			var cat_right = cat_basis.x.normalized()
@@ -80,7 +80,7 @@ func _physics_process(delta):
 		camera_hand.visible = false
 
 		if body:
-			if body.get_parent().name == "cat":
+			if body.get_parent().name.contains("cat"):
 				body.get_parent().forcelookplayer = Vector3.ZERO
 				for child in body.get_parent().get_children():
 					if child is RigidBody3D:

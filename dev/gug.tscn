@@ -1,0 +1,693 @@
+[gd_scene load_steps=53 format=4 uid="uid://2x5irb1ac4ge"]
+
+[ext_resource type="Script" uid="uid://mdtiv7uwhqpb" path="res://scripts/cat.gd" id="1_bibgh"]
+[ext_resource type="FontFile" uid="uid://ugrmhi5sa66n" path="res://fonts/m5x7.ttf" id="2_jhrgi"]
+[ext_resource type="Shader" uid="uid://ditcpmvnvcb2u" path="res://shaders/cat.gdshader" id="3_hawte"]
+[ext_resource type="Texture2D" uid="uid://ucrm3djdflmc" path="res://images/cat/green.png" id="4_wofti"]
+[ext_resource type="Texture2D" uid="uid://crxnknlor2c8p" path="res://images/cat/ears/0.png" id="5_xdhjn"]
+[ext_resource type="PhysicsMaterial" uid="uid://c5vpwys6t4uq2" path="res://scenes/catmaterial.tres" id="6_ccobu"]
+[ext_resource type="Texture2D" uid="uid://dep6xr2xq68do" path="res://images/cat/head/2.png" id="7_74hlp"]
+[ext_resource type="ArrayMesh" uid="uid://dlbph6il1svne" path="res://models/head.obj" id="8_xix2e"]
+[ext_resource type="Shader" uid="uid://db84ci1ndnubd" path="res://shaders/catface.gdshader" id="9_m7i46"]
+[ext_resource type="Texture2D" uid="uid://djy1d5kidvwps" path="res://images/cat/faces/eyetype1.png" id="10_d4cl4"]
+[ext_resource type="ArrayMesh" uid="uid://bj45qicsf75p3" path="res://models/face.obj" id="11_q1yau"]
+[ext_resource type="Texture2D" uid="uid://8p1b6ln3mdx0" path="res://images/cat/faces/mouthtype1.png" id="12_hrdhr"]
+[ext_resource type="AudioStream" uid="uid://dwhc2gn72d13n" path="res://sounds/meows/MeowNormal1.wav" id="13_glppn"]
+[ext_resource type="AudioStream" uid="uid://q3vjqxur2stc" path="res://sounds/meows/MeowNormal2.wav" id="14_6qlss"]
+[ext_resource type="AudioStream" uid="uid://42r2ihom1nrv" path="res://sounds/meows/MeowNormal3.wav" id="15_2blav"]
+[ext_resource type="AudioStream" uid="uid://br4q5u8jhidvr" path="res://sounds/meows/MeowNormal4.wav" id="16_o6o3s"]
+[ext_resource type="AudioStream" uid="uid://bemoiod3miy8h" path="res://sounds/meows/MeowNormal5.wav" id="17_hfj8f"]
+[ext_resource type="AudioStream" uid="uid://cm61nmagni703" path="res://sounds/meows/MeowNormal6.wav" id="18_yvoqj"]
+[ext_resource type="AudioStream" uid="uid://bx754mo8y5ohl" path="res://sounds/meows/MeowNormal7.wav" id="19_3umfk"]
+[ext_resource type="AudioStream" uid="uid://bbisslj03lct7" path="res://sounds/meows/MeowNormal8.wav" id="20_b6ekp"]
+[ext_resource type="AudioStream" uid="uid://xxhyy1n7j6ml" path="res://sounds/meows/MeowNormalShort1.wav" id="21_4ixo2"]
+[ext_resource type="AudioStream" uid="uid://cxruv1u7g11ye" path="res://sounds/meows/MeowNormalShort2.wav" id="22_1402o"]
+[ext_resource type="AudioStream" uid="uid://c75s4wglmcelb" path="res://sounds/meows/MeowNormalShort3.wav" id="23_43071"]
+[ext_resource type="AudioStream" uid="uid://bqot54g534com" path="res://sounds/meows/MeowNormalShort4.wav" id="24_pwb2k"]
+[ext_resource type="AudioStream" uid="uid://28qxgk63qiog" path="res://sounds/meows/MeowNormalShort5.wav" id="25_pc5pk"]
+[ext_resource type="AudioStream" uid="uid://g75rgvu7fquq" path="res://sounds/meows/MeowNormalShort6.wav" id="26_kxycf"]
+[ext_resource type="AudioStream" uid="uid://b02gg8y5rb326" path="res://sounds/meows/MeowNormalShort7.wav" id="27_nmoqg"]
+[ext_resource type="AudioStream" uid="uid://cmokwqy30i3iv" path="res://sounds/meows/MeowNormalShort8.wav" id="28_gcx4a"]
+[ext_resource type="Texture2D" uid="uid://biw5katuav4l6" path="res://images/cat/body/1.png" id="29_6mftw"]
+[ext_resource type="Texture2D" uid="uid://dg0cb3ny1vocf" path="res://images/cat/legs/2.png" id="30_4afeb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hk0rd"]
+size = Vector3(0.48954, 1.0444294, 0.48954)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a2f2e"]
+render_priority = 0
+shader = ExtResource("3_hawte")
+shader_parameter/texture_albedo = ExtResource("4_wofti")
+shader_parameter/original_colors = [Color(0, 1, 0, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
+shader_parameter/replace_colors = [Color(0.065966584, 0.106198974, 0.42342517, 1), Color(0.072888024, 0.19399907, 0.5732672, 1), Color(0.03981848, 0.06619993, 0.23097718, 1)]
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oaqtl"]
+resource_name = "m_4519e50d-9ee0-acda-b1f0-c4caa35c5234"
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b1g2d"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"format": 34359742465,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAQAAAAQAAQAEAAMABgAAAAIAAwAGAAIABAAAAAcABwAAAAYAAwAEAAUABAAHAAUABQAGAAMABQAHAAYA"),
+"lods": [0.91293395, PackedByteArray("AAABAAIAAgABAAMAAQAAAAQABAAAAAIAAQAEAAMABQAEAAIAAwAEAAUABQACAAMA")],
+"name": "m_4519e50d-9ee0-acda-b1f0-c4caa35c5234",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_nahqi"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("n6qqPgAAAD8AAAAAAAAAP5+qqj4AAAAAAAAAAAAAAAAAAIA/AAAAPwAAgD8AAAAAn6qqPgAAgD8AAAAAAACAP5+qqj4AAAA/AAAAAAAAAD+wqio/AACAP5+qqj4AAAA/sKoqPwAAAD8AAIA/AAAAP7CqKj8AAAA/AACAPwAAgD+wqio/AAAAALCqKj8AAAA/n6qqPgAAgD+wqio/AACAPw=="),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAEAAAAAIAEQAAABAABQARABAABAARAAUABgAHAAgACAAHAAkACgASAAwADAASAAsADQAOAA8ADwAOABMA"),
+"lods": [0.91293395, PackedByteArray("AAABAAIAAgABAAMABAAAAAIABQAEAAIABgAHAAgACAAHAAkACgALAAwADQAOAA8A")],
+"material": SubResource("StandardMaterial3D_oaqtl"),
+"name": "m_4519e50d-9ee0-acda-b1f0-c4caa35c5234",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/qiqqKv8//79U1aoqACD+n6oqVNX/P/+/VNVU1QAgAOCpqlVV/t8A4Kmqqar+3/6fVNWqKgAg/u+pqlVV/t//j1TVVNUAIP+Pqaqpqv7f/u+pqqmq/t/+n6oqVNX+3wDgVNVU1f2//q9U1aoq/b//L6oqqir+3wBgqapVVf7f/h9VVamq/7//v1VVVVX/v/+/VVWpqv2//89VVVVV/b8AUA==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_b1g2d")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2wmww"]
+size = Vector3(0.26, 0.6, 0.2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2wmww"]
+radius = 0.178513
+height = 0.848176
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4hx5"]
+render_priority = 0
+shader = ExtResource("3_hawte")
+shader_parameter/texture_albedo = ExtResource("5_xdhjn")
+shader_parameter/original_colors = [Color(0, 1, 0, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
+shader_parameter/replace_colors = [Color(0.065966584, 0.106198974, 0.42342517, 1), Color(0.072888024, 0.19399907, 0.5732672, 1), Color(0.03981848, 0.06619993, 0.23097718, 1)]
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7oitq"]
+resource_name = "m_509d846a-d5b3-a051-c716-a1b186ac759f"
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b0850"]
+_surfaces = [{
+"aabb": AABB(-0.3125, -0.25, -0.3125, 0.625, 1.25, 0.625),
+"format": 34896613377,
+"index_count": 72,
+"index_data": PackedByteArray("AAABAAIAAQAAAAMABAAAAAIAAAAEAAMAAQAFAAIABQABAAMABgAEAAIABAAGAAMABQAHAAIABwAFAAMACAAGAAIABgAIAAMABwAJAAIACQAHAAMACgAIAAIACAAKAAMACQALAAIACwAJAAMADAAKAAIACgAMAAMACwANAAIADQAMAAIADQALAAMADAANAAMA"),
+"name": "m_509d846a-d5b3-a051-c716-a1b186ac759f",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("S6IzM///AACy3TMzst0AAP9/AAD/fwAA/3////9/AACzXTMz//8AAP//MzNLogAATCIzM7LdAAD//zMzs10AAAAAMzNLogAAst0zM0wiAAAAADMzs10AAEuiMzMAAAAATCIzM0wiAACzXTMzAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_es5mx"]
+_surfaces = [{
+"aabb": AABB(-0.3125, -0.25, -0.3125, 0.625, 1.25, 0.625),
+"attribute_data": PackedByteArray("b9D0bZfVKXSezfWSadmJf83K9G2lxSl008GJf/Hp5pqY1u+ezMwAAP/C756mr+aaWRPvngAA5polHQAA8ibvnks65po0w2peY9aeYzTDcZzkLK/DMDoGsfFVjeMkTNemvV/XprFxBrH+fq/D+E3vnp865prFVwAAkWHvnup05pp8iO+eInXmmkiSAAAVnO+ebq/mmoy/HnbCx+94jL+zlw=="),
+"format": 34896613399,
+"index_count": 72,
+"index_data": PackedByteArray("AAABAAIAAQADAAIABAAAAAIABQAEAAIABgAFAAIABwAIAAkACAAKAAkACgALAAkADAANAA4ADwAMAA4AEAAPAA4AEQASABMAFAAVABYAFQAXABYAFwAYABYAGAAZABYAGQAaABYAGwAcAB0AHgAbAB0AHwAeAB0AIAAhACIAIwAgACIAJAAjACIAJQAmACcA"),
+"material": SubResource("StandardMaterial3D_7oitq"),
+"name": "m_509d846a-d5b3-a051-c716-a1b186ac759f",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 40,
+"vertex_data": PackedByteArray("S6IzM///RJCy3TMzst0vpf9/AAD/f/+///8zM0uipbuzXTMz//9EkEwiMzOy3S+lAAAzM0uipbuy3TMzst1FokuiMzP///GP/3////9//7+zXTMz///xj0wiMzOy3UWi//8zM0uiA7ay3TMzst2Nof9/////f1TV//8zM7Ndqcuy3TMzTCK24P//MzNLoum1//8zM7NdVsr/fwAA/3+h0f//MzOzXcDVst0zM0wiSuT/fwAA/3///0uiMzMAAGb2s10zMwAAZvZMIjMzTCJK5AAAMzOzXcDVS6IzMwAAD/Wy3TMzTCL03/9/////f///s10zMwAAD/VMIjMzTCL03wAAMzOzXanLTCIzM0wituD/f////39U1QAAMzNLogO2TCIzM7LdjaEAADMzs13dywAAMzNLooG4/38AAP9/PNnZLRs5uzkkJgAA/397OBcp40bZrdtZu7noVnu45maDK7xK2Un///9/JTa8ynxU5ub2alcepF55JlTVqip/eHMYdH0fE1tpDx5JaNobllC0V+mYjzo3kton/3//P+WGoRaglhn52qfG7Y+6FedmehMUXnbAFv9//7/ra2b6Pmld9oxnf/jfbHP9qqqqqqhh9eqGWaTe32cK+tdeEPvpLNPZ")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_b0850")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5u64a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vqfd8"]
+render_priority = 0
+shader = ExtResource("3_hawte")
+shader_parameter/texture_albedo = ExtResource("7_74hlp")
+shader_parameter/original_colors = [Color(0, 1, 0, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
+shader_parameter/replace_colors = [Color(0.065966584, 0.106198974, 0.42342517, 1), Color(0.072888024, 0.19399907, 0.5732672, 1), Color(0.03981848, 0.06619993, 0.23097718, 1)]
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6i46d"]
+render_priority = 0
+shader = ExtResource("9_m7i46")
+shader_parameter/texture_albedo = ExtResource("10_d4cl4")
+shader_parameter/original_colors = [Color(0, 0, 1, 1), Color(1, 0, 0, 1), Color(0, 1, 0, 1)]
+shader_parameter/replace_colors = [Color(0.99436456, 0.36931285, 0.17499797, 1), Color(0.7943646, 0.13980003, 0.77004576, 1), Color(0, 0, 0, 0)]
+shader_parameter/color_tolerance = 0.5
+shader_parameter/texture_offset = Vector2(0.1659002, 0.015576529)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_owc1h"]
+render_priority = 0
+shader = ExtResource("9_m7i46")
+shader_parameter/texture_albedo = ExtResource("10_d4cl4")
+shader_parameter/original_colors = [Color(0, 0, 1, 1), Color(1, 0, 0, 1), Color(0, 1, 0, 1)]
+shader_parameter/replace_colors = [Color(0.99436456, 0.36931285, 0.17499797, 1), Color(0.7943646, 0.13980003, 0.77004576, 1), Color(0, 0, 0, 0)]
+shader_parameter/color_tolerance = 0.5
+shader_parameter/texture_offset = Vector2(-0.20555861, -0.0895717)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7v8q5"]
+render_priority = 0
+shader = ExtResource("9_m7i46")
+shader_parameter/texture_albedo = ExtResource("12_hrdhr")
+shader_parameter/original_colors = [Color(0, 0, 1, 1), Color(1, 0, 0, 1), Color(0, 1, 0, 1)]
+shader_parameter/replace_colors = [Color(0.99436456, 0.36931285, 0.17499797, 1), Color(0.7943646, 0.13980003, 0.77004576, 1), Color(0, 0, 0, 0)]
+shader_parameter/color_tolerance = 0.5
+shader_parameter/texture_offset = Vector2(0, -0.27455658)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o6opc"]
+size = Vector3(0.8698105, 0.617565, 1.4643431)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u275w"]
+render_priority = 0
+shader = ExtResource("3_hawte")
+shader_parameter/texture_albedo = ExtResource("29_6mftw")
+shader_parameter/original_colors = [Color(0, 1, 0, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
+shader_parameter/replace_colors = [Color(0.065966584, 0.106198974, 0.42342517, 1), Color(0.072888024, 0.19399907, 0.5732672, 1), Color(0.03981848, 0.06619993, 0.23097718, 1)]
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6fvta"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("n6qqPgAAAD8AAAAAAAAAP5+qqj4AAAAAAAAAAAAAAAAAAIA/AAAAPwAAgD8AAAAAn6qqPgAAgD8AAAAAAACAP5+qqj4AAAA/AAAAAAAAAD+wqio/AACAP5+qqj4AAAA/sKoqPwAAAD8AAIA/AAAAP7CqKj8AAAA/AACAPwAAgD+wqio/AAAAALCqKj8AAAA/n6qqPgAAgD+wqio/AACAPw=="),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAEAAAAAIAEQAAABAABQARABAABAARAAUABgAHAAgACAAHAAkACgASAAwADAASAAsADQAOAA8ADwAOABMA"),
+"lods": [0.91293395, PackedByteArray("AAABAAIAAgABAAMABAAAAAIABQAEAAIABgAHAAgACAAHAAkACgALAAwADQAOAA8A")],
+"material": SubResource("StandardMaterial3D_oaqtl"),
+"name": "m_4519e50d-9ee0-acda-b1f0-c4caa35c5234",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/qiqqKv8//79U1aoqACD+n6oqVNX/P/+/VNVU1QAgAOCpqlVV/t8A4Kmqqar+3/6fVNWqKgAg/u+pqlVV/t//j1TVVNUAIP+Pqaqpqv7f/u+pqqmq/t/+n6oqVNX+3wDgVNVU1f2//q9U1aoq/b//L6oqqir+3wBgqapVVf7f/h9VVamq/7//v1VVVVX/v/+/VVWpqv2//89VVVVV/b8AUA==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_b1g2d")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_edh5r"]
+size = Vector3(0.32124507, 0.890415, 0.32124507)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1jnm"]
+render_priority = 0
+shader = ExtResource("3_hawte")
+shader_parameter/texture_albedo = ExtResource("30_4afeb")
+shader_parameter/original_colors = [Color(0, 1, 0, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
+shader_parameter/replace_colors = [Color(0.065966584, 0.106198974, 0.42342517, 1), Color(0.072888024, 0.19399907, 0.5732672, 1), Color(0.03981848, 0.06619993, 0.23097718, 1)]
+shader_parameter/color_tolerance = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_dguc7"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("n6qqPgAAAD8AAAAAAAAAP5+qqj4AAAAAAAAAAAAAAAAAAIA/AAAAPwAAgD8AAAAAn6qqPgAAgD8AAAAAAACAP5+qqj4AAAA/AAAAAAAAAD+wqio/AACAP5+qqj4AAAA/sKoqPwAAAD8AAIA/AAAAP7CqKj8AAAA/AACAPwAAgD+wqio/AAAAALCqKj8AAAA/n6qqPgAAgD+wqio/AACAPw=="),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAEAAAAAIAEQAAABAABQARABAABAARAAUABgAHAAgACAAHAAkACgASAAwADAASAAsADQAOAA8ADwAOABMA"),
+"lods": [0.91293395, PackedByteArray("AAABAAIAAgABAAMABAAAAAIABQAEAAIABgAHAAgACAAHAAkACgALAAwADQAOAA8A")],
+"material": SubResource("StandardMaterial3D_oaqtl"),
+"name": "m_4519e50d-9ee0-acda-b1f0-c4caa35c5234",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAA/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPwAAAD8AAAC/AAAAPwAAAD8AAAA/AAAAPwAAAD8AAAA/AAAAvwAAAD8AAAC/AAAAPwAAAD8AAAC/AAAAPwAAAL8AAAC/AAAAvwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/AAAAvwAAAD8AAAA/AAAAvwAAAL8AAAA/qiqqKv8//79U1aoqACD+n6oqVNX/P/+/VNVU1QAgAOCpqlVV/t8A4Kmqqar+3/6fVNWqKgAg/u+pqlVV/t//j1TVVNUAIP+Pqaqpqv7f/u+pqqmq/t/+n6oqVNX+3wDgVNVU1f2//q9U1aoq/b//L6oqqir+3wBgqapVVf7f/h9VVamq/7//v1VVVVX/v/+/VVWpqv2//89VVVVV/b8AUA==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_b1g2d")
+
+[node name="cat" type="Node3D"]
+transform = Transform3D(0.9444636, 0, 0, 0, 0.9444636, 0, 0, 0, 0.9444636, -1, 3.1634862, 0)
+script = ExtResource("1_bibgh")
+
+[node name="Nametags" type="Node3D" parent="."]
+transform = Transform3D(1.0000006, 0, 0, 0, 1.0000006, 0, 0, 0, 1.0000006, -14.670664, 0.820765, 5.374327)
+
+[node name="Name" type="Label3D" parent="Nametags"]
+ignore_occlusion_culling = true
+visibility_range_end = 3.0
+visibility_range_end_margin = 1.0
+visibility_range_fade_mode = 1
+pixel_size = 0.006
+billboard = 1
+double_sided = false
+fixed_size = true
+texture_filter = 0
+modulate = Color(0.072888024, 0.19399907, 0.5732672, 1)
+outline_modulate = Color(0.0040382976, 0.0067138425, 0.023425167, 1)
+text = "gug"
+font = ExtResource("2_jhrgi")
+outline_size = 7
+justification_flags = 0
+
+[node name="Tail1" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.6622911, -0.7332173, -0.15415247, -0.006584645, -0.2000394, 0.9797658, -0.7492178, 0.6499052, 0.12765628, -15.595045, -0.7503724, 6.2592225)
+collision_layer = 0
+mass = 0.1
+gravity_scale = 0.1
+linear_velocity = Vector3(0.0013361971, 0.0006737731, 0.0017036716)
+angular_velocity = Vector3(-0.0005434295, 0.004558606, -0.001380742)
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1"]
+node_a = NodePath("/root/scene/Entities/cat/Tail1")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_y/upper_angle = 0.34906584
+angular_limit_y/lower_angle = -0.34906584
+angular_limit_y/softness = 0.01
+angular_limit_y/restitution = 0.51
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5222147, 0)
+shape = SubResource("BoxShape3D_hk0rd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/CollisionShape3D"]
+transform = Transform3D(0.48954, 0, 0, 0, 1.0444294, 0, 0, 0, 0.48954, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_a2f2e")
+mesh = SubResource("ArrayMesh_nahqi")
+
+[node name="Tail2" type="RigidBody3D" parent="Tail1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+collision_layer = 0
+mass = 0.1
+gravity_scale = 0.1
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1/Tail2"]
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 2.0
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tail1/Tail2"]
+shape = SubResource("BoxShape3D_2wmww")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tail1/Tail2/CollisionShape3D"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="RightEar" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.85102826, 0.050117742, 0.49390134, 0.05590266, 0.7042103, -0.043174278, -0.49569833, -0.006625785, -0.8528122, -14.801403, -0.23921871, 5.298585)
+collision_layer = 0
+mass = 0.05
+gravity_scale = 0.1
+linear_velocity = Vector3(4.3676079e-07, -5.73773e-06, -1.229022e-05)
+angular_velocity = Vector3(-3.481265e-05, 2.3359162e-05, 3.6498684e-06)
+
+[node name="RightEarJoint" type="Generic6DOFJoint3D" parent="RightEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.230792, 0)
+node_a = NodePath("/root/scene/Entities/cat/Head")
+node_b = NodePath("/root/scene/Entities/cat/RightEar")
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_x/damping = 0.1
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_y/damping = 0.1
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+angular_spring_z/damping = 0.1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightEar"]
+transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, 0.1, 0.2, 0)
+shape = SubResource("CapsuleShape3D_2wmww")
+
+[node name="RightEar" type="MeshInstance3D" parent="RightEar/CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_x4hx5")
+mesh = SubResource("ArrayMesh_es5mx")
+skeleton = NodePath("../../../Head/Collision")
+
+[node name="LeftEar" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.85375386, -0.019218974, 0.49343115, -0.055899967, 0.7042104, -0.04317487, -0.49098942, -0.046756737, -0.8530842, -14.539854, -0.23921967, 5.449962)
+collision_layer = 0
+mass = 0.05
+gravity_scale = 0.1
+linear_velocity = Vector3(-1.995135e-06, 7.02014e-06, -1.1910379e-05)
+angular_velocity = Vector3(-2.8324976e-05, -1.3733811e-05, 1.5984066e-05)
+
+[node name="LeftEarJoint" type="Generic6DOFJoint3D" parent="LeftEar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.230792, 0)
+node_a = NodePath("/root/scene/Entities/cat/Head")
+node_b = NodePath("/root/scene/Entities/cat/LeftEar")
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+angular_spring_x/enabled = true
+angular_spring_x/stiffness = 3.0
+angular_spring_x/damping = 0.1
+angular_spring_y/enabled = true
+angular_spring_y/stiffness = 3.0
+angular_spring_y/damping = 0.1
+angular_spring_z/enabled = true
+angular_spring_z/stiffness = 3.0
+angular_spring_z/damping = 0.1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftEar"]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, -0.1, 0.2, 0)
+shape = SubResource("CapsuleShape3D_2wmww")
+
+[node name="LeftEar" type="MeshInstance3D" parent="LeftEar/CollisionShape3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_x4hx5")
+mesh = SubResource("ArrayMesh_es5mx")
+skeleton = NodePath("../../../Head/Collision")
+
+[node name="Head" type="RigidBody3D" parent="." groups=["canbechased", "canbelookedat"]]
+transform = Transform3D(-0.89910924, 0.022584137, 0.51989263, -4.9342425e-08, 1.0378648, -0.04508493, -0.52038294, -0.0390206, -0.89826214, -14.670662, -0.23803735, 5.3743267)
+collision_mask = 0
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(5.2584014e-06, 1.0020469e-07, -4.83166e-06)
+angular_velocity = Vector3(3.7211867e-06, -3.8539847e-07, -1.8950514e-06)
+
+[node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
+node_a = NodePath("/root/scene/Entities/cat/Head")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+twist_span = 1.22173
+softness = 1.0
+
+[node name="Collision" type="CollisionShape3D" parent="Head"]
+shape = SubResource("SphereShape3D_5u64a")
+
+[node name="Head" type="MeshInstance3D" parent="Head/Collision"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_vqfd8")
+mesh = ExtResource("8_xix2e")
+skeleton = NodePath("")
+
+[node name="EyeLeft" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.01, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_6i46d")
+mesh = ExtResource("11_q1yau")
+skeleton = NodePath("")
+
+[node name="EyeRight" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.0201, 0, 0, 0, 1.0201, 0, 0, 0, 1.0201, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_owc1h")
+mesh = ExtResource("11_q1yau")
+skeleton = NodePath("")
+
+[node name="Mouth" type="MeshInstance3D" parent="Head/Collision/Head"]
+transform = Transform3D(1.0201, 0, 0, 0, 1.02009, 0, 0, 0, 1.0201, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_7v8q5")
+mesh = ExtResource("11_q1yau")
+skeleton = NodePath("")
+
+[node name="Meows" type="Node3D" parent="Head"]
+
+[node name="MeowNormal1" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("13_glppn")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal2" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("14_6qlss")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal3" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("15_2blav")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal4" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("16_o6o3s")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal5" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("17_hfj8f")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal6" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("18_yvoqj")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal7" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("19_3umfk")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormal8" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("20_b6ekp")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort1" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("21_4ixo2")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort2" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("22_1402o")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort3" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("23_43071")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort4" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("24_pwb2k")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort5" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("25_pc5pk")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort6" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("26_kxycf")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort7" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("27_nmoqg")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="MeowNormalShort8" type="AudioStreamPlayer3D" parent="Head/Meows"]
+stream = ExtResource("28_gcx4a")
+attenuation_model = 2
+volume_db = -5.0
+unit_size = 6.0
+max_db = -5.0
+max_distance = 50.0
+max_polyphony = 7
+doppler_tracking = 1
+
+[node name="Body" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.662897, -0.003840277, 0.74870074, -0.0065285764, 0.99997854, -0.00065123435, -0.74868214, -0.0053196517, -0.6629079, -15.1958065, -0.9594979, 5.907554)
+collision_layer = 17
+collision_mask = 16
+mass = 0.5
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(8.1755725e-06, 6.2938156e-08, -2.1417156e-06)
+angular_velocity = Vector3(-1.5627315e-06, 9.992132e-06, 6.869233e-07)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Body"]
+
+[node name="Collision" type="CollisionShape3D" parent="Body"]
+shape = SubResource("BoxShape3D_o6opc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Collision"]
+transform = Transform3D(-0.8698105, 0, -2.2110966e-07, 0, 0.617565, 0, 1.3133774e-07, 0, -1.4643431, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_u275w")
+mesh = SubResource("ArrayMesh_6fvta")
+skeleton = NodePath("../..")
+
+[node name="LeftFront" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.47077468, -0.040454816, 0.8813256, 0.00017138758, 0.998944, 0.045945313, -0.88225347, 0.02178094, -0.47027057, -14.584883, -1.2668567, 5.7356577)
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(3.1085622e-06, -1.6581272e-06, -3.849969e-06)
+angular_velocity = Vector3(-6.5828126e-06, 1.3041422e-06, -8.521574e-06)
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftFront"]
+node_a = NodePath("/root/scene/Entities/cat/LeftFront")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="LeftFront"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44520754, 0)
+shape = SubResource("BoxShape3D_edh5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftFront/Collision"]
+transform = Transform3D(0.32124507, 0, 0, 0, 0.890415, 0, 0, 0, 0.32124507, 0, 0, 1.49012e-08)
+material_override = SubResource("ShaderMaterial_m1jnm")
+mesh = SubResource("ArrayMesh_dguc7")
+skeleton = NodePath("../..")
+
+[node name="RightFront" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.17384173, 0.025284924, 0.98444915, -0.031190831, 0.99902743, -0.03116728, -0.9842797, -0.03612395, -0.172884, -14.948528, -1.270437, 5.3249564)
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(3.859158e-06, 9.3151823e-07, -3.912868e-07)
+angular_velocity = Vector3(-8.431277e-06, 3.204862e-05, 3.7809648e-06)
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightFront"]
+node_a = NodePath("/root/scene/Entities/cat/RightFront")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="RightFront"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44520754, 0)
+shape = SubResource("BoxShape3D_edh5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightFront/Collision"]
+transform = Transform3D(0.32124507, 0, 0, 0, 0.890415, 0, 0, 0, 0.32124507, 0, 0, 1.49012e-08)
+material_override = SubResource("ShaderMaterial_m1jnm")
+mesh = SubResource("ArrayMesh_dguc7")
+skeleton = NodePath("../..")
+
+[node name="LeftBack" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.47105816, 0.059471358, 0.8800951, 0.043973725, 0.9980675, -0.043906894, -0.8810054, 0.018018357, -0.47276285, -15.44072, -1.2661114, 6.493429)
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(8.9113155e-06, 3.1220702e-06, -3.605735e-06)
+angular_velocity = Vector3(1.01425385e-05, -4.5322653e-05, -1.4250552e-05)
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="LeftBack"]
+node_a = NodePath("/root/scene/Entities/cat/LeftBack")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="LeftBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44520754, 0)
+shape = SubResource("BoxShape3D_edh5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftBack/Collision"]
+transform = Transform3D(0.32124507, 0, 0, 0, 0.890415, 0, 0, 0, 0.32124507, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_m1jnm")
+mesh = SubResource("ArrayMesh_dguc7")
+skeleton = NodePath("../..")
+
+[node name="RightBack" type="RigidBody3D" parent="."]
+transform = Transform3D(-0.3231167, -0.04008989, 0.9455098, -0.0033152031, 0.9991442, 0.041231077, -0.94635355, 0.010187888, -0.322973, -15.804361, -1.2696939, 6.0827317)
+physics_material_override = ExtResource("6_ccobu")
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector3(5.524957e-06, -7.178602e-07, 2.5980958e-06)
+angular_velocity = Vector3(1.06714424e-07, -2.897145e-06, -9.454703e-06)
+
+[node name="PinJoint3D" type="ConeTwistJoint3D" parent="RightBack"]
+node_a = NodePath("/root/scene/Entities/cat/RightBack")
+node_b = NodePath("/root/scene/Entities/cat/Body")
+twist_span = 1.5708
+
+[node name="Collision" type="CollisionShape3D" parent="RightBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44520754, 0)
+shape = SubResource("BoxShape3D_edh5r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightBack/Collision"]
+transform = Transform3D(0.32124507, 0, 0, 0, 0.890415, 0, 0, 0, 0.32124507, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_m1jnm")
+mesh = SubResource("ArrayMesh_dguc7")
+skeleton = NodePath("../..")

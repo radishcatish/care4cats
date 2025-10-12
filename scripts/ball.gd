@@ -3,7 +3,7 @@ func _ready() -> void:
 	var val =  randf_range(.6, 1.3)
 	scale = Vector3(val,val,val)
 	apply_torque(Vector3(randf_range(-50, 50), randf_range(-50, 50), randf_range(-50, 50)))
-	var mat = StandardMaterial3D.new()
+	var mat = $CollisionShape3D/MeshInstance3D.material_override.duplicate()
 	
 	mat.albedo_color = Color(randf(),randf(),randf())
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
