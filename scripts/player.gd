@@ -85,4 +85,5 @@ func _physics_process(delta):
 				for child in body.get_parent().get_children():
 					if child is RigidBody3D:
 						child.linear_velocity /= 4
+						child.linear_velocity += velocity / 2
 			body = null

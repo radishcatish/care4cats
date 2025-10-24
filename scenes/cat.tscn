@@ -108,10 +108,6 @@ gravity_scale = 0.1
 [node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Tail1"]
 angular_limit_x/enabled = false
 angular_limit_y/enabled = false
-angular_limit_y/upper_angle = 0.34906584
-angular_limit_y/lower_angle = -0.34906584
-angular_limit_y/softness = 0.01
-angular_limit_y/restitution = 0.51
 angular_limit_z/enabled = false
 angular_spring_x/enabled = true
 angular_spring_x/stiffness = 3.0
@@ -217,7 +213,6 @@ max_contacts_reported = 1
 [node name="BodyHeadJoint" type="ConeTwistJoint3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.13)
 twist_span = 1.22173
-softness = 1.0
 
 [node name="Collision" type="CollisionShape3D" parent="Head"]
 shape = SubResource("SphereShape3D_5u64a")
@@ -417,6 +412,8 @@ contact_monitor = true
 max_contacts_reported = 1
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Body"]
+debug_enabled = true
+debug_use_custom = true
 
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")

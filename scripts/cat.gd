@@ -327,14 +327,15 @@ func _ready() -> void:
 	right_ear_joint.node_b = right_ear.get_path()
 	name_text.text = catname
 #endregion
-@onready var player := $"../player"
+
+	
 func _process(_delta: float) -> void:
 	nametags.global_position = head.global_position + Vector3(0, 1, 0)
 
-
+@onready var player := get_tree().get_first_node_in_group("player")
 @onready var agent: NavigationAgent3D = $Body/NavigationAgent3D
 @onready var nametags: Node3D = $Nametags
-var iswalking := false
+var iswalking := true
 var loose := false
 var sitting := false
 var laying := false
@@ -346,6 +347,8 @@ var headlookspeed := 30.0
 var lookingat_body := Vector3(0, 0, 0)
 var bodylookspeed := 30.0
 var walkspeed := 1
+var destination = Vector3.ZERO
+
 func _physics_process(_delta: float) -> void:
 	var forward = body.transform.basis.z.normalized()
 	if lookingat_head != Vector3.ZERO or forcelookplayer != Vector3.ZERO:
@@ -361,7 +364,6 @@ func _physics_process(_delta: float) -> void:
 			head.apply_torque_impulse(torque * get_physics_process_delta_time())
 	else:
 		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 50 + (-head.angular_velocity))
-	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
 	
 	if lookingat_body != Vector3.ZERO or forcelookplayer != Vector3.ZERO:
 		var pos = lookingat_body if not forcelookplayer != Vector3.ZERO else forcelookplayer
@@ -374,6 +376,12 @@ func _physics_process(_delta: float) -> void:
 			var torque = rotation_axis * angle * bodylookspeed
 			body.apply_torque_impulse(torque * get_physics_process_delta_time())
 		
+	if destination != Vector3.ZERO:
+		agent.target_position = destination
+		lookingat_body = agent.get_next_path_position()
+	else:
+		agent.target_position = Vector3.ZERO
+	
 	if not grabbed:
 		if iswalking:
 			walktimer += _delta * (4.5 * walkspeed)
@@ -397,3 +405,8 @@ func _physics_process(_delta: float) -> void:
 			left_back.apply_torque(left_back.transform.basis.y.cross(Vector3.UP) * 30 + (-left_back.angular_velocity))
 			right_front.apply_torque(right_front.transform.basis.y.cross(Vector3.UP) * 30 + (-right_front.angular_velocity))
 			right_back.apply_torque(right_back.transform.basis.y.cross(Vector3.UP) * 30 + (-right_back.angular_velocity))
+
+	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
+	
+
+	
