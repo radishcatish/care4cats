@@ -1,9 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://00j5vbbw06c5"]
+[gd_scene load_steps=26 format=3 uid="uid://00j5vbbw06c5"]
 
 [ext_resource type="AudioStream" uid="uid://84ajo108ynl6" path="res://dev/35. 7 PM.mp3" id="1_t7and"]
 [ext_resource type="PackedScene" uid="uid://b3jmy381wrbkf" path="res://scenes/player.tscn" id="2_5fb3c"]
-[ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://dev/randomcatspawner.gd" id="4_5fb3c"]
-[ext_resource type="PackedScene" uid="uid://q2mxcbtohart" path="res://scenes/ball.tscn" id="5_gjmho"]
+[ext_resource type="Script" uid="uid://fcmewkfh80ok" path="res://scripts/catmanager.gd" id="4_5fb3c"]
 [ext_resource type="Texture2D" uid="uid://cgglose676cem" path="res://dev/what.png" id="6_t7and"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gjmho"]
@@ -96,7 +95,6 @@ billboard_mode = 1
 size = Vector2(4, 4)
 
 [node name="scene" type="Node"]
-script = ExtResource("4_5fb3c")
 
 [node name="environment" type="Node" parent="."]
 
@@ -236,33 +234,26 @@ collision_layer = 3
 collision_mask = 3
 size = Vector3(5, 9.718, 5)
 
-[node name="Entities" type="Node" parent="."]
-script = ExtResource("4_5fb3c")
+[node name="Others" type="Node" parent="."]
 
-[node name="player" parent="Entities" instance=ExtResource("2_5fb3c")]
+[node name="player" parent="Others" instance=ExtResource("2_5fb3c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.52293, 3.24804, 8.102614)
 
-[node name="ball" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.973453, 0)
-
-[node name="ball2" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.973453, 0)
-
-[node name="ball3" parent="Entities" instance=ExtResource("5_gjmho")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.973453, 0)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Entities"]
+[node name="RigidBody3D" type="RigidBody3D" parent="Others"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -41.920357, 0)
 collision_layer = 255
 collision_mask = 255
 mass = 1000.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Entities/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Others/RigidBody3D"]
 shape = SubResource("SphereShape3D_tpwpp")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Entities/RigidBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Others/RigidBody3D"]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_t7and")
 gi_mode = 2
 mesh = SubResource("QuadMesh_ruw3y")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../../Cats")
+
+[node name="Cats" type="Node" parent="."]
+script = ExtResource("4_5fb3c")

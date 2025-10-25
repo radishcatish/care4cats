@@ -1,4 +1,5 @@
 extends Node3D
+class_name Cat
 #region setup stuff
 @onready var head: RigidBody3D = $Head
 @onready var head_mesh: MeshInstance3D = $Head/Collision/Head
@@ -65,7 +66,6 @@ const CONSONANTS = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", 
 const VOWELS = ["a", "e", "i", "o", "u"]
 var namelength       : int        = 0
 var voicepitch       : float      = 0.0
-var hyperactivity    : float      = 0.0
 var catcolor         : Color      = Color(0,0,0)
 var catcolor_alt     : Color      = Color(0,0,0)
 var catcolor_alt2    : Color      = Color(0,0,0)
@@ -107,6 +107,7 @@ var material           : StandardMaterial3D    = StandardMaterial3D.new()
 var catname : String = ""
 
 func makecat():
+	
 	var is_vowel_turn = randf() < 0.5
 	namelength = randi_range(3, 6)
 	for i in namelength:
@@ -133,7 +134,7 @@ func makecat():
 	mouthcolor = Color.from_hsv(facecolor.h - .2, facecolor.s, clamp(facecolor.v - .2, 0, 1))
 
 	name_text.modulate = catcolor_alt
-	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))		
+	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
 	voicepitch       = randf_range(0.75, 1.15)
 	catscale         = randf_range(0.7, 1)
 	leg_height       = randf_range(.6, 1.4)
@@ -160,7 +161,62 @@ func makecat():
 	eyes_texture     = randi_range(1, 3)
 	mouth_texture    = randi_range(1, 2)
 	head_dark        = randi_range(0, 1)
-	
+
+func catdata():
+	var save_dict = {
+		"catname"        : catname,
+		"voicepitch"     : voicepitch,
+		"catcolor_r"     : catcolor.r,
+		"catcolor_g"     : catcolor.g,
+		"catcolor_b"     : catcolor.b,
+		"catcolor_alt_r" : catcolor_alt.r,
+		"catcolor_alt_g" : catcolor_alt.g,
+		"catcolor_alt_b" : catcolor_alt.b,
+		"catcolor_alt2_r": catcolor_alt2.r,
+		"catcolor_alt2_g": catcolor_alt2.g,
+		"catcolor_alt2_b": catcolor_alt2.b,
+		"facecolor_r"    : facecolor.r,
+		"facecolor_g"    : facecolor.g,
+		"facecolor_b"    : facecolor.b,
+		"mouthcolor_r"   : mouthcolor.r,
+		"mouthcolor_g"   : mouthcolor.g,
+		"mouthcolor_b"   : mouthcolor.b,
+		"head_size"      : head_size,
+		"leg_height"     : leg_height,
+		"leg_thickness"  : leg_thickness,
+		"catscale"       : catscale,
+		"body_length"    : body_length,
+		"body_width"     : body_width,
+		"body_height"    : body_height,
+		"tail_length"    : tail_length,
+		"tail_thickness" : tail_thickness,
+		"tail_1_angle"   : tail_1_angle,
+		"tail_2_angle"   : tail_2_angle,
+		"ear_width"      : ear_width,
+		"ear_length"     : ear_length,
+		"ear_angle"      : ear_angle,
+		"left_eye_offset_x" : left_eye_offset.x,
+		"left_eye_offset_y" : left_eye_offset.y,
+		"right_eye_offset_x": right_eye_offset.x,
+		"right_eye_offset_y": right_eye_offset.y,
+		"mouth_offset"      : mouth_offset,
+		"body_texture"      : body_texture,
+		"leg_texture"       : leg_texture,
+		"tail2_texture"     : tail2_texture,
+		"head_texture"      : head_texture,
+		"ear_texture"       : ear_texture,
+		"eyes_texture"      : eyes_texture,
+		"mouth_texture"     : mouth_texture,
+		"head_dark"         : head_dark
+	}
+	return save_dict
+
+
+func save():
+	var save_file = FileAccess.open("user://" + catname + ".bloccat", FileAccess.WRITE)
+	var json_string = JSON.stringify(catdata())
+	save_file.store_line(json_string)
+
 	
 var premade: bool = false
 func _ready() -> void:
@@ -181,7 +237,11 @@ func _ready() -> void:
 	right_ear_mesh.mesh = ear_mesh
 	left_ear_mesh.mesh  = ear_mesh
 	
-	if not premade: makecat()
+	if not premade: 
+		makecat()
+		save()
+	
+		
 	
 	var shader_template = ShaderMaterial.new()
 	shader_template.shader = SHADER
@@ -348,7 +408,6 @@ var lookingat_body := Vector3(0, 0, 0)
 var bodylookspeed := 30.0
 var walkspeed := 1
 var destination = Vector3.ZERO
-
 func _physics_process(_delta: float) -> void:
 	var forward = body.transform.basis.z.normalized()
 	if lookingat_head != Vector3.ZERO or forcelookplayer != Vector3.ZERO:
@@ -381,7 +440,7 @@ func _physics_process(_delta: float) -> void:
 		lookingat_body = agent.get_next_path_position()
 	else:
 		agent.target_position = Vector3.ZERO
-	
+	destination = player.position
 	if not grabbed:
 		if iswalking:
 			walktimer += _delta * (4.5 * walkspeed)
@@ -394,8 +453,8 @@ func _physics_process(_delta: float) -> void:
 			body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 300 + (-body.angular_velocity))
 			var circle_forward = cos(walktimer)
 			var circle_side = sin(walktimer)
-			var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 20.0
-			var opposite_torque = (forward_legs * -circle_forward + side_legs * -circle_side) * 20.0
+			var torque_vec = (forward_legs * circle_forward + side_legs * circle_side) * 50.0
+			var opposite_torque = (forward_legs * -circle_forward + side_legs * -circle_side) * 50.0
 			left_front.apply_torque(torque_vec)
 			right_back.apply_torque(torque_vec)
 			right_front.apply_torque(opposite_torque)
@@ -406,7 +465,4 @@ func _physics_process(_delta: float) -> void:
 			right_front.apply_torque(right_front.transform.basis.y.cross(Vector3.UP) * 30 + (-right_front.angular_velocity))
 			right_back.apply_torque(right_back.transform.basis.y.cross(Vector3.UP) * 30 + (-right_back.angular_velocity))
 
-	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 30 + (-body.angular_velocity))
-	
-
-	
+	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 60 + (-body.angular_velocity))

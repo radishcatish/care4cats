@@ -406,7 +406,7 @@ doppler_tracking = 1
 [node name="Body" type="RigidBody3D" parent="."]
 collision_layer = 17
 collision_mask = 16
-mass = 0.5
+mass = 0.2
 physics_material_override = ExtResource("2_6fl1u")
 contact_monitor = true
 max_contacts_reported = 1
@@ -421,6 +421,10 @@ shape = SubResource("BoxShape3D_hcucf")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Collision"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 skeleton = NodePath("../..")
+
+[node name="RayCast3D" type="RayCast3D" parent="Body"]
+target_position = Vector3(0, 0, 10)
+hit_from_inside = true
 
 [node name="LeftFront" type="RigidBody3D" parent="."]
 physics_material_override = ExtResource("2_6fl1u")
