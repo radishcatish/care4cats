@@ -1,6 +1,6 @@
 extends Node
 const CAT = preload("res://scenes/cat.tscn")
-func spawn_cat_from_data(data: Dictionary, ) -> Node3D:
+func spawn_cat_from_data(data: Dictionary, count) -> Node3D:
 	var cat = CAT.instantiate()
 	cat.global_position.y = 5
 
@@ -23,7 +23,9 @@ func spawn_cat_from_data(data: Dictionary, ) -> Node3D:
 	cat.mouthcolor    = Color(data["mouthcolor_r"], data["mouthcolor_g"], data["mouthcolor_b"])
 	
 	cat.premade = true
+	cat.global_position = Vector3(count - 3, 5, 0)
 	add_child(cat)
+	
 	return cat
 
 
@@ -36,7 +38,7 @@ func spawn_balls(amt: int):
 		ballscene.global_position = Vector3(randi_range(-30, 30), randi_range(0, 30), randi_range(-30, 30))
 
 
-
+var catcount = 0
 func _ready():
 	var dir = DirAccess.open("user://")
 	dir.list_dir_begin()
@@ -46,6 +48,7 @@ func _ready():
 			var file = FileAccess.open("user://" + f, FileAccess.READ)
 			var data = JSON.parse_string(file.get_as_text())
 			file.close()
-			spawn_cat_from_data(data)
+			catcount += 1
+			spawn_cat_from_data(data, catcount)
 		f = dir.get_next()
 	dir.list_dir_end()

@@ -22,7 +22,7 @@ func _input(event):
 		camera.rotation.x = rotation_x
 		
 func _physics_process(delta):
-	velocity.y += 1 if Input.is_action_pressed("jump") else 0
+	velocity.y += 1 #if Input.is_action_pressed("jump") else 0
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	velocity += Vector3(direction.x * 1.5, -gravity * delta, direction.z * 1.5)
@@ -78,7 +78,7 @@ func _physics_process(delta):
 	else:
 		left_hand.visible = false
 		right_hand.visible = false
-		camera_hand.visible = true
+		camera_hand.visible = false
 
 		if body:
 			if body.get_parent() is Cat:

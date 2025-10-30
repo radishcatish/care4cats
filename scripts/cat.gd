@@ -239,9 +239,12 @@ func _ready() -> void:
 	
 	if not premade: 
 		makecat()
-		save()
+		#save()
 	
-		
+	
+	name_text.modulate = catcolor_alt
+	name_text.outline_modulate = Color.from_hsv(catcolor_alt2.h, catcolor_alt2.s, clamp(catcolor.v - .4, 0, 1))
+
 	
 	var shader_template = ShaderMaterial.new()
 	shader_template.shader = SHADER
@@ -386,20 +389,19 @@ func _ready() -> void:
 	right_ear_joint.node_a = head.get_path()
 	right_ear_joint.node_b = right_ear.get_path()
 	name_text.text = catname
+	ready2()
 #endregion
 
-	
-func _process(_delta: float) -> void:
-	nametags.global_position = head.global_position + Vector3(0, 1, 0)
-
+#region variables
 @onready var player := get_tree().get_first_node_in_group("player")
 @onready var agent: NavigationAgent3D = $Body/NavigationAgent3D
 @onready var nametags: Node3D = $Nametags
-var iswalking := true
+var iswalking := false
 var loose := false
 var sitting := false
 var laying := false
 var walktimer := 0.0
+var wandering := false
 var grabbed := false
 var lookingat_head := Vector3(0, 0, 0)
 var forcelookplayer := Vector3(0, 0, 0)
@@ -408,8 +410,40 @@ var lookingat_body := Vector3(0, 0, 0)
 var bodylookspeed := 30.0
 var walkspeed := 1
 var destination = Vector3.ZERO
-func _physics_process(_delta: float) -> void:
+var decision_timer := 0.0
+var wait_timer := 0.0
+var wander_count := 1
+#endregion
+
+func ready2():
+	randomize()
+	agent.debug_path_custom_color = catcolor
+func get_random_valid_spot(radius: float = 10.0) -> Vector3:
+	var nav_map = agent.get_navigation_map()
+	var origin = body.global_position
+
+	for i in range(10):
+		var random_offset = Vector3(
+			randf_range(-radius, radius),
+			0,
+			randf_range(-radius, radius)
+		)
+		var candidate = origin + random_offset
+		var valid_pos = NavigationServer3D.map_get_closest_point(nav_map, candidate)
+		
+		if valid_pos.distance_to(candidate) < 1.0:
+			return valid_pos
+
+	return origin
+
+
+func _process(_delta: float) -> void:
+	nametags.global_position = head.global_position + Vector3(0, 1, 0)
+
+func _physics_process(delta: float) -> void:
+	#region things for variables
 	var forward = body.transform.basis.z.normalized()
+	
 	if lookingat_head != Vector3.ZERO or forcelookplayer != Vector3.ZERO:
 		var pos = lookingat_head if not forcelookplayer != Vector3.ZERO else forcelookplayer
 		head.apply_torque(head.transform.basis.y.cross(Vector3.UP) * 30 + (-head.angular_velocity))
@@ -440,10 +474,11 @@ func _physics_process(_delta: float) -> void:
 		lookingat_body = agent.get_next_path_position()
 	else:
 		agent.target_position = Vector3.ZERO
-	destination = player.position
+		lookingat_body = Vector3.ZERO
+
 	if not grabbed:
 		if iswalking:
-			walktimer += _delta * (4.5 * walkspeed)
+			walktimer += delta * (4.5 * walkspeed)
 			var forward_legs = body.transform.basis.x.normalized()
 			var side_legs = body.transform.basis.z.normalized()
 			var forward_body = body.transform.basis.z.normalized()
@@ -466,3 +501,22 @@ func _physics_process(_delta: float) -> void:
 			right_back.apply_torque(right_back.transform.basis.y.cross(Vector3.UP) * 30 + (-right_back.angular_velocity))
 
 	body.apply_torque(body.transform.basis.y.cross(Vector3.UP) * 60 + (-body.angular_velocity))
+	#endregion
+	decision_timer += delta
+	if decision_timer >= wait_timer:
+		decision_timer = randi_range(-2, 1)
+		var decision = randi_range(1, 2)
+		if decision == 1:
+			wait_timer = randi_range(20, 40)
+			iswalking = true
+			wander_count = randi_range(1, 5)
+			for i in wander_count:
+				destination = get_random_valid_spot(randf_range(10, 30))
+				await agent.target_reached
+			wait_timer = randi_range(3,7)
+			destination = Vector3.ZERO
+			iswalking = false
+			
+			
+				
+			

@@ -412,8 +412,11 @@ contact_monitor = true
 max_contacts_reported = 1
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Body"]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
 debug_enabled = true
 debug_use_custom = true
+debug_path_custom_point_size = 0.0
 
 [node name="Collision" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_hcucf")
