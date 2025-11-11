@@ -425,7 +425,7 @@ func get_random_valid_spot(radius: float = 10.0) -> Vector3:
 	for i in range(10):
 		var random_offset = Vector3(
 			randf_range(-radius, radius),
-			0,
+			randf_range(-radius, 0),
 			randf_range(-radius, radius)
 		)
 		var candidate = origin + random_offset

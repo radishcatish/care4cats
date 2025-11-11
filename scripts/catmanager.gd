@@ -29,17 +29,15 @@ func spawn_cat_from_data(data: Dictionary, count) -> Node3D:
 	return cat
 
 
-const BALL = preload("res://scenes/ball.tscn")
-func spawn_balls(amt: int):
-	for i in amt:
-		await get_tree().create_timer(.001).timeout
-		var ballscene = BALL.instantiate()
-		add_child(ballscene)
-		ballscene.global_position = Vector3(randi_range(-30, 30), randi_range(0, 30), randi_range(-30, 30))
-
+func spawn_new_cat(count: int):
+	var cat = CAT.instantiate()
+	cat.global_position.y = 5
+	cat.global_position = Vector3(randf() * 10, 11, randf() * 10)
+	add_child(cat)
+	return cat
 
 var catcount = 0
-func _ready():
+func spawnpremade():
 	var dir = DirAccess.open("user://")
 	dir.list_dir_begin()
 	var f = dir.get_next()
@@ -52,3 +50,18 @@ func _ready():
 			spawn_cat_from_data(data, catcount)
 		f = dir.get_next()
 	dir.list_dir_end()
+	
+const BALL = preload("res://scenes/ball.tscn")
+func spawn_balls(amt: int):
+	for i in amt:
+		await get_tree().create_timer(.001).timeout
+		var ballscene = BALL.instantiate()
+		add_child(ballscene)
+		ballscene.global_position = Vector3(randi_range(-30, 30), randi_range(0, 30), randi_range(-30, 30))
+
+var catamt = 50
+func _ready():
+	#spawnpremade()
+	for i in catamt:
+		spawn_new_cat(catamt)
+		catcount += 1
